@@ -106,6 +106,10 @@ public class Main {
 					str = scan.nextLine();
 
 				}
+				
+				if(random == true){
+					
+					}
 			}
 		}
 	}
