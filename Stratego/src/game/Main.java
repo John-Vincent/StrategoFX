@@ -107,9 +107,6 @@ public class Main {
 
 				}
 				
-				if(random == true){
-					
-					}
 			}
 		}
 	}
