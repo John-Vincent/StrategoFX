@@ -1,6 +1,6 @@
 package stratego.network;
 
-import java.util.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.net.*;
 
 public class Networker implements Runnable{

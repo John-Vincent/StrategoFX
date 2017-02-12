@@ -1,7 +1,12 @@
 package stratego.application;
 
 import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import javafx.event.EventHandler;
+import stratego.network.Networker;
 import stratego.mode.Mode;
+
 
 
 public class StrategoFX extends Application{
@@ -14,7 +19,7 @@ public class StrategoFX extends Application{
     this.stage = stage;
 
     stage.show();
-    stage.setOnColseRequest(new EventHandler<WindowEvent>(){
+    stage.setOnCloseRequest(new EventHandler<WindowEvent>(){
 
       @Override
       public void handle(WindowEvent arg){
@@ -24,7 +29,7 @@ public class StrategoFX extends Application{
 
   }
 
-  public boolean setMode(Mode mode){
+  public void setMode(Mode mode){
     this.mode = mode;
     this.stage.setScene(this.mode);
     this.mode.startWorker(this.online);
@@ -32,6 +37,6 @@ public class StrategoFX extends Application{
 
 
   public static void main(String[] args){
-    lauch(args);
+    launch(args);
   }
 }
