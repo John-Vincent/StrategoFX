@@ -54,7 +54,7 @@ public class Main {
 	static int colonelCount = 0;
 	static int generalCount = 0;
 	static int marshallCount = 0;
-	
+
 	static int cpuflagCount = 0;
 	static int cpubombCount = 0;
 	static int cpuspyCount = 0;
@@ -68,17 +68,20 @@ public class Main {
 	static int cpugeneralCount = 0;
 	static int cpumarshallCount = 0;
 	static Random rand = new Random();
+	
+	static int p2mX;
+	static int p2mY;
 
 	static void arrangeRandomly() {
 
 		for (int i = 0; i < 40; i++) {
 			int dice = rand.nextInt(12);
 
-			int x = 6+rand.nextInt(4);
+			int x = 6 + rand.nextInt(4);
 			int y = rand.nextInt(10);
 
 			while (actualBoard[x][y] != '?') {
-				x = 6+rand.nextInt(4);
+				x = 6 + rand.nextInt(4);
 				y = rand.nextInt(10);
 			}
 
@@ -208,8 +211,8 @@ public class Main {
 
 		}
 	}
-	
-	static void arrangeCpu(){
+
+	static void arrangeCpu() {
 		for (int i = 0; i < 40; i++) {
 			int dice = rand.nextInt(12);
 
@@ -379,10 +382,10 @@ public class Main {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				if (i == 4 || i == 5) {
-					if(j==2 || j==3 || j==6 || j==7){
+					if (j == 2 || j == 3 || j == 6 || j == 7) {
 						board[i][j] = 'X';
 						actualBoard[i][j] = 'X';
-					}else{
+					} else {
 						board[i][j] = 95;
 						actualBoard[i][j] = 95;
 					}
@@ -426,6 +429,16 @@ public class Main {
 				}
 				System.out.println();
 			}
+
+			System.out.println();
+
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++) {
+					//System.out.print(board[i][j] + "  ");
+				}
+				//System.out.println();
+			}
+		
 
 		}
 	}
