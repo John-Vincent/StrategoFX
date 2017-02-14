@@ -17,14 +17,15 @@ public class StrategoFX extends Application{
   private Mode mode;
   private Networker online = new Networker();
   public static Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+  final double defaultStageSize = 2/3;
 
   public void start(Stage stage){
 
     this.stage = stage;
-    this.stage.setWidth(screenSize.getWidth()/3);
-    this.stage.setHeight(screenSize.getHeight()/3);
-    this.stage.setX(this.stage.getWidth() + screenSize.getMinX());
-    this.stage.setY(this.stage.getHeight() + screenSize.getMinY());
+    this.stage.setWidth(screenSize.getWidth()*2/3);
+    this.stage.setHeight(screenSize.getHeight()*2/3);
+    this.stage.setX((screenSize.getWidth()-this.stage.getWidth())/2 + screenSize.getMinX());
+    this.stage.setY((screenSize.getHeight()-this.stage.getHeight())/2 + screenSize.getMinY());
 
     this.mode = new MainMenuUI();
     this.stage.setScene(this.mode);
