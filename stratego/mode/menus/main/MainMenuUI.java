@@ -5,6 +5,8 @@ import javafx.scene.*;
 import stratego.network.Networker;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
+import javafx.scene.text.*;
+import javafx.geometry.*;
 
 public class MainMenuUI extends Mode{
 
