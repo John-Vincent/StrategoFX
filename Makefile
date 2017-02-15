@@ -8,6 +8,7 @@ FLAGS = -Werror -d $(BIN) -cp .
 
 APPLICATION = $(addprefix $(SRC)application/, Background StrategoFX )
 
+COMPONENTS = $(addprefix $(SRC)components/, Sizes)
 
 MENUS = $(addprefix menus/, main/MainMenuUI main/MainMenuWorker settings/SettingsMenuUI settings/SettingsMenuWorker )
 MULTIPLAYER = $(addprefix multiplayer/, MultiplayerUI MultiplayerWorker )
@@ -16,7 +17,7 @@ MODE = $(addprefix $(SRC)mode/, $(MENUS) $(MULTIPLAYER) $(SINGLEPLAYER) Mode Mod
 
 NETWORK = $(addprefix $(SRC)network/, Networker )
 
-SOURCES = $(addsuffix .class, $(APPLICATION) $(MODE) $(NETWORK))
+SOURCES = $(addsuffix .class, $(APPLICATION) $(MODE) $(NETWORK) $(COMPONENTS))
 SOURCES := $(addprefix $(BIN), $(SOURCES))
 
 
