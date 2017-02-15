@@ -27,11 +27,11 @@ public class MainMenuUI extends Mode{
   		pane.setTop(title);
   		BorderPane.setAlignment(title, Pos.TOP_CENTER);
 
-  		Text fl = new Text("Friends List");
-  		Text af = new Text("Add a Friend");
-  		VBox friends = new VBox(5, fl, af);
-  		friends.setAlignment(Pos.CENTER);
-  		pane.setRight(friends);
+		Text fl = new Text("Friends List");
+		Button af = new Button("Add a Friend");
+		VBox friends = new VBox(5, fl, af);
+		friends.setAlignment(Pos.CENTER);
+		pane.setRight(friends);
 
   	}
 
