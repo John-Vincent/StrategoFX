@@ -1,10 +1,10 @@
-BINARIES = ./bin/
+BIN = ./bin/
 SRC = ./stratego/
 RM = rm -rf
 ECHO = echo
 
 JC = javac
-FLAGS = -Werror -d $(BINARIES) -cp .
+FLAGS = -Werror -d $(BIN) -cp .
 
 APPLICATION = $(addprefix $(SRC)application/, Background StrategoFX )
 
@@ -17,13 +17,14 @@ MODE = $(addprefix $(SRC)mode/, $(MENUS) $(MULTIPLAYER) $(SINGLEPLAYER) Mode Mod
 NETWORK = $(addprefix $(SRC)network/, Networker )
 
 SOURCES = $(addsuffix .class, $(APPLICATION) $(MODE) $(NETWORK))
+SOURCES := $(addprefix $(BIN), $(SOURCES))
 
 
 default: makebin $(SOURCES) wtf
 	@$(ECHO) "  "
 	@$(ECHO) "Compilation complete"
 
-%.class: %.java
+$(BIN)%.class: %.java
 	@$(ECHO) "  "
 	@$(ECHO) compiling $<
 	@$(JC) $(FLAGS) $<
