@@ -9,3 +9,6 @@ clean:
 
 edit:
 	nano -c game/Main.java
+
+edit2:
+	geany game/Main.java
