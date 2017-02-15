@@ -68,9 +68,11 @@ public class Main {
 	static int cpugeneralCount = 0;
 	static int cpumarshallCount = 0;
 	static Random rand = new Random();
-	
+
 	static int p2mX;
 	static int p2mY;
+
+	static boolean quitGame = false;
 
 	static void arrangeRandomly() {
 
@@ -423,22 +425,40 @@ public class Main {
 
 			}
 
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					System.out.print(actualBoard[i][j] + "  ");
+			while (quitGame == false) {
+				for (int i = 0; i < 10; i++) {
+					for (int j = 0; j < 10; j++) {
+						System.out.print(actualBoard[i][j] + "  ");
+					}
+					System.out.println();
 				}
 				System.out.println();
-			}
 
-			System.out.println();
+				System.out.println(
+						"Type the move in format: \"x1:y1,x2:y2\"\nWhere x1 and y1 are coordinates where the piece currently is and x2 and y2 are where you want them to be.\nType q to quit.");
+				str = scan.nextLine();
 
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					//System.out.print(board[i][j] + "  ");
+				if (str.compareToIgnoreCase("q") == 0) {
+					System.out.println("Game End");
+					System.exit(0);
 				}
-				//System.out.println();
+
+				
+
+				while(!(Character.isDigit(str.charAt(0)) && Character.isDigit(str.charAt(1))
+						&& Character.isDigit(str.charAt(3)) && Character.isDigit(str.charAt(4))
+						&& Character.isDigit(str.charAt(6)) && Character.isDigit(str.charAt(7))
+						&& Character.isDigit(str.charAt(9)) && Character.isDigit(str.charAt(10)) && str.charAt(2) == ':'
+						&& str.charAt(5) == ',' && str.charAt(8) == ':')) {
+					
+						System.out.println("Wrong format, Enter again.");
+						str=scan.nextLine();
+				}
+				
+				char input[] = str.toCharArray();
+				
+
 			}
-		
 
 		}
 	}
