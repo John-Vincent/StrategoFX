@@ -4,6 +4,7 @@ package stratego.mode.singleplayer;
 import stratego.mode.Mode;
 import javafx.scene.*;
 import stratego.network.Networker;
+import stratego.application.Background;
 
 
 public class SingleplayerUI extends Mode{
@@ -18,16 +19,11 @@ public class SingleplayerUI extends Mode{
 
 
   @Override
-  public void startWorker(Networker online){
-    SingleplayerWorker w = new SingleplayerWorker();
-    w.setQueues(online);
-    this.worker = new Thread(w);
-    this.worker.start();
+  public void startWorker(Networker online, Background back){
+    this.worker = new SingleplayerWorker(online, back);
+    this.worker.run();
   }
 
-  @Override
-  public void terminate(){
-    this.worker.interrupt();
-  }
+
 
 }

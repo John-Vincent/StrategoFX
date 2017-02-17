@@ -2,6 +2,8 @@
 
 # BlueJ files
 *.ctxt
+#Collin specific ignores
+*.sh
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

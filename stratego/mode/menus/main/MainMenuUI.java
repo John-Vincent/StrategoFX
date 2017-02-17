@@ -7,6 +7,7 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.text.*;
 import javafx.geometry.*;
+import stratego.application.Background;
 
 public class MainMenuUI extends Mode{
 
@@ -38,16 +39,10 @@ public class MainMenuUI extends Mode{
   	}
 
   @Override
-  public void startWorker(Networker online){
-    MainMenuWorker w = new MainMenuWorker();
-    w.setQueues(online);
-    this.worker = new Thread(w);
-    this.worker.start();
+  public void startWorker(Networker online, Background back){
+    this.worker = new MainMenuWorker(online, back);
+    this.worker.run();
   }
 
-  @Override
-  public void terminate(){
-    this.worker.interrupt();
-  }
 
 }

@@ -4,23 +4,33 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import stratego.network.Networker;
 import java.net.*;
 import stratego.mode.ModeWorker;
+import stratego.application.Background;
 
-public class MainMenuWorker implements ModeWorker {
+public class MainMenuWorker extends ModeWorker {
 
-  private ConcurrentLinkedQueue<DatagramPacket> toSend;
-  private ConcurrentLinkedQueue<DatagramPacket> received;
 
-  public MainMenuWorker(){
-
+  public MainMenuWorker(Networker n, Background b){
+    super.setNetworker(n);
+    this.back  = b;
   }
 
+  @Override
   public void run(){
+    try{
+      Thread.sleep(1000);
+    } catch(Throwable e){
 
-  }
+    }
 
-  public void setQueues(Networker online){
-    this.toSend = online.getSendQ();
-    this.received = online.getRecieveQ();
+    this.back.closeNetwork();
+
+    while(!Thread.currentThread().isInterrupted() && this.running){
+      try{
+        Thread.sleep(100);
+      } catch(Throwable e){
+        this.running = false;
+      }
+    }
   }
 
 }

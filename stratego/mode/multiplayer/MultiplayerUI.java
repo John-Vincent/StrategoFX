@@ -3,6 +3,7 @@ package stratego.mode.multiplayer;
 import stratego.mode.Mode;
 import javafx.scene.*;
 import stratego.network.Networker;
+import stratego.application.Background;
 
 public class MultiplayerUI extends Mode{
 
@@ -15,16 +16,11 @@ public class MultiplayerUI extends Mode{
   }
 
   @Override
-  public void startWorker(Networker online){
-    MultiplayerWorker w = new MultiplayerWorker();
-    w.setQueues(online);
-    this.worker = new Thread(w);
-    this.worker.start();
+  public void startWorker(Networker online, Background back){
+    this.worker = new MultiplayerWorker(online, back);
+    this.worker.run();
   }
 
-  @Override
-  public void terminate(){
-    this.worker.interrupt();
-  }
+
 
 }

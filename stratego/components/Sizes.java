@@ -9,7 +9,7 @@ public abstract class Sizes{
   public final static Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
 
-  public final static double stageSize = 2/3;
+  public final static double stageSize = 2.0/3.0;
 
 
 

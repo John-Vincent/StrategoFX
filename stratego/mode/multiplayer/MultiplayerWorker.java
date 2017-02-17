@@ -4,20 +4,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import stratego.network.Networker;
 import java.net.*;
 import stratego.mode.ModeWorker;
+import stratego.application.Background;
 
-public class MultiplayerWorker implements ModeWorker{
+public class MultiplayerWorker extends ModeWorker{
 
-  private ConcurrentLinkedQueue<DatagramPacket> toSend;
-  private ConcurrentLinkedQueue<DatagramPacket> received;
 
-  public void run(){
-
+  public MultiplayerWorker(Networker n, Background b){
+    super.setNetworker(n);
+    this.back = b;
   }
 
-  public void setQueues(Networker online){
-    this.toSend = online.getSendQ();
-    this.received = online.getRecieveQ();
-  }
 
 
 }
