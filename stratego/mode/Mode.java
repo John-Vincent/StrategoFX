@@ -19,8 +19,13 @@ public abstract class Mode extends Scene{
     this.task = new ConcurrentLinkedQueue<Runnable>();
   }
 
+  protected void setWorker(ModeWorker w){
+    this.worker = w;
+  }
 
-  public abstract void startWorker();
+  public void startWorker(){
+      this.worker.run();
+  }
 
 
   public Mode nextMode(){

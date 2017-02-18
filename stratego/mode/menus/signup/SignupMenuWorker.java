@@ -11,10 +11,5 @@ public class SignupMenuWorker extends ModeWorker {
     super(q);
   }
 
-    @Override
-    public void run() {
-
-    }
-
 
 }

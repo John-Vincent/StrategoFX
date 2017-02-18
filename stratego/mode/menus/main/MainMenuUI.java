@@ -32,7 +32,7 @@ public class MainMenuUI extends Mode{
           task.add(worker.getPingRequest());
         }
       });
-      
+
   		VBox buttons = new VBox(10, ai, pl, st, lo);
   		buttons.setAlignment(Pos.CENTER);
   		pane.setLeft(buttons);
@@ -49,11 +49,6 @@ public class MainMenuUI extends Mode{
   		pane.setRight(friends);
 
   	}
-
-  @Override
-  public void startWorker(){
-    this.worker.run();
-  }
 
 
 }

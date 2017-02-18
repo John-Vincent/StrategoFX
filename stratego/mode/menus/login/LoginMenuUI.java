@@ -26,6 +26,7 @@ public class LoginMenuUI extends Mode{
         //primaryStage.setTitle("Welcome");
         super(new GridPane());
         this.worker = new LoginMenuWorker(this.task);
+        this.setWorker(this.worker);
 
         GridPane grid = (GridPane) this.getRoot();
         grid.setAlignment(Pos.CENTER);
@@ -39,7 +40,6 @@ public class LoginMenuUI extends Mode{
           @Override
           public void handle(ActionEvent e){
             //this sets the next UI to be displayed this UI's worker stops running
-            System.out.println("login has been clicked");
             next = new MainMenuUI();
             task.add(worker.getSignInRequest());
           }
@@ -52,15 +52,6 @@ public class LoginMenuUI extends Mode{
 
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
-
-//        btn1.setOnAction(new EventHandler<ActionEvent>() {
-//
-//            @Override
-//            public void handle(ActionEvent e) {
-//                actiontarget.setFill(Color.FIREBRICK);
-//                actiontarget.setText("Sign in button pressed");
-//            }
-//        });
 
         Text scenetitle = new Text("Welcome to Stratego");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -82,11 +73,6 @@ public class LoginMenuUI extends Mode{
 //        primaryStage.show();
 
 
-    }
-
-    @Override
-    public void startWorker(){
-        this.worker.run();
     }
 
 }

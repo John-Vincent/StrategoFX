@@ -16,11 +16,4 @@ public class SettingsMenuUI extends Mode{
   }
 
 
-  @Override
-  public void startWorker(){
-    this.worker.run();
-  }
-
-
-
 }

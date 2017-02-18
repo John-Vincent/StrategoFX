@@ -76,9 +76,5 @@ public class SignupMenuUI extends Mode{
 //        primaryStage.show();
 
     }
-    @Override
-    public void startWorker(){
-        this.worker.run();
-    }
 
 }
