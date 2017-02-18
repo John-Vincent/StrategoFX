@@ -16,8 +16,7 @@ import javafx.geometry.*;
 public class SignupMenuUI extends Mode{
 
     public SignupMenuUI(){
-        //Stage primaryStage;
-        //primaryStage.setTitle("Sign Up");
+
 
         super(new GridPane());
         this.worker = new SignupMenuWorker(this.task);
@@ -39,14 +38,6 @@ public class SignupMenuUI extends Mode{
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
 
-//        btn1.setOnAction(new EventHandler<ActionEvent>() {
-//
-//            @Override
-//            public void handle(ActionEvent e) {
-//                actiontarget.setFill(Color.FIREBRICK);
-//                actiontarget.setText("Submit button pressed");
-//            }
-//        });
 
         Text scenetitle = new Text("Welcome to Stratego");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -70,10 +61,6 @@ public class SignupMenuUI extends Mode{
 
         PasswordField pwBox2 = new PasswordField();
         grid.add(pwBox2, 2, 3);
-
-//        Scene scene = new Scene(grid, 300, 275);
-//        primaryStage.setScene(scene);
-//        primaryStage.show();
 
     }
 

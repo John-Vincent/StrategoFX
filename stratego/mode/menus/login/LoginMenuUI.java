@@ -22,8 +22,7 @@ public class LoginMenuUI extends Mode{
     LoginMenuWorker worker;
 
     public LoginMenuUI(){
-        //Stage primaryStage;
-        //primaryStage.setTitle("Welcome");
+
         super(new GridPane());
         this.worker = new LoginMenuWorker(this.task);
         this.setWorker(this.worker);

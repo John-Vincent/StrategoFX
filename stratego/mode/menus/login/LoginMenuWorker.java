@@ -23,4 +23,14 @@ public class LoginMenuWorker extends ModeWorker{
     }
   }
 
+    protected Runnable getSignUpRequest(){
+        return new SignUpRequest();
+    }
+
+    private class SignUpRequest implements Runnable{
+        @Override
+        public void run(){
+            running = false;
+        }
+    }
 }
