@@ -11,8 +11,6 @@ public class SignupMenuWorker extends ModeWorker {
     super(q);
   }
 
-<<<<<<< HEAD
-=======
     protected Runnable getSubmitRequest(){
         return new SubmitRequest();
     }
@@ -25,7 +23,7 @@ public class SignupMenuWorker extends ModeWorker {
         }
     }
 
->>>>>>> f56cbeedcae74180786ee936ff8897cfad741c67
+
 
 
 }
