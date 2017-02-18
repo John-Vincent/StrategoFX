@@ -17,13 +17,20 @@ MODE = $(addprefix $(SRC)mode/, $(MENUS) $(MULTIPLAYER) $(SINGLEPLAYER) Mode Mod
 
 NETWORK = $(addprefix $(SRC)network/, Networker )
 
+SERVER = $(addprefix $(BIN)$(SRC)server/, StrategoServer PacketHandler )
+SERVER := $(addsuffix .class, $(SERVER) )
+
 SOURCES = $(addsuffix .class, $(APPLICATION) $(MODE) $(NETWORK) $(COMPONENTS))
 SOURCES := $(addprefix $(BIN), $(SOURCES))
 
 
-default: makebin $(SOURCES) wtf
+
+
+default: makebin $(SOURCES)
 	@$(ECHO) "  "
 	@$(ECHO) "Compilation complete"
+
+server: makebin $(SERVER)
 
 $(BIN)%.class: %.java
 	@$(ECHO) "  "
@@ -33,7 +40,7 @@ $(BIN)%.class: %.java
 
 
 
-.PHONY: clean makebin default wtf
+.PHONY: clean makebin default server
 
 clean:
 	@$(ECHO) "removing binaries"
