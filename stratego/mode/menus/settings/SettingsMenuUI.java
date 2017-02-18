@@ -12,12 +12,12 @@ public class SettingsMenuUI extends Mode{
   public SettingsMenuUI(Parent p, Mode m){
     super(p);
     this.lastMode = m;
+    this.worker = new SettingsMenuWorker(this.task);
   }
 
 
   @Override
-  public void startWorker(Networker online){
-    this.worker = new SettingsMenuWorker(online, this.task);
+  public void startWorker(){
     this.worker.run();
   }
 

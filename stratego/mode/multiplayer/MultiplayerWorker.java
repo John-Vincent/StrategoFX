@@ -7,8 +7,8 @@ import stratego.mode.ModeWorker;
 
 public class MultiplayerWorker extends ModeWorker{
 
-  public MultiplayerWorker(Networker n, ConcurrentLinkedQueue<Runnable> q){
-    super(n,q);
+  public MultiplayerWorker(ConcurrentLinkedQueue<Runnable> q){
+    super(q);
   }
 
 

@@ -20,7 +20,7 @@ public abstract class Mode extends Scene{
   }
 
 
-  public abstract void startWorker(Networker online);
+  public abstract void startWorker();
 
 
   public Mode nextMode(){

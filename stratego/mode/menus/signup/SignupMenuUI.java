@@ -20,6 +20,8 @@ public class SignupMenuUI extends Mode{
         //primaryStage.setTitle("Sign Up");
 
         super(new GridPane());
+        this.worker = new SignupMenuWorker(this.task);
+
         GridPane grid = (GridPane) this.getRoot();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
@@ -75,8 +77,7 @@ public class SignupMenuUI extends Mode{
 
     }
     @Override
-    public void startWorker(Networker online){
-        SignupMenuWorker w = new SignupMenuWorker(online, this.task);
+    public void startWorker(){
         this.worker.run();
     }
 

@@ -3,6 +3,7 @@ package stratego.mode;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import stratego.network.Networker;
 import java.net.DatagramPacket;
+import stratego.application.Background;
 
 public abstract class ModeWorker implements Runnable{
 
@@ -13,8 +14,8 @@ public abstract class ModeWorker implements Runnable{
   private ConcurrentLinkedQueue<Runnable> task;
 
 
-  public ModeWorker(Networker n, ConcurrentLinkedQueue<Runnable> q){
-    this.net = n;
+  public ModeWorker(ConcurrentLinkedQueue<Runnable> q){
+    this.net = Background.getNetworker();
     this.task = q;
   }
 

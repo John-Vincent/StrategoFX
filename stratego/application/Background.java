@@ -10,7 +10,7 @@ import java.io.IOException;
 //this will be used to run the different task
 public class Background implements Runnable{
   private StrategoFX app;
-  private Networker net;
+  private static Networker net;
   private Mode m;
   private static DatagramSocket socket;
 
@@ -38,7 +38,7 @@ public class Background implements Runnable{
         }
 
       });
-      m.startWorker(net);
+      m.startWorker();
       m = m.nextMode();
     }
 
@@ -50,4 +50,7 @@ public class Background implements Runnable{
     this.m = m;
   }
 
+  public static Networker getNetworker(){
+    return net;
+  }
 }

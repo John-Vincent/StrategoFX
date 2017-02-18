@@ -22,6 +22,8 @@ public class LoginMenuUI extends Mode{
         //Stage primaryStage;
         //primaryStage.setTitle("Welcome");
         super(new GridPane());
+        this.worker = new LoginMenuWorker(this.task);
+
         GridPane grid = (GridPane) this.getRoot();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
@@ -75,8 +77,7 @@ public class LoginMenuUI extends Mode{
     }
 
     @Override
-    public void startWorker(Networker online){
-        LoginMenuWorker w = new LoginMenuWorker(online, this.task);
+    public void startWorker(){
         this.worker.run();
     }
 

@@ -7,8 +7,8 @@ import stratego.mode.ModeWorker;
 
 public class MainMenuWorker extends ModeWorker {
 
-  public MainMenuWorker(Networker n, ConcurrentLinkedQueue<Runnable> q){
-    super(n,q);
+  public MainMenuWorker(ConcurrentLinkedQueue<Runnable> q){
+    super(q);
   }
 
   @Override

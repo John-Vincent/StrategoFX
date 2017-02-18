@@ -18,6 +18,8 @@ public class MainMenuUI extends Mode{
 
   public MainMenuUI() {
   		super(new BorderPane());
+      this.worker = new MainMenuWorker(this.task);
+
   		this.pane = (BorderPane) this.getRoot();
 
   		Button ai = new Button("Vs. AI");
@@ -30,6 +32,7 @@ public class MainMenuUI extends Mode{
           task.add(worker.getPingRequest());
         }
       });
+      
   		VBox buttons = new VBox(10, ai, pl, st, lo);
   		buttons.setAlignment(Pos.CENTER);
   		pane.setLeft(buttons);
@@ -48,8 +51,7 @@ public class MainMenuUI extends Mode{
   	}
 
   @Override
-  public void startWorker(Networker online){
-    this.worker = new MainMenuWorker(online, this.task);
+  public void startWorker(){
     this.worker.run();
   }
 

@@ -11,12 +11,12 @@ public class SingleplayerUI extends Mode{
 
   public SingleplayerUI(Parent p){
     super(p);
+    this.worker = new SingleplayerWorker(this.task);
   }
 
 
   @Override
-  public void startWorker(Networker online){
-    this.worker = new SingleplayerWorker(online, this.task);
+  public void startWorker(){
     this.worker.run();
   }
 
