@@ -12,11 +12,14 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.text.*;
 import javafx.geometry.*;
+import stratego.mode.menus.main.MainMenuUI;
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 
 
 public class LoginMenuUI extends Mode{
 
-
+    LoginMenuWorker worker;
 
     public LoginMenuUI(){
         //Stage primaryStage;
@@ -30,17 +33,22 @@ public class LoginMenuUI extends Mode{
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         Button btn1 = new Button("Sign in");
-        HBox hbBtn1 = new HBox(10);
+        Button btn2 = new Button("New? Sign Up!");
+
+        btn1.setOnAction(new EventHandler<ActionEvent>(){
+          @Override
+          public void handle(ActionEvent e){
+            //this sets the next UI to be displayed this UI's worker stops running
+            System.out.println("login has been clicked");
+            next = new MainMenuUI();
+            task.add(worker.getSignInRequest());
+          }
+        });
+
+        HBox hbBtn1 = new HBox(10, btn1, btn2);
         hbBtn1.setAlignment(Pos.BOTTOM_RIGHT);
-        hbBtn1.getChildren().add(btn1);
         grid.add(hbBtn1, 1, 4);
 
-
-        Button btn2 = new Button("New? Sign Up!");
-        HBox hbBtn2 = new HBox(10);
-        hbBtn2.setAlignment(Pos.BOTTOM_LEFT);
-        hbBtn2.getChildren().add(btn2);
-        grid.add(hbBtn2, 1, 4);
 
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);

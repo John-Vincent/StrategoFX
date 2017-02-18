@@ -11,11 +11,16 @@ public class LoginMenuWorker extends ModeWorker{
     super(q);
   }
 
-
-  @Override
-  public void run(){
-
+  protected Runnable getSignInRequest(){
+    return new SignInRequest();
   }
 
+  private class SignInRequest implements Runnable{
+    @Override
+    public void run(){
+      //this terminates the execution of this worker advancing the program to the next UI
+      running = false;
+    }
+  }
 
 }

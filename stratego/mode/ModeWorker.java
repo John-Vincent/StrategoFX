@@ -25,10 +25,20 @@ public abstract class ModeWorker implements Runnable{
     while(!Thread.currentThread().isInterrupted() && this.running){
       try{
         Thread.sleep(100);
-      } catch(InterruptedException e){
-        running = false;
+      } catch(Throwable e){
+        this.running = false;
       }
+
+      Runnable r = this.getTask();
+      while(r != null){
+        r.run();
+        r = this.getTask();
+      }
+
+      while(this.handlePacket(this.net.getPacket())){     }
+
     }
+
   }
 
   protected Runnable getTask(){
@@ -50,6 +60,18 @@ public abstract class ModeWorker implements Runnable{
         return false;
     }
     return net.sendPacket(p);
+  }
+
+  private boolean handlePacket(DatagramPacket p){
+    if(p == null)
+      return false;
+    byte[] data = p.getData();
+    if(data[0] == 0x00){
+      System.out.println("ping received from " + p.getSocketAddress());
+    } else{
+      System.out.println("unknown packet received from " + p.getSocketAddress());
+    }
+    return true;
   }
 
   public PingRequest getPingRequest(){
