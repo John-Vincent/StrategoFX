@@ -13,13 +13,14 @@ import javafx.scene.text.*;
 import javafx.geometry.*;
 
 
-public class SignupMenuUI extends mode{
+public class SignupMenuUI extends Mode{
 
     public SignupMenuUI(){
         //Stage primaryStage;
         //primaryStage.setTitle("Sign Up");
 
-        GridPane grid = new GridPane();
+        super(new GridPane());
+        GridPane grid = (GridPane) this.getRoot();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
@@ -75,14 +76,8 @@ public class SignupMenuUI extends mode{
     }
     @Override
     public void startWorker(Networker online){
-        MainMenuWorker w = new MainMenuWorker();
-        w.setQueues(online);
-        this.worker = new Thread(w);
-        this.worker.start();
+        SignupMenuWorker w = new SignupMenuWorker(online, this.task);
+        this.worker.run();
     }
 
-    @Override
-    public void terminate(){
-        this.worker.interrupt();
-    }
 }

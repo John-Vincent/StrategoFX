@@ -19,7 +19,6 @@ public class MainMenuUI extends Mode{
   public MainMenuUI() {
   		super(new BorderPane());
   		this.pane = (BorderPane) this.getRoot();
-      this.task = new ConcurrentLinkedQueue<Runnable>();
 
   		Button ai = new Button("Vs. AI");
   		Button pl = new Button("Vs. Player");
@@ -50,8 +49,7 @@ public class MainMenuUI extends Mode{
 
   @Override
   public void startWorker(Networker online){
-    this.worker = new MainMenuWorker(online);
-    this.worker.setQueue(this.task);
+    this.worker = new MainMenuWorker(online, this.task);
     this.worker.run();
   }
 

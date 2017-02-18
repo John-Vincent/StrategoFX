@@ -7,10 +7,9 @@ import stratego.mode.ModeWorker;
 
 public class SettingsMenuWorker extends ModeWorker{
 
-  public SettingsMenuWorker(Networker n){
-    super.setNetworker(n);
+  public SettingsMenuWorker(Networker n, ConcurrentLinkedQueue<Runnable> q){
+    super(n,q);
   }
-
 
 
 }

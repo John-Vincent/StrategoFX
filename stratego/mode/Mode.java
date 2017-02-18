@@ -16,6 +16,7 @@ public abstract class Mode extends Scene{
 
   public Mode(Parent p){
     super(p);
+    this.task = new ConcurrentLinkedQueue<Runnable>();
   }
 
 

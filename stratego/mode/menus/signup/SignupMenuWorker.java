@@ -5,21 +5,16 @@ import stratego.network.Networker;
 import java.net.*;
 import stratego.mode.ModeWorker;
 
-public class SignupMenuWorker implements ModeWorker {
+public class SignupMenuWorker extends ModeWorker {
 
-    private ConcurrentLinkedQueue<DatagramPacket> toSend;
-    private ConcurrentLinkedQueue<DatagramPacket> received;
+  public SignupMenuWorker(Networker n, ConcurrentLinkedQueue<Runnable> q){
+    super(n,q);
+  }
 
-    public SignupMenuWorker() {
-
-    }
-
+    @Override
     public void run() {
 
     }
 
-    public void setQueues(Networker online) {
-        this.toSend = online.getSendQ();
-        this.received = online.getRecieveQ();
-    }
+
 }

@@ -14,7 +14,7 @@ public class MultiplayerUI extends Mode{
 
   @Override
   public void startWorker(Networker online){
-    this.worker = new MultiplayerWorker(online);
+    this.worker = new MultiplayerWorker(online, this.task);
     this.worker.run();
   }
 

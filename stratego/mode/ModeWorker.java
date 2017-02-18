@@ -12,6 +12,13 @@ public abstract class ModeWorker implements Runnable{
 
   private ConcurrentLinkedQueue<Runnable> task;
 
+
+  public ModeWorker(Networker n, ConcurrentLinkedQueue<Runnable> q){
+    this.net = n;
+    this.task = q;
+  }
+
+
   public void run(){
     this.running = true;
     while(!Thread.currentThread().isInterrupted() && this.running){
@@ -21,14 +28,6 @@ public abstract class ModeWorker implements Runnable{
         running = false;
       }
     }
-  }
-
-  public void setNetworker(Networker online){
-    this.net = online;
-  }
-
-  public void setQueue(ConcurrentLinkedQueue<Runnable> q){
-    this.task = q;
   }
 
   protected Runnable getTask(){
@@ -63,7 +62,7 @@ public abstract class ModeWorker implements Runnable{
        byte[] data = {(byte)0x00};
        DatagramPacket p = new DatagramPacket(data, data.length, net.server);
        net.sendPacket(p);
-       System.out.println("sent packet");
+       System.out.println("sent packet to " + net.server);
      }
 
   }

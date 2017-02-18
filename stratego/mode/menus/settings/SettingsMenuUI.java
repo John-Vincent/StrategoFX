@@ -17,7 +17,7 @@ public class SettingsMenuUI extends Mode{
 
   @Override
   public void startWorker(Networker online){
-    this.worker = new SettingsMenuWorker(online);
+    this.worker = new SettingsMenuWorker(online, this.task);
     this.worker.run();
   }
 
