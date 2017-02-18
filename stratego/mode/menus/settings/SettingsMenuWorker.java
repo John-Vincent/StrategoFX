@@ -4,13 +4,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import stratego.network.Networker;
 import java.net.*;
 import stratego.mode.ModeWorker;
-import stratego.application.Background;
 
 public class SettingsMenuWorker extends ModeWorker{
 
-  public SettingsMenuWorker(Networker n, Background b){
+  public SettingsMenuWorker(Networker n){
     super.setNetworker(n);
-    this.back = b;
   }
 
 

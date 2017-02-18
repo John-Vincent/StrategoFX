@@ -1,13 +1,16 @@
 package stratego.mode.menus.main;
 
 import stratego.mode.Mode;
+import stratego.mode.ModeWorker;
 import javafx.scene.*;
 import stratego.network.Networker;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.text.*;
 import javafx.geometry.*;
-import stratego.application.Background;
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class MainMenuUI extends Mode{
 
@@ -16,11 +19,18 @@ public class MainMenuUI extends Mode{
   public MainMenuUI() {
   		super(new BorderPane());
   		this.pane = (BorderPane) this.getRoot();
+      this.task = new ConcurrentLinkedQueue<Runnable>();
 
   		Button ai = new Button("Vs. AI");
   		Button pl = new Button("Vs. Player");
   		Button st = new Button("Settings");
   		Button lo = new Button("Log Out");
+      lo.setOnAction(new EventHandler<ActionEvent>(){
+        @Override
+        public void handle(ActionEvent e){
+          task.add(worker.getPingRequest());
+        }
+      });
   		VBox buttons = new VBox(10, ai, pl, st, lo);
   		buttons.setAlignment(Pos.CENTER);
   		pane.setLeft(buttons);
@@ -39,8 +49,9 @@ public class MainMenuUI extends Mode{
   	}
 
   @Override
-  public void startWorker(Networker online, Background back){
-    this.worker = new MainMenuWorker(online, back);
+  public void startWorker(Networker online){
+    this.worker = new MainMenuWorker(online);
+    this.worker.setQueue(this.task);
     this.worker.run();
   }
 

@@ -11,13 +11,10 @@ public class MultiplayerUI extends Mode{
     super(p);
   }
 
-  public MultiplayerUI(Parent p, double d1, double d2){
-    super(p, d1, d2);
-  }
 
   @Override
-  public void startWorker(Networker online, Background back){
-    this.worker = new MultiplayerWorker(online, back);
+  public void startWorker(Networker online){
+    this.worker = new MultiplayerWorker(online);
     this.worker.run();
   }
 

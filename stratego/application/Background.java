@@ -12,7 +12,7 @@ public class Background implements Runnable{
   private StrategoFX app;
   private Networker net;
   private Mode m;
-  private DatagramSocket socket;
+  private static DatagramSocket socket;
 
   public Background(StrategoFX app){
     this.app = app;
@@ -22,6 +22,7 @@ public class Background implements Runnable{
     try{
       this.socket = new DatagramSocket(8092);
     } catch(IOException e){
+      //todo enter in offline mode
       e.printStackTrace();
     }
     net = new Networker(this.socket);
@@ -29,7 +30,7 @@ public class Background implements Runnable{
     t.start();
     this.m = new MainMenuUI();
 
-    while(!Thread.currentThread().isInterrupted()){
+    while(!Thread.currentThread().isInterrupted() && m != null){
       Platform.runLater(new Runnable(){
         @Override
         public void run(){
@@ -37,14 +38,11 @@ public class Background implements Runnable{
         }
 
       });
-      m.startWorker(net, this);
+      m.startWorker(net);
+      m = m.nextMode();
     }
 
     t.interrupt();
-    this.socket.close();
-  }
-
-  public void closeNetwork(){
     this.socket.close();
   }
 

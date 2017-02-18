@@ -40,6 +40,7 @@ public class Networker implements Runnable{
   public void run(){
 
     DatagramPacket p = new DatagramPacket(new byte[1024], 1024);
+    this.received = new ConcurrentLinkedQueue<DatagramPacket>();
 
     while(!Thread.currentThread().isInterrupted()){
       try{

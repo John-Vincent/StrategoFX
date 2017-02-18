@@ -4,23 +4,25 @@ import javafx.scene.Scene;
 import javafx.scene.Parent;
 import javafx.scene.paint.Paint;
 import stratego.network.Networker;
-import stratego.application.Background;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 
 public abstract class Mode extends Scene{
 
-  protected Runnable worker;
+  protected ModeWorker worker;
+  protected ConcurrentLinkedQueue<Runnable> task;
+  protected Mode next = null;
 
   public Mode(Parent p){
     super(p);
   }
 
-  public Mode(Parent p, double d1, double d2){
-    super(p, d1, d2);
+
+  public abstract void startWorker(Networker online);
+
+
+  public Mode nextMode(){
+    return next;
   }
-
-  public abstract void startWorker(Networker online, Background back);
-
-
 }

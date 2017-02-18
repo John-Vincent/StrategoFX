@@ -4,33 +4,45 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import stratego.network.Networker;
 import java.net.*;
 import stratego.mode.ModeWorker;
-import stratego.application.Background;
 
 public class MainMenuWorker extends ModeWorker {
 
-
-  public MainMenuWorker(Networker n, Background b){
+  public MainMenuWorker(Networker n){
     super.setNetworker(n);
-    this.back  = b;
   }
 
   @Override
   public void run(){
-    try{
-      Thread.sleep(1000);
-    } catch(Throwable e){
-
-    }
-
-    this.back.closeNetwork();
-
+    this.running = true;
     while(!Thread.currentThread().isInterrupted() && this.running){
       try{
         Thread.sleep(100);
       } catch(Throwable e){
         this.running = false;
       }
+
+      Runnable r = this.getTask();
+      while(r != null){
+        r.run();
+        r = this.getTask();
+      }
+
+      while(this.handlePacket(this.net.getPacket())){     }
+
     }
+
+  }
+
+  private boolean handlePacket(DatagramPacket p){
+    if(p == null)
+      return false;
+    byte[] data = p.getData();
+    if(data[0] == 0x00){
+      System.out.println("ping received from " + p.getSocketAddress());
+    } else{
+      System.out.println("unknown packet received from " + p.getSocketAddress());
+    }
+    return true;
   }
 
 }

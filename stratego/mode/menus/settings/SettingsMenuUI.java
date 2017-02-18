@@ -14,14 +14,10 @@ public class SettingsMenuUI extends Mode{
     this.lastMode = m;
   }
 
-  public SettingsMenuUI(Parent p, double d1, double d2, Mode m){
-    super(p, d1, d2);
-    this.lastMode = m;
-  }
 
   @Override
-  public void startWorker(Networker online, Background back){
-    this.worker = new SettingsMenuWorker(online, back);
+  public void startWorker(Networker online){
+    this.worker = new SettingsMenuWorker(online);
     this.worker.run();
   }
 

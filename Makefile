@@ -13,7 +13,7 @@ COMPONENTS = $(addprefix $(SRC)components/, Sizes)
 MENUS = $(addprefix menus/, main/MainMenuUI main/MainMenuWorker settings/SettingsMenuUI settings/SettingsMenuWorker )
 MULTIPLAYER = $(addprefix multiplayer/, MultiplayerUI MultiplayerWorker )
 SINGLEPLAYER = $(addprefix singleplayer/, SingleplayerUI SingleplayerWorker )
-MODE = $(addprefix $(SRC)mode/, $(MENUS) $(MULTIPLAYER) $(SINGLEPLAYER) Mode ModeWorker )
+MODE = $(addprefix $(SRC)mode/, Mode ModeWorker $(MENUS) $(MULTIPLAYER) $(SINGLEPLAYER) )
 
 NETWORK = $(addprefix $(SRC)network/, Networker )
 
