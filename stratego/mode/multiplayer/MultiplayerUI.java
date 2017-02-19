@@ -9,15 +9,13 @@ public class MultiplayerUI extends Mode{
 
   public MultiplayerUI(Parent p){
     super(p);
+    this.worker = new MultiplayerWorker(this.task);
+
   }
 
-  public MultiplayerUI(Parent p, double d1, double d2){
-    super(p, d1, d2);
-  }
 
   @Override
-  public void startWorker(Networker online, Background back){
-    this.worker = new MultiplayerWorker(online, back);
+  public void startWorker(){
     this.worker.run();
   }
 

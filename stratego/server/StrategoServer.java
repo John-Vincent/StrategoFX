@@ -26,6 +26,7 @@ public class StrategoServer implements Runnable{
     while(!this.socket.isClosed()){
       try{
         this.socket.receive(p);
+        System.out.println("Packet received from " + p.getSocketAddress());
         pool.execute(new PacketHandler(p, this.socket));
         p = new DatagramPacket(new byte[packetSize], packetSize);
       } catch(IOException e){

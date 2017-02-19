@@ -4,15 +4,16 @@ import stratego.network.Networker;
 import stratego.mode.*;
 import javafx.application.Platform;
 import stratego.mode.menus.main.MainMenuUI;
+import stratego.mode.menus.login.LoginMenuUI;
 import java.net.DatagramSocket;
 import java.io.IOException;
 
 //this will be used to run the different task
 public class Background implements Runnable{
   private StrategoFX app;
-  private Networker net;
+  private static Networker net;
   private Mode m;
-  private DatagramSocket socket;
+  private static DatagramSocket socket;
 
   public Background(StrategoFX app){
     this.app = app;
@@ -22,14 +23,15 @@ public class Background implements Runnable{
     try{
       this.socket = new DatagramSocket(8092);
     } catch(IOException e){
+      //todo enter in offline mode
       e.printStackTrace();
     }
     net = new Networker(this.socket);
     Thread t = new Thread(net);
     t.start();
-    this.m = new MainMenuUI();
+    this.m = new LoginMenuUI();
 
-    while(!Thread.currentThread().isInterrupted()){
+    while(!Thread.currentThread().isInterrupted() && m != null){
       Platform.runLater(new Runnable(){
         @Override
         public void run(){
@@ -37,14 +39,11 @@ public class Background implements Runnable{
         }
 
       });
-      m.startWorker(net, this);
+      m.startWorker();
+      m = m.nextMode();
     }
 
     t.interrupt();
-    this.socket.close();
-  }
-
-  public void closeNetwork(){
     this.socket.close();
   }
 
@@ -52,4 +51,7 @@ public class Background implements Runnable{
     this.m = m;
   }
 
+  public static Networker getNetworker(){
+    return net;
+  }
 }

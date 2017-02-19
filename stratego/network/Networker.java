@@ -5,8 +5,8 @@ import java.net.*;
 import java.io.IOException;
 
 public class Networker implements Runnable{
-
-  public InetSocketAddress server = new InetSocketAddress("proj-309-sr-5.cs.iastate.edu", 8092);
+  
+  public InetSocketAddress server = new InetSocketAddress("proj-309-sg-1.cs.iastate.edu", 8092);
   public InetSocketAddress host;
 
   private ConcurrentLinkedQueue<DatagramPacket> received;
@@ -40,6 +40,7 @@ public class Networker implements Runnable{
   public void run(){
 
     DatagramPacket p = new DatagramPacket(new byte[1024], 1024);
+    this.received = new ConcurrentLinkedQueue<DatagramPacket>();
 
     while(!Thread.currentThread().isInterrupted()){
       try{

@@ -10,10 +10,10 @@ APPLICATION = $(addprefix $(SRC)application/, Background StrategoFX )
 
 COMPONENTS = $(addprefix $(SRC)components/, Sizes)
 
-MENUS = $(addprefix menus/, main/MainMenuUI main/MainMenuWorker settings/SettingsMenuUI settings/SettingsMenuWorker )
+MENUS = $(addprefix menus/, main/MainMenuUI main/MainMenuWorker settings/SettingsMenuUI settings/SettingsMenuWorker login/LoginMenuUI login/LoginMenuWorker signup/SignupMenuUI signup/SignupMenuWorker )
 MULTIPLAYER = $(addprefix multiplayer/, MultiplayerUI MultiplayerWorker )
 SINGLEPLAYER = $(addprefix singleplayer/, SingleplayerUI SingleplayerWorker )
-MODE = $(addprefix $(SRC)mode/, $(MENUS) $(MULTIPLAYER) $(SINGLEPLAYER) Mode ModeWorker )
+MODE = $(addprefix $(SRC)mode/, Mode ModeWorker $(MENUS) $(MULTIPLAYER) $(SINGLEPLAYER) )
 
 NETWORK = $(addprefix $(SRC)network/, Networker )
 
