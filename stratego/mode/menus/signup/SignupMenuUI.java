@@ -11,6 +11,9 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.text.*;
 import javafx.geometry.*;
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
+import stratego.mode.menus.main.LoginMenuUI;
 
 
 public class SignupMenuUI extends Mode{
@@ -39,14 +42,16 @@ public class SignupMenuUI extends Mode{
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
 
-//        btn1.setOnAction(new EventHandler<ActionEvent>() {
-//
-//            @Override
-//            public void handle(ActionEvent e) {
-//                actiontarget.setFill(Color.FIREBRICK);
-//                actiontarget.setText("Submit button pressed");
-//            }
-//        });
+        btn1.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+
+                System.out.println("submit has been clicked");
+                next = new LoginMenuUI();
+                task.add(worker.getSubmitRequest());
+            }
+        });
 
         Text scenetitle = new Text("Welcome to Stratego");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));

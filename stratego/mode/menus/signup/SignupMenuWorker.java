@@ -11,10 +11,18 @@ public class SignupMenuWorker extends ModeWorker {
     super(q);
   }
 
-    @Override
-    public void run() {
-
+    protected Runnable getSubmitRequest(){
+        return new SubmitRequest();
     }
+
+    private class SubmitRequest implements Runnable{
+        @Override
+        public void run(){
+            //this terminates the execution of this worker advancing the program to the next UI
+            running = false;
+        }
+    }
+
 
 
 }
