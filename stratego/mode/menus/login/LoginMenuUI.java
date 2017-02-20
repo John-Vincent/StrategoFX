@@ -19,13 +19,10 @@ import javafx.event.ActionEvent;
 
 public class LoginMenuUI extends Mode{
 
-    LoginMenuWorker worker;
-
     public LoginMenuUI(){
 
         super(new GridPane());
-        this.worker = new LoginMenuWorker(this.task);
-        this.setWorker(this.worker);
+        this.setWorker(new LoginMenuWorker(this.task));
 
         GridPane grid = (GridPane) this.getRoot();
         grid.setAlignment(Pos.CENTER);
@@ -39,8 +36,8 @@ public class LoginMenuUI extends Mode{
           @Override
           public void handle(ActionEvent e){
             //this sets the next UI to be displayed this UI's worker stops running
-            next = new MainMenuUI();
-            task.add(worker.getSignInRequest());
+            setNextScene(new MainMenuUI());
+            task.add(worker.getRequest("signin"));
           }
         });
 

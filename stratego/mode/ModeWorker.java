@@ -19,6 +19,8 @@ public abstract class ModeWorker implements Runnable{
     this.task = q;
   }
 
+  abstract public Runnable getRequest(String name);
+
 
   public void run(){
     this.running = true;
@@ -77,6 +79,7 @@ public abstract class ModeWorker implements Runnable{
   public PingRequest getPingRequest(){
     return new PingRequest();
   }
+
 
   public class PingRequest implements Runnable{
 

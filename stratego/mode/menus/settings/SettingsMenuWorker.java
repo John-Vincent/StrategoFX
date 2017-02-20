@@ -11,5 +11,12 @@ public class SettingsMenuWorker extends ModeWorker{
     super(q);
   }
 
+  @Override
+  public Runnable getRequest(String name){
+    switch(name){
+      default:
+        return null;
+    }
+  }
 
 }

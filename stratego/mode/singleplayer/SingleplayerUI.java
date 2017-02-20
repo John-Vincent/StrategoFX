@@ -11,7 +11,7 @@ public class SingleplayerUI extends Mode{
 
   public SingleplayerUI(Parent p){
     super(p);
-    this.worker = new SingleplayerWorker(this.task);
+    this.setWorker(new SingleplayerWorker(this.task));
   }
 
 

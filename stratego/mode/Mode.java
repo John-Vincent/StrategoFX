@@ -27,6 +27,10 @@ public abstract class Mode extends Scene{
       this.worker.run();
   }
 
+  protected void setNextMode(Mode next){
+    this.next = next;
+  }
+
 
   public Mode nextMode(){
     return next;

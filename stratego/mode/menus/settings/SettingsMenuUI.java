@@ -12,7 +12,7 @@ public class SettingsMenuUI extends Mode{
   public SettingsMenuUI(Parent p, Mode m){
     super(p);
     this.lastMode = m;
-    this.worker = new SettingsMenuWorker(this.task);
+    this.setWorker(new SettingsMenuWorker(this.task));
   }
 
 

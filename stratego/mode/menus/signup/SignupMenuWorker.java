@@ -11,9 +11,15 @@ public class SignupMenuWorker extends ModeWorker {
     super(q);
   }
 
-    protected Runnable getSubmitRequest(){
+  @Override
+  public Runnable getRequest(String name){
+    switch(name){
+      case "submit":
         return new SubmitRequest();
+      default:
+        return null;
     }
+  }
 
     private class SubmitRequest implements Runnable{
         @Override

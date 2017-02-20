@@ -11,8 +11,14 @@ public class LoginMenuWorker extends ModeWorker{
     super(q);
   }
 
-  protected Runnable getSignInRequest(){
-    return new SignInRequest();
+  @Override
+  public Runnable getRequest(String name){
+    switch(name){
+      case "signin":
+        return new SignInRequest();
+      default:
+        return null;
+    }
   }
 
   private class SignInRequest implements Runnable{

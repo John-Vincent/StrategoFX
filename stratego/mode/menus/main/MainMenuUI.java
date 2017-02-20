@@ -18,7 +18,7 @@ public class MainMenuUI extends Mode{
 
   public MainMenuUI() {
   		super(new BorderPane());
-      this.worker = new MainMenuWorker(this.task);
+      this.setWorker(new MainMenuWorker(this.task));
 
   		this.pane = (BorderPane) this.getRoot();
 

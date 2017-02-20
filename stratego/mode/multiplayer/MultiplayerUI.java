@@ -9,7 +9,7 @@ public class MultiplayerUI extends Mode{
 
   public MultiplayerUI(Parent p){
     super(p);
-    this.worker = new MultiplayerWorker(this.task);
+    this.setWoker(new MultiplayerWorker(this.task));
 
   }
 
