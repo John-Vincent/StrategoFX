@@ -18,11 +18,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class MainMenuUI extends Mode {
 
 	BorderPane pane;
+	public final static double buttonWidth = 200;
 
 	public MainMenuUI() {
 		super(new BorderPane());
 		this.worker = new MainMenuWorker(this.task);
 		this.pane = (BorderPane) this.getRoot();
+
+		StackPane left = new StackPane();
+		left.setPrefWidth(400);
+		this.pane.setLeft(left);
 
 		Button ai = new Button("Vs. AI");
 		ai.setOnAction(new EventHandler<ActionEvent>() {
@@ -60,6 +65,10 @@ public class MainMenuUI extends Mode {
 		VBox.setVgrow(pl, Priority.ALWAYS);
 		VBox.setVgrow(st, Priority.ALWAYS);
 		VBox.setVgrow(lo, Priority.ALWAYS);
+		ai.setMinWidth(buttonWidth);
+		pl.setMinWidth(buttonWidth);
+		st.setMinWidth(buttonWidth);
+		lo.setMinWidth(buttonWidth);
 		ai.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		pl.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		st.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);

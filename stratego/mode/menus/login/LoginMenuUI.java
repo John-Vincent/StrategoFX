@@ -44,9 +44,22 @@ public class LoginMenuUI extends Mode{
           }
         });
 
+        btn2.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent e){
+              // TODO
+            }
+          });
+
         HBox hbBtn1 = new HBox(10, btn1, btn2);
         hbBtn1.setAlignment(Pos.BOTTOM_RIGHT);
         grid.add(hbBtn1, 1, 4);
+
+        //doesn't make buttons larger. Likely that gridpane forces them. Kept for debugging.
+        HBox.setHgrow(btn1, Priority.ALWAYS);
+        HBox.setHgrow(btn2, Priority.ALWAYS);
+        btn1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        btn2.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
 
         final Text actiontarget = new Text();
