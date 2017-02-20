@@ -10,9 +10,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class Mode extends Scene{
 
-  protected ModeWorker worker;
-  protected ConcurrentLinkedQueue<Runnable> task;
-  protected Mode next = null;
+  private ModeWorker worker;
+  private ConcurrentLinkedQueue<Runnable> task;
+  private Mode next = null;
 
   public Mode(Parent p){
     super(p);
@@ -21,6 +21,14 @@ public abstract class Mode extends Scene{
 
   protected void setWorker(ModeWorker w){
     this.worker = w;
+  }
+
+  protected ModeWorker getWorker(){
+    return this.worker;
+  }
+
+  protected ConcurrentLinkedQueue<Runnable> getTaskList(){
+    return this.task;
   }
 
   public void startWorker(){

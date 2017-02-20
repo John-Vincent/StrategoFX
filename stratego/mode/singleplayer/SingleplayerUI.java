@@ -11,14 +11,9 @@ public class SingleplayerUI extends Mode{
 
   public SingleplayerUI(Parent p){
     super(p);
-    this.setWorker(new SingleplayerWorker(this.task));
+    this.setWorker(new SingleplayerWorker(this.getTaskList()));
   }
 
-
-  @Override
-  public void startWorker(){
-    this.worker.run();
-  }
 
 
 

@@ -9,15 +9,10 @@ public class MultiplayerUI extends Mode{
 
   public MultiplayerUI(Parent p){
     super(p);
-    this.setWoker(new MultiplayerWorker(this.task));
+    this.setWorker(new MultiplayerWorker(this.getTaskList()));
 
   }
 
-
-  @Override
-  public void startWorker(){
-    this.worker.run();
-  }
 
 
 
