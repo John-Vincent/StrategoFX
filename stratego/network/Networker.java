@@ -5,33 +5,22 @@ import java.net.*;
 import java.io.IOException;
 
 public class Networker implements Runnable{
-  
+
   public InetSocketAddress server = new InetSocketAddress("proj-309-sg-1.cs.iastate.edu", 8092);
   public InetSocketAddress host;
 
   private ConcurrentLinkedQueue<DatagramPacket> received;
   private DatagramSocket socket;
 
-  public enum packageType {
-    PING((byte)0x00),
-    SIGNUP((byte)0x01),
-    LOGIN((byte)0x02),
-    FRIEND((byte)0x03),
-    CHAT((byte)0x04),
-    VOICE((byte)0x05);
 
+  public static final byte PING = (byte)0x00;
+  public static final byte SIGNUP = (byte)0x01;
+  public static final byte LOGIN = (byte)0x02;
+  public static final byte FRIENDQ = (byte)0x03;
+  public static final byte FRIENDR = (byte)0x04;
+  public static final byte CHAT = (byte)0xFE;
+  public static final byte VOICE = (byte)0xFF;
 
-
-    private final byte id;
-
-    packageType(byte a){
-      this.id = a;
-    }
-
-    public byte getByte(){
-      return this.id;
-    }
-  }
 
   public Networker(DatagramSocket s){
     this.socket = s;
