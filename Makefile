@@ -4,9 +4,9 @@ RM = rm -rf
 ECHO = echo
 
 JC = javac
-FLAGS = -Werror -d $(BIN) -cp .
+FLAGS = -Werror -d $(BIN) -cp .:bin/commons-dbcp2-2.1.1.jar
 
-APPLICATION = $(addprefix $(SRC)application/, Background StrategoFX )
+APPLICATION = $(addprefix $(SRC)application/, StrategoFX Background )
 
 COMPONENTS = $(addprefix $(SRC)components/, Sizes)
 
@@ -31,6 +31,8 @@ default: makebin $(SOURCES)
 	@$(ECHO) "Compilation complete"
 
 server: makebin $(SERVER)
+	@$(ECHO) "  "
+	@$(ECHO) "Compilation complete"
 
 $(BIN)%.class: %.java
 	@$(ECHO) "  "
@@ -44,8 +46,8 @@ $(BIN)%.class: %.java
 
 clean:
 	@$(ECHO) "removing binaries"
-	@[ ! -d $(BINARIES) ] || $(RM) $(BINARIES)
+	@[ ! -d $(BIN) ] || $(RM) $(BIN)
 
 makebin:
-	@[ -d $(BINARIES) ] || $(ECHO) "making bin folder"
-	@[ -d $(BINARIES) ] || mkdir $(BINARIES)
+	@[  -d $(BIN) ] || $(ECHO) "making bin folder"
+	@[  -d $(BIN) ] || mkdir $(BIN)
