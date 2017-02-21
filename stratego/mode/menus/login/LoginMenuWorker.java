@@ -17,7 +17,7 @@ public class LoginMenuWorker extends ModeWorker{
       case "signin":
         return new SignInRequest();
       case "signup":
-    	  return getSignUpRequest();
+    	  return new SignUpRequest();
       default:
         return null;
     }
@@ -30,10 +30,6 @@ public class LoginMenuWorker extends ModeWorker{
       setRunning(false);
     }
   }
-
-    protected Runnable getSignUpRequest(){
-        return new SignUpRequest();
-    }
 
     private class SignUpRequest implements Runnable{
         @Override

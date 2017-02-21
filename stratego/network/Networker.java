@@ -80,6 +80,7 @@ public class Networker implements Runnable{
   }
 
   public Boolean signup(String username, String password){
+      String temp;
       return false;
   }
 
@@ -94,7 +95,7 @@ public class Networker implements Runnable{
 
   }
 
-  public void sendFriendRequest(String username){
+  public void sendFriendRequest(String username, String friend){
 
   }
 

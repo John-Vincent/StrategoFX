@@ -36,6 +36,7 @@ public class StrategoFX extends Application{
         System.exit(0);
       }
     });
+
   }
 
   public void setMode(Mode mode){
@@ -46,11 +47,12 @@ public class StrategoFX extends Application{
     double[] size = mode.getMinSize();
     this.stage.setMinWidth(size[0]);
     this.stage.setMinHeight(size[1]);
-    System.out.println(size[1]);
   }
 
 
   public static void main(String[] args){
     launch(args);
+
   }
+
 }

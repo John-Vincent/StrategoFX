@@ -7,15 +7,19 @@ import org.apache.commons.dbcp2.BasicDataSource;
 public final class DBManager{
 
   private static final BasicDataSource source = new BasicDataSource();
-  private String signupQ = "insert into `user` (`name`, `pass`) values ( ? , ? )";
-  private String loginQ = "select `user`.`pass` from `user` where `user`.`name` = ?";
-  private String getFrindsQ = "SELECT u.name, u.last "+
+  private final String signupQ = "insert into `user` (`name`, `pass`) values ( ? , ? )";
+  private final String loginQ = "select `user`.`pass` from `user` where `user`.`name` = ?";
+  private final String getFriendsQ = "SELECT u.name, u.last "+
                               "FROM user u "+
                               "WHERE (u.id = (select f.sender from friend f where f.receiver =(select u1.id from user u1 where u1.name = ? ) and f.accepted != 0)) "+
                                 "or (u.id = (select f.receiver from friend f where f.sender =(select u2.id from user u2 where u2.name = ? ) and f.accepted !=0));";
-                                
-  private String requestFriendQ = "";
-  private String logoutQ = "";
+
+  private final String requestFriendQ = "insert into friend(sender,receiver,accepted) "+
+                                  "values((select u.id from user u where u.name= ? ),(select u2.id from user u2 where u2.name = ? ),'0') this is the query for friend request";
+
+  private final String acceptFriendRequestQ= "update friend set accepted = '1' where friend.id = ?";
+
+  private final String logoutQ = "";
 
   static{
     source.setDriverClassName("com.mysql.jdbc.Driver");
