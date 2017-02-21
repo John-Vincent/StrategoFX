@@ -83,8 +83,14 @@ public class Networker implements Runnable{
   }
 
   public Boolean signup(String username, String password){
-      String temp;
-      return false;
+      byte[] temp = new byte[(username + ";" + password).length()];
+      byte[] data = new byte[temp.length + 1];
+      data[0] = SIGNUP;
+      for(int i = 0; i < temp.length; i++){
+        data[i+1] = temp[i];
+      }
+      DatagramPacket p = new DatagramPacket(data, data.length, this.server);
+      return sendPacket(p);
   }
 
   public void ping(){
@@ -95,11 +101,26 @@ public class Networker implements Runnable{
   }
 
   public void requestFriendsList(){
-
+    byte[] data = new byte[this.id.length() + 1];
+    data[0] = FRIENDQ;
+    byte[] temp = this.id.getBytes();
+    for(int i = 0; i< temp.length; i++){
+      data[i+1] = temp[i];
+    }
+    DatagramPacket p = new DatagramPacket(data, data.length, this.server);
+    sendPacket(p);
   }
 
   public void sendFriendRequest(String username){
-
+    byte[] data = new byte[this.id.length() + username.length() + 2];
+    data[0] = FRIENDR;
+    String temp = this.id + ";" + username;
+    byte[] temp2 = temp.getBytes();
+    for(int i = 0; i< temp2.length; i++){
+      data[i+1] = temp2[i];
+    }
+    DatagramPacket p = new DatagramPacket(data, data.length, this.server);
+    sendPacket(p);
   }
 
 
