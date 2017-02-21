@@ -12,13 +12,14 @@ import stratego.components.Sizes;
 
 public class StrategoFX extends Application{
   private Stage stage;
+  private static Stage primaryStage;
   private Mode mode;
   private Thread back = new Thread(new Background(this));
 
   public void start(Stage stage){
 
     this.stage = stage;
-
+    StrategoFX.primaryStage = stage;
     back.start();
 
     this.stage.setWidth(Sizes.screenSize.getWidth()*Sizes.stageSize);
@@ -47,6 +48,10 @@ public class StrategoFX extends Application{
     double[] size = mode.getMinSize();
     this.stage.setMinWidth(size[0]);
     this.stage.setMinHeight(size[1]);
+  }
+  
+  public static Stage getPrimaryStage(){
+	  return primaryStage;
   }
 
 

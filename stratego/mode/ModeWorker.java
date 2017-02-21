@@ -20,6 +20,10 @@ public abstract class ModeWorker implements Runnable{
   }
 
   abstract public Runnable getRequest(String name);
+  
+  public Runnable getRequest(String name, Object...arg){
+	  return null;
+  }
 
 
   public void run(){

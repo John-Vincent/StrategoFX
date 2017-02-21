@@ -1,5 +1,6 @@
 package stratego.mode.menus.main;
 
+import stratego.application.StrategoFX;
 import stratego.components.FriendModel;
 import stratego.components.FriendsList;
 import stratego.components.Sizes;
@@ -12,6 +13,7 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.text.*;
+import javafx.stage.Popup;
 import javafx.stage.Screen;
 import javafx.geometry.*;
 import javafx.event.EventHandler;
@@ -19,18 +21,16 @@ import javafx.event.ActionEvent;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class MainMenuUI extends Mode {
-
 	BorderPane pane;
 	public final static double buttonWidth = 200;
 
-
-  public MainMenuUI() {
-  	super(new BorderPane());
-  	FriendModel friendModel = new FriendModel();
-    this.setWorker(new MainMenuWorker(this.getTaskList(), friendModel));
+	public MainMenuUI() {
+		super(new BorderPane());
+		FriendModel friendModel = new FriendModel();
+		this.setWorker(new MainMenuWorker(this.getTaskList(), friendModel));
 
 		this.pane = (BorderPane) this.getRoot();
-		this.pane.setPadding(new Insets(0,30,20,30));
+		this.pane.setPadding(new Insets(0, 30, 20, 30));
 		this.setMinSize(500, 400);
 
 		Button ai = new Button("Vs. AI");
@@ -64,8 +64,8 @@ public class MainMenuUI extends Mode {
 		VBox buttons = new VBox(50, ai, pl, st, lo);
 		buttons.setFillWidth(true);
 		buttons.setAlignment(Pos.CENTER);
-		buttons.setPadding(new Insets(60,100,0,0));
-		buttons.setMinSize(0,0);
+		buttons.setPadding(new Insets(60, 100, 0, 0));
+		buttons.setMinSize(0, 0);
 		pane.setCenter(buttons);
 		VBox.setVgrow(ai, Priority.ALWAYS);
 		VBox.setVgrow(pl, Priority.ALWAYS);
@@ -94,12 +94,6 @@ public class MainMenuUI extends Mode {
 		friendModel.addObserver(friendsList);
 
 		Button af = new Button("Add a Friend");
-		af.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				// TODO - Add a friend
-			}
-		});
 
 		VBox friends = new VBox(5, fl, friendsList, af);
 		friends.setAlignment(Pos.CENTER);
@@ -112,6 +106,35 @@ public class MainMenuUI extends Mode {
 		friendModel.addFriend("Joe", "AWOL");
 		friendModel.addFriend("Brad", "Offline");
 		friendsList.update(friendModel, null);
+		
+		af.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				addFriend(friends, friendsList, friendModel);
+
+			}
+		});
+	}
+
+	public void addFriend(VBox friends, FriendsList friendsList, FriendModel friendModel) {
+		TextField friendName = new TextField();
+		HBox userName = new HBox(5, new Text("Friend's Username:"), friendName);
+		Button addFriend = new Button("Add");
+		VBox popup = new VBox(5, userName, addFriend);
+		popup.setAlignment(Pos.CENTER);
+		pane.setRight(popup);
+		VBox.setVgrow(addFriend, Priority.ALWAYS);
+		addFriend.setMaxSize(Double.MAX_VALUE, 50);
+
+		addFriend.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				getTaskList().add(getWorker().getRequest("addfriend", friendName.getText()));
+				friendModel.addFriend(friendName.getText(), "Request Pending...");
+				friendsList.update(friendModel, null);
+				pane.setRight(friends);
+			}
+		});
 	}
 
 }
