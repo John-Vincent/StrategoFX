@@ -18,6 +18,7 @@ public class PacketHandler implements Runnable{
   public static final byte LOGIN = (byte)0x02;
   public static final byte FRIENDQ = (byte)0x03;
   public static final byte FRIENDR =(byte)0x04;
+  public static final byte LOGOUT =(byte)0x05;
 
   public PacketHandler(DatagramPacket p, DatagramSocket s){
     this.packet = p;
@@ -51,6 +52,9 @@ public class PacketHandler implements Runnable{
       case FRIENDR:
 
         break;
+      case LOGOUT:
+
+        break;
     }
 
     try{
@@ -79,6 +83,12 @@ public class PacketHandler implements Runnable{
       System.out.println(e.getMessage());
     }
     return false;
+  }
+
+  private boolean login(String username, String password){
+    try{
+
+    }
   }
 
 }
