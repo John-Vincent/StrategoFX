@@ -69,7 +69,7 @@ public class Networker implements Runnable{
 
   public Boolean login(String username, String password){
       String temp = username + ";" + password;
-      byte[] data = new byte[temp.length+1];
+      byte[] data = new byte[temp.length()+1];
       byte[] temp2 = temp.getBytes();
       data[0] = LOGIN;
       for(int i = 0; i< temp2.length; i++){
@@ -79,13 +79,23 @@ public class Networker implements Runnable{
       return sendPacket(p);
   }
 
-  public void
+  public Boolean signup(String username, String password){
+      return false;
+  }
 
   public void ping(){
     byte[] data = {(byte)0x00};
-    DatagramPacket p = new DatagramPacket(data, data.length, net.server);
-    net.sendPacket(p);
-    System.out.println("sent packet to " + net.server);
+    DatagramPacket p = new DatagramPacket(data, data.length, this.server);
+    sendPacket(p);
+    System.out.println("sent packet to " + this.server);
+  }
+
+  public void requestFriendsList(String username){
+
+  }
+
+  public void sendFriendRequest(String username){
+
   }
 
 
