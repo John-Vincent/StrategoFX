@@ -1,28 +1,28 @@
 package stratego.components;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
-import javafx.application.Platform;
-import javafx.scene.control.Label;
+public class FriendModel extends Observable {
 
-public class FriendModel implements Observable {
-	// arraylist of friend
-	// subclass of friend, name online status
-	// platform.run later in update
-	// clear vbox, add children,
-	private ArrayList<Friend> friendList = new ArrayList<Friend>();
+	public ArrayList<Friend> friendList = new ArrayList<Friend>();
 
 	public void addFriend(String name, String status) {
 		friendList.add(new Friend(name, status));
+		this.setChanged();
 	}
 
-	// method that can take an array of labels
-	// put it in the vbox
-
-	public Friend getFriend(int i) {
-		return friendList.get(i);
+	public String getFriendName(int i) {
+		return friendList.get(i).getName();
 	}
 
+	public String getFriendStatus(int i) {
+		return friendList.get(i).getStatus();
+	}
+
+	public int getFriendListSize() {
+		return friendList.size();
+	}
 
 	private class Friend {
 		private String name;
@@ -33,11 +33,11 @@ public class FriendModel implements Observable {
 			this.status = status;
 		}
 
-		public String getName(){
+		public String getName() {
 			return this.name;
 		}
 
-		public String getStatus(){
+		public String getStatus() {
 			return this.status;
 		}
 	}
