@@ -33,6 +33,14 @@ public class FriendModel implements Observable {
 			this.name = name;
 			this.status = status;
 		}
+
+		public String getName(){
+			return this.name;
+		}
+
+		public String getStatus(){
+			return this.status;
+		}
 	}
 
 }

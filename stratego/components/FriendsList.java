@@ -28,16 +28,16 @@ public class FriendsList extends VBox implements Observer {
 
 	public FriendVBox[] createBoxes(FriendModel friends, int size) {
 		FriendVBox[] friendBoxes = new Label[size];
-
+		
 		for (int i = 0; i < size; i++) {
-			friendBoxes[i] = new FriendVBox(friends.getFriend(i).something; //friend name and status)
+			 f = new FriendVBox(friends.getFriend(i).getName(), freinds.getFriend(i).getStatus()); //friend name and status)
 		}
 	}
 
 	private class FriendVBox {
 		private VBox box;
 
-		private FriendVBox(Label name, Label status) {
+		private FriendVBox(String name, String status) {
 			box = new VBox(smallPadding, name, status);
 		}
 	}
