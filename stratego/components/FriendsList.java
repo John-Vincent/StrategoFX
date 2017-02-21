@@ -1,7 +1,6 @@
 package stratego.components;
 
 import java.util.ArrayList;
-import java.util.Observable;
 import java.util.Observer;
 
 import javafx.application.Platform;
@@ -14,7 +13,8 @@ public class FriendsList extends VBox implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		FriendVBox[] friendBoxes = createBoxes(friends, friends.size());
+		FriendModel m = (FriendModel) arg0;
+		FriendVBox[] friendBoxes = createBoxes(friends);
 
 		Platform.runLater(new Runnable() {
 			@Override
@@ -28,7 +28,7 @@ public class FriendsList extends VBox implements Observer {
 
 	public FriendVBox[] createBoxes(FriendModel friends, int size) {
 		FriendVBox[] friendBoxes = new Label[size];
-		
+
 		for (int i = 0; i < size; i++) {
 			 f = new FriendVBox(friends.getFriend(i).getName(), freinds.getFriend(i).getStatus()); //friend name and status)
 		}

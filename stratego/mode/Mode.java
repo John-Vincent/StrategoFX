@@ -13,6 +13,7 @@ public abstract class Mode extends Scene{
   private ModeWorker worker;
   private ConcurrentLinkedQueue<Runnable> task;
   private Mode next = null;
+  private double[] minSize = new double[2];
 
   public Mode(Parent p){
     super(p);
@@ -37,6 +38,15 @@ public abstract class Mode extends Scene{
 
   protected void setNextMode(Mode next){
     this.next = next;
+  }
+
+  public double[] getMinSize(){
+    return this.minSize;
+  }
+
+  protected void setMinSize(double a, double b){
+    this.minSize[0] = a;
+    this.minSize[1] = b;
   }
 
 

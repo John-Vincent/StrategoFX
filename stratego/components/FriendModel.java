@@ -3,8 +3,6 @@ package stratego.components;
 import java.util.ArrayList;
 
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.scene.control.Label;
 
 public class FriendModel implements Observable {
@@ -12,7 +10,7 @@ public class FriendModel implements Observable {
 	// subclass of friend, name online status
 	// platform.run later in update
 	// clear vbox, add children,
-	public ArrayList<Friend> friendList = new ArrayList<Friend>();
+	private ArrayList<Friend> friendList = new ArrayList<Friend>();
 
 	public void addFriend(String name, String status) {
 		friendList.add(new Friend(name, status));
@@ -24,6 +22,7 @@ public class FriendModel implements Observable {
 	public Friend getFriend(int i) {
 		return friendList.get(i);
 	}
+
 
 	private class Friend {
 		private String name;

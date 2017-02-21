@@ -26,10 +26,8 @@ public class MainMenuUI extends Mode {
     this.setWorker(new MainMenuWorker(this.getTaskList()));
 
 		this.pane = (BorderPane) this.getRoot();
-
-		StackPane left = new StackPane();
-		left.setPrefWidth(400);
-		this.pane.setLeft(left);
+		this.pane.setPadding(new Insets(0,30,20,30));
+		this.setMinSize(500, 400);
 
 		Button ai = new Button("Vs. AI");
 		ai.setOnAction(new EventHandler<ActionEvent>() {
@@ -53,7 +51,6 @@ public class MainMenuUI extends Mode {
 			}
 		});
 		Button lo = new Button("Log Out");
-
 		lo.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -61,9 +58,12 @@ public class MainMenuUI extends Mode {
 			}
 		});
 
-		VBox buttons = new VBox(10, ai, pl, st, lo);
+		VBox buttons = new VBox(50, ai, pl, st, lo);
+		buttons.setFillWidth(true);
 		buttons.setAlignment(Pos.CENTER);
-		pane.setLeft(buttons);
+		buttons.setPadding(new Insets(60,100,0,0));
+		buttons.setMinSize(0,0);
+		pane.setCenter(buttons);
 		VBox.setVgrow(ai, Priority.ALWAYS);
 		VBox.setVgrow(pl, Priority.ALWAYS);
 		VBox.setVgrow(st, Priority.ALWAYS);
@@ -76,6 +76,7 @@ public class MainMenuUI extends Mode {
 		pl.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		st.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		lo.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		pane.setMinSize(400, 250);
 
 		Text title = new Text("StrategoFX");
 		title.setFont(Font.font("Tahoma", FontWeight.NORMAL, 50));

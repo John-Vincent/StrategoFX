@@ -43,6 +43,10 @@ public class StrategoFX extends Application{
     this.stage.setScene(this.mode);
     this.stage.setX((Sizes.screenSize.getWidth()-this.stage.getWidth())/2 + Sizes.screenSize.getMinX());
     this.stage.setY((Sizes.screenSize.getHeight()-this.stage.getHeight())/2 + Sizes.screenSize.getMinY());
+    double[] size = mode.getMinSize();
+    this.stage.setMinWidth(size[0]);
+    this.stage.setMinHeight(size[1]);
+    System.out.println(size[1]);
   }
 
 
