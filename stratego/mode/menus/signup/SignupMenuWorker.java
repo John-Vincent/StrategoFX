@@ -25,7 +25,7 @@ public class SignupMenuWorker extends ModeWorker {
         @Override
         public void run(){
             //this terminates the execution of this worker advancing the program to the next UI
-            running = false;
+            setRunning(false);
         }
     }
 

@@ -9,7 +9,11 @@ public final class DBManager{
   private static final BasicDataSource source = new BasicDataSource();
   private String signupQ = "insert into `user` (`name`, `pass`) values ( ? , ? )";
   private String loginQ = "select `user`.`pass` from `user` where `user`.`name` = ?";
-  private String getFrindsQ = "";
+  private String getFrindsQ = "SELECT u.name, u.last "+
+                              "FROM user u "+
+                              "WHERE (u.id = (select f.sender from friend f where f.receiver =(select u1.id from user u1 where u1.name = ? ) and f.accepted != 0)) "+
+                                "or (u.id = (select f.receiver from friend f where f.sender =(select u2.id from user u2 where u2.name = ? ) and f.accepted !=0));";
+                                
   private String requestFriendQ = "";
   private String logoutQ = "";
 
@@ -26,6 +30,28 @@ public final class DBManager{
 
 
   public static boolean signup(String uname, String password){
+    String temp = signupQ;
+    temp = temp.replaceFirst("?", uname);
+    temp = temp.replaceFirst("?", password);
+    try{
+      Connection conn1 = DBManager.getConnection();
+      Statement statement  = conn1.createStatement();
+      int i = statement.executeUpdate(temp);
+      conn1.commit();
+      statement.close();
+      conn1.close();
+      if(i == 0)
+        return false;
+      else
+        return true;
+    } catch(Exception e){
+      System.out.println(e.getMessage());
+    }
+    return false;
+
+  }
+
+  public static boolean login(String uname, String password){
 
   }
 

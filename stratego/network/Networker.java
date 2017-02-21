@@ -67,5 +67,26 @@ public class Networker implements Runnable{
     return this.received.poll();
   }
 
+  public Boolean login(String username, String password){
+      String temp = username + ";" + password;
+      byte[] data = new byte[temp.length+1];
+      byte[] temp2 = temp.getBytes();
+      data[0] = LOGIN;
+      for(int i = 0; i< temp2.length; i++){
+        data[i+1] = temp2[i];
+      }
+      DatagramPacket p = new DatagramPacket(data, data.length, this.server);
+      return sendPacket(p);
+  }
+
+  public void
+
+  public void ping(){
+    byte[] data = {(byte)0x00};
+    DatagramPacket p = new DatagramPacket(data, data.length, net.server);
+    net.sendPacket(p);
+    System.out.println("sent packet to " + net.server);
+  }
+
 
 }

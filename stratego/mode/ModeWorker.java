@@ -47,22 +47,10 @@ public abstract class ModeWorker implements Runnable{
     return this.task.poll();
   }
 
-  protected boolean sendPacket(byte[] data, String dest){
-    DatagramPacket p;
-    switch(dest){
-      case "server":
-        p = new DatagramPacket(data, data.length, net.server);
-        break;
-      case "host":
-        if(net.host == null)
-          return false;
-        p = new DatagramPacket(data, data.length, net.host);
-        break;
-      default:
-        return false;
-    }
-    return net.sendPacket(p);
+  protected void setRunning(boolean b){
+    this.running = b;
   }
+
 
   private boolean handlePacket(DatagramPacket p){
     if(p == null)
@@ -85,10 +73,7 @@ public abstract class ModeWorker implements Runnable{
 
      @Override
      public void run(){
-       byte[] data = {(byte)0x00};
-       DatagramPacket p = new DatagramPacket(data, data.length, net.server);
-       net.sendPacket(p);
-       System.out.println("sent packet to " + net.server);
+       net.ping();
      }
 
   }

@@ -27,7 +27,7 @@ public class LoginMenuWorker extends ModeWorker{
     @Override
     public void run(){
       //this terminates the execution of this worker advancing the program to the next UI
-      running = false;
+      setRunning(false);
     }
   }
 
@@ -38,7 +38,7 @@ public class LoginMenuWorker extends ModeWorker{
     private class SignUpRequest implements Runnable{
         @Override
         public void run(){
-            running = false;
+            setRunning(false);
         }
     }
 }
