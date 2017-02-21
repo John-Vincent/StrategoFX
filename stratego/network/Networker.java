@@ -21,6 +21,8 @@ public class Networker implements Runnable{
   public static final byte CHAT = (byte)0xFE;
   public static final byte VOICE = (byte)0xFF;
 
+  private String id;
+
 
   public Networker(DatagramSocket s){
     this.socket = s;
@@ -68,6 +70,7 @@ public class Networker implements Runnable{
   }
 
   public Boolean login(String username, String password){
+      this.id = username;
       String temp = username + ";" + password;
       byte[] data = new byte[temp.length()+1];
       byte[] temp2 = temp.getBytes();
@@ -91,11 +94,11 @@ public class Networker implements Runnable{
     System.out.println("sent packet to " + this.server);
   }
 
-  public void requestFriendsList(String username){
+  public void requestFriendsList(){
 
   }
 
-  public void sendFriendRequest(String username, String friend){
+  public void sendFriendRequest(String username){
 
   }
 
