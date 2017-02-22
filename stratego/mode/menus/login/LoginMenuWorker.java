@@ -5,7 +5,6 @@ import stratego.network.Networker;
 import java.net.*;
 import stratego.mode.ModeWorker;
 
-<<<<<<< HEAD
 public class LoginMenuWorker extends ModeWorker {
 
 	public LoginMenuWorker(ConcurrentLinkedQueue<Runnable> q) {
