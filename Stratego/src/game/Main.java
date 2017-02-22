@@ -229,7 +229,7 @@ public class Main {
 			switch (dice) {
 			case 0:
 				if (marshallCount < 1) {
-					actualBoard[x][y] = marshall;
+					actualBoard[x][y] = marshall+100;
 					marshallCount++;
 				} else {
 					i--;
@@ -238,7 +238,7 @@ public class Main {
 				break;
 			case 1:
 				if (generalCount < 1) {
-					actualBoard[x][y] = general;
+					actualBoard[x][y] = general+100;
 					generalCount++;
 				} else {
 					i--;
@@ -247,7 +247,7 @@ public class Main {
 				break;
 			case 2:
 				if (colonelCount < 2) {
-					actualBoard[x][y] = colonel;
+					actualBoard[x][y] = colonel+100;
 					colonelCount++;
 				} else {
 					i--;
@@ -256,7 +256,7 @@ public class Main {
 				break;
 			case 3:
 				if (majorCount < 3) {
-					actualBoard[x][y] = major;
+					actualBoard[x][y] = major+100;
 					majorCount++;
 				} else {
 					i--;
@@ -265,7 +265,7 @@ public class Main {
 				break;
 			case 4:
 				if (captainCount < 4) {
-					actualBoard[x][y] = captain;
+					actualBoard[x][y] = captain+100;
 					captainCount++;
 				} else {
 					i--;
@@ -274,7 +274,7 @@ public class Main {
 				break;
 			case 5:
 				if (lieutenantCount < 4) {
-					actualBoard[x][y] = lieutenant;
+					actualBoard[x][y] = lieutenant+100;
 					lieutenantCount++;
 				} else {
 					i--;
@@ -283,7 +283,7 @@ public class Main {
 				break;
 			case 6:
 				if (sergantCount < 4) {
-					actualBoard[x][y] = sergant;
+					actualBoard[x][y] = sergant+100;
 					sergantCount++;
 				} else {
 					i--;
@@ -292,7 +292,7 @@ public class Main {
 				break;
 			case 7:
 				if (minerCount < 5) {
-					actualBoard[x][y] = miner;
+					actualBoard[x][y] = miner+100;
 					minerCount++;
 				} else {
 					i--;
@@ -301,7 +301,7 @@ public class Main {
 				break;
 			case 8:
 				if (scoutCount < 8) {
-					actualBoard[x][y] = scout;
+					actualBoard[x][y] = scout+100;
 					scoutCount++;
 				} else {
 					i--;
@@ -310,7 +310,7 @@ public class Main {
 				break;
 			case 9:
 				if (spyCount < 1) {
-					actualBoard[x][y] = spy;
+					actualBoard[x][y] = spy+100;
 					spyCount++;
 				} else {
 					i--;
@@ -319,7 +319,7 @@ public class Main {
 				break;
 			case 10:
 				if (bombCount < 6) {
-					actualBoard[x][y] = bomb;
+					actualBoard[x][y] = bomb+100;
 					bombCount++;
 				} else {
 					i--;
@@ -328,7 +328,7 @@ public class Main {
 				break;
 			case 11:
 				if (flagCount < 1) {
-					actualBoard[x][y] = flag;
+					actualBoard[x][y] = flag+100;
 					flagCount++;
 				} else {
 					i--;
@@ -428,14 +428,13 @@ public class Main {
 			while (quitGame == false) {
 				for (int i = 0; i < 10; i++) {
 					for (int j = 0; j < 10; j++) {
-						System.out.print(actualBoard[i][j] + "  ");
+						System.out.print(board[i][j] + "  ");
 					}
 					System.out.println();
 				}
 				System.out.println();
 
-				System.out.println(
-						"Type the move in format: \"x1:y1,x2:y2\"\nWhere x1 and y1 are coordinates where the piece currently is and x2 and y2 are where you want them to be.\nType q to quit.");
+				System.out.println("Type the coordinates of the piece in the format \"xx:yy\" to move. Type q to quit.");
 				str = scan.nextLine();
 
 				if (str.compareToIgnoreCase("q") == 0) {
@@ -443,19 +442,6 @@ public class Main {
 					System.exit(0);
 				}
 
-				
-
-				while(!(Character.isDigit(str.charAt(0)) && Character.isDigit(str.charAt(1))
-						&& Character.isDigit(str.charAt(3)) && Character.isDigit(str.charAt(4))
-						&& Character.isDigit(str.charAt(6)) && Character.isDigit(str.charAt(7))
-						&& Character.isDigit(str.charAt(9)) && Character.isDigit(str.charAt(10)) && str.charAt(2) == ':'
-						&& str.charAt(5) == ',' && str.charAt(8) == ':')) {
-					
-						System.out.println("Wrong format, Enter again.");
-						str=scan.nextLine();
-				}
-				
-				char input[] = str.toCharArray();
 				
 
 			}
