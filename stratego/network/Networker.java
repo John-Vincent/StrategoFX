@@ -55,6 +55,7 @@ public class Networker implements Runnable{
   public Boolean sendPacket(DatagramPacket p){
     try{
       this.socket.send(p);
+      System.out.println("Packet sent to " + p.getSocketAddress());
     } catch(IOException e){
       e.printStackTrace();
       return false;
@@ -83,8 +84,17 @@ public class Networker implements Runnable{
   }
 
   public Boolean signup(String username, String password){
-      String temp;
-      return false;
+
+      this.id = username;
+      String temp = username + ";" + password;
+      byte[] data = new byte[temp.length()+1];
+      byte[] temp2 = temp.getBytes();
+      data[0] = SIGNUP;
+      for(int i = 0; i<temp2.length; i++){
+    	  data[i+1] = temp2[i];
+      }
+      DatagramPacket p = new DatagramPacket(data, data.length, this.server);
+      return sendPacket(p);
   }
 
   public void ping(){
