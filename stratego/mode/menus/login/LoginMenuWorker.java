@@ -16,6 +16,8 @@ public class LoginMenuWorker extends ModeWorker{
     switch(name){
       case "signin":
         return new SignInRequest();
+      case "signup":
+    	  return getSignUpRequest();
       default:
         return null;
     }

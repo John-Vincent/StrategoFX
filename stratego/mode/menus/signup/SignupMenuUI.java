@@ -5,11 +5,14 @@ package stratego.mode.menus.signup;
 import javafx.scene.paint.*;
 import javafx.stage.*;
 import stratego.mode.Mode;
+import stratego.mode.menus.main.MainMenuUI;
 import javafx.scene.*;
 import stratego.network.Networker;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.text.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.*;
 
 
@@ -32,7 +35,13 @@ public class SignupMenuUI extends Mode{
         hbBtn1.getChildren().add(btn1);
         grid.add(hbBtn1, 1, 5);
 
-
+        btn1.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent e){
+            	setNextMode(new MainMenuUI());
+            	getTaskList().add(getWorker().getRequest("submit"));
+            }
+          });
 
 
         final Text actiontarget = new Text();

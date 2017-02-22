@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.text.*;
 import javafx.geometry.*;
 import stratego.mode.menus.main.MainMenuUI;
+import stratego.mode.menus.signup.SignupMenuUI;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 
@@ -44,7 +45,8 @@ public class LoginMenuUI extends Mode{
         btn2.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
-              // TODO
+              setNextMode(new SignupMenuUI());
+              getTaskList().add(getWorker().getRequest("signup"));
             }
           });
 
