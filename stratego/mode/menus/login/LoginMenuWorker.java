@@ -12,6 +12,13 @@ public class LoginMenuWorker extends ModeWorker{
   }
 
   @Override
+  public Runnable getRequest(String name) {
+    switch (name) {
+      default:
+        return null;
+    }
+  }
+  @Override
   public Runnable getRequest(String name, Object... args){
     switch(name){
       case "signin":
