@@ -14,17 +14,35 @@ public class MainMenuWorker extends ModeWorker {
 		super(q);
 		friendModel = fm;
 	}
-	
-	//send request to networker  networker.sendfriendrequest
-	//supply username
-	
+
 	@Override
 	public Runnable getRequest(String name) {
 		switch (name) {
-		case "addfriend":
-			
 		default:
 			return null;
+		}
+	}
+
+	@Override
+	public Runnable getRequest(String name, Object... args) {
+		switch (name) {
+		case "addfriend":
+			return new FriendRequest((String) args[0]);
+		default:
+			return null;
+		}
+
+	}
+
+	private class FriendRequest implements Runnable {
+		String friendName;
+		public FriendRequest(String name){
+			friendName = name;
+		}
+		
+		@Override
+		public void run() {
+			net.sendFriendRequest(friendName);
 		}
 	}
 
