@@ -30,7 +30,6 @@ public abstract class ModeWorker implements Runnable{
 
   public void run(){
     this.running = true;
-    int i;
     while(!Thread.currentThread().isInterrupted() && this.running){
       try{
         Thread.sleep(100);

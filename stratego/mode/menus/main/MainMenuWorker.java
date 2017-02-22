@@ -52,8 +52,8 @@ public class MainMenuWorker extends ModeWorker {
 
 		@Override
 		public void run(){
-			if(time + 300000 > System.curTimeMillis()){
-				this.time = System.curTimeMillis();
+			if(time + 300000 < System.currentTimeMillis()){
+				this.time = System.currentTimeMillis();
 				net.requestFriendsList();
 			}
 		}

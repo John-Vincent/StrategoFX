@@ -87,7 +87,7 @@ public class Networker implements Runnable{
     byte[] data = new byte[1];
     data[0] = LOGOUT;
     DatagramPacket p = new DatagramPacket(data, data.length, this.server);
-    return sendPacket(p);
+    sendPacket(p);
   }
 
   public Boolean signup(String username, String password){

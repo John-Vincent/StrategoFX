@@ -8,19 +8,19 @@ import java.util.ArrayList;
 public final class DBManager{
 
   private static final BasicDataSource source = new BasicDataSource();
-  private final String signupQ = "insert into `user` (`name`, `pass`) values ( ? , ? )";
-  private final String loginQ = "select `user`.`pass` from `user` where `user`.`name` = ?";
-  private final String getFriendsQ = "SELECT u.name, u.last "+
+  private static final String signupQ = "insert into `user` (`name`, `pass`) values ( ? , ? )";
+  private static final String loginQ = "select `user`.`pass` from `user` where `user`.`name` = ?";
+  private static final String getFriendsQ = "SELECT u.name, u.last "+
                               "FROM user u "+
                               "WHERE (u.id = (select f.sender from friend f where f.receiver =(select u1.id from user u1 where u1.name = ? ) and f.accepted != 0)) "+
                                 "or (u.id = (select f.receiver from friend f where f.sender =(select u2.id from user u2 where u2.name = ? ) and f.accepted !=0));";
 
-  private final String requestFriendQ = "insert into friend(sender,receiver,accepted) "+
+  private static final String requestFriendQ = "insert into friend(sender,receiver,accepted) "+
                                   "values((select u.id from user u where u.name= ? ),(select u2.id from user u2 where u2.name = ? ),'0') this is the query for friend request";
 
-  private final String acceptFriendRequestQ= "update `friend` set `accepted` = '1' where `friend`.`id` = ?";
+  private static final String acceptFriendRequestQ= "update `friend` set `accepted` = '1' where `friend`.`id` = ?";
 
-  private final String logoutQ = "update `user` set `online` = '0' where `name` = 'ryan'";
+  private static final String logoutQ = "update `user` set `online` = '0' where `name` = ? ";
 
   static{
     source.setDriverClassName("com.mysql.jdbc.Driver");
@@ -36,8 +36,8 @@ public final class DBManager{
 
   public static boolean signup(String uname, String password){
     String temp = signupQ;
-    temp = temp.replaceFirst("?", uname);
-    temp = temp.replaceFirst("?", password);
+    temp = temp.replaceFirst("\\?", uname);
+    temp = temp.replaceFirst("\\?", password);
     try{
       Connection conn1 = DBManager.getConnection();
       Statement statement  = conn1.createStatement();
@@ -52,19 +52,18 @@ public final class DBManager{
     } catch(Exception e){
       return false;
     }
-    return false;
 
   }
 
   public static boolean login(String uname, String password){
     String temp = loginQ;
-    temp = temp.replaceFirst("?", uname);
+    temp = temp.replaceFirst("\\?", uname);
     try{
       Connection conn1 = DBManager.getConnection();
       Statement statement  = conn1.createStatement();
-      ResultSet set = statement.execute(temp);
-      while(rs.next()){
-        if(rs.getString().equals(password))
+      ResultSet set = statement.executeQuery(temp);
+      while(set.next()){
+        if(set.getString("pass").equals(password))
           return true;
       }
       set.close();
@@ -85,30 +84,26 @@ public final class DBManager{
    * @author Collin Vincent <collinvincent96@gmail.com>
    * @date   2017-02-21T16:47:48+000
    */
-  public static String[][] getFriends(String uname){
-    ArrayList<String[]> list = new ArrayList<String[]>();
-    String[] array;
-
+  public static String getFriends(String uname){
+    String ans="";
     String temp = getFriendsQ;
-    temp = temp.replaceFirst("?", uname);
-    temp = temp.replaceFirst("?", uname);
+    temp = temp.replaceFirst("\\?", uname);
+    temp = temp.replaceFirst("\\?", uname);
     try{
       Connection conn1 = DBManager.getConnection();
       Statement statement  = conn1.createStatement();
-      ResultSet set = statement.execute(temp);
-      while(rs.next()){
-        array = new String[2];
-        array[0] = rs.getString();
-        array[1] = rs.getString();
-        list.add(array);
+      ResultSet set = statement.executeQuery(temp);
+      while(set.next()){
+        ans += set.getString("name") + ":" + set.getTime("last")+";";
       }
       set.close();
       statement.close();
       conn1.close();
     } catch(Exception e){
+      System.out.println(e.getMessge());
       return null;
     }
-    return list.toArray();
+    return ans;
 
   }
 
@@ -122,8 +117,8 @@ public final class DBManager{
    */
   public static boolean requestFriend(String user, String friend){
     String temp = requestFriendQ;
-    temp = temp.replaceFirst("?", user);
-    temp = temp.replaceFirst("?", friend);
+    temp = temp.replaceFirst("\\?", user);
+    temp = temp.replaceFirst("\\?", friend);
     try{
       Connection conn1 = DBManager.getConnection();
       Statement statement  = conn1.createStatement();
@@ -132,7 +127,7 @@ public final class DBManager{
       conn1.close();
 
     } catch(Exception e){
-      return false
+      return false;
     }
     return true;
   }
@@ -146,8 +141,7 @@ public final class DBManager{
    */
   public static boolean logout(String username){
     String temp = logoutQ;
-    temp = temp.replaceFirst("?", user);
-    temp = temp.replaceFirst("?", friend);
+    temp = temp.replaceFirst("\\?", username);
     try{
       Connection conn1 = DBManager.getConnection();
       Statement statement  = conn1.createStatement();
@@ -156,7 +150,7 @@ public final class DBManager{
       conn1.close();
 
     } catch(Exception e){
-      return false
+      return false;
     }
     return true;
   }

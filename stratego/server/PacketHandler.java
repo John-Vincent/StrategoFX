@@ -26,6 +26,8 @@ public class PacketHandler implements Runnable{
   }
 
   public void run(){
+    String temp;
+    String[] temp2;
     byte[] data = this.packet.getData();
     byte type = data[0];
     data = Arrays.copyOfRange(data, 1, data.length);
@@ -33,36 +35,35 @@ public class PacketHandler implements Runnable{
     switch(type){
       case PING:
         newdata = new byte[]{PING};
+        System.out.println("got PING");
         break;
       case SIGNUP:
-        String temp = new String(data, StandardCharsets.UTF_8);
-        String[] temp2 = temp.split(";");
-        if(signup(temp2[0], temp2[1])){
-          newdata = new byte[]{SIGNUP, (byte)0x01};
-        } else{
-          newdata = new byte[]{SIGNUP, (byte)0x00};
-        }
+        temp = new String(data, StandardCharsets.UTF_8);
+        temp2 = temp.split(";");
+        newdata = signup(temp2[0], temp2[1]);
+        System.out.println("got SIGNUP");
         break;
       case LOGIN:
-        String temp = new String(data, StandardCharsets.UTF_8);
-        String[] temp2 = temp.split(";");
-        if(login(temp2[0], temp2[1])){
-          newdata = new byte[]{LOGIN, (byte)0x01};
-        } else{
-          newdata = new byte[]{LOGIN, (byte)0x00};
-        }
+        temp = new String(data, StandardCharsets.UTF_8);
+        temp2 = temp.split(";");
+        newdata = login(temp2[0], temp2[1]);
+        System.out.println("got LOGIN");
         break;
       case FRIENDQ:
-        String temp = new String(data, StandardCharsets.UTF_8);
-
+        temp = new String(data, StandardCharsets.UTF_8);
+        newdata = friendq(temp);
+        System.out.println("got FRIENDQ");
         break;
       case FRIENDR:
-        String temp = new String(data, StandardCharsets.UTF_8);
-        String[] temp2 = temp.split(";");
+        temp = new String(data, StandardCharsets.UTF_8);
+        temp2 = temp.split(";");
+        newdata = friendr(temp2[0], temp2[1]);
+        System.out.println("got FRIENDR");
         break;
       case LOGOUT:
-
-        break;
+        return;
+      default:
+        return;
     }
 
     try{
@@ -74,30 +75,45 @@ public class PacketHandler implements Runnable{
 
   }
 
-  private boolean signup(String username, String password){
-    return false;
-  }
-
-  private boolean login(String username, String password){
-    return false;
-  }
-
-  private boolean friendq(){
-    try{
-
+  private byte[] signup(String username, String password){
+    if(DBManager.signup(username, password)){
+      return new byte[]{LOGIN, (byte)0x01};
+    } else{
+      return new byte[]{LOGIN, (byte)0x00};
     }
   }
 
-  private boolean friendr(){
-    try{
-
+  private byte[] login(String username, String password){
+    if(DBManager.login(username, password)){
+      return new byte[]{LOGIN, (byte)0x01};
+    } else{
+      return new byte[]{LOGIN, (byte)0x00};
     }
   }
 
-  private boolean logout(){
-    try{
-
+  private byte[] friendq(String username){
+    byte[] temp = DBManager.getFriends(username).getBytes();
+    if(temp == null){
+      return new byte[]{FRIENDQ};
     }
+    byte[] data = new byte[temp.length+1];
+    data[0] = FRIENDQ;
+    for(int i = 0; i<temp.length; i++){
+      data[i+1] = temp[i];
+    }
+    return data;
+  }
+
+  private byte[] friendr(String user, String friend){
+    if(DBManager.login(user, friend)){
+      return new byte[]{LOGIN, (byte)0x01};
+    } else{
+      return new byte[]{LOGIN, (byte)0x00};
+    }
+  }
+
+  private byte[] logout(){
+      return null;
   }
 
 }
