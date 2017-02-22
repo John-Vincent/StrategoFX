@@ -1,5 +1,6 @@
 package stratego.mode.menus.main;
 
+import stratego.application.StrategoFX;
 import stratego.components.FriendModel;
 import stratego.components.FriendsList;
 import stratego.components.Sizes;
@@ -12,6 +13,7 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.text.*;
+import javafx.stage.Popup;
 import javafx.stage.Screen;
 import javafx.geometry.*;
 import javafx.event.EventHandler;
@@ -97,7 +99,7 @@ public class MainMenuUI extends Mode {
 		af.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				// TODO - Add a friend
+				addFriend();
 			}
 		});
 
@@ -113,5 +115,22 @@ public class MainMenuUI extends Mode {
 		friendModel.addFriend("Brad", "Offline");
 		friendsList.update(friendModel, null);
 	}
+  
+  public void addFriend(){
+	  HBox userName = new HBox(5, new Text("Friend's Username:"), new TextField());
+	  Button addFriend = new Button("Add");
+	  VBox popup = new VBox(5, userName, addFriend);
+	  popup.setAlignment(Pos.CENTER);
+	  pane.setRight(popup);
+	  VBox.setVgrow(addFriend, Priority.ALWAYS);
+	  addFriend.setMaxSize(Double.MAX_VALUE, 50);
+	  
+	  addFriend.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				getTaskList().add(getWorker().getRequest("addfriend"));
+			}
+		});
+  }
 
 }
