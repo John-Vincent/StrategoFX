@@ -10,16 +10,18 @@ public class LoginMenuWorker extends ModeWorker {
 	public LoginMenuWorker(ConcurrentLinkedQueue<Runnable> q) {
 		super(q);
 	}
-
+	
+	
 	@Override
 	public Runnable getRequest(String name) {
 		switch (name) {
+		case "signup":
+			return new SignUpRequest();
 		default:
 			return null;
 		}
 	}
 
-	
 	@Override
 	public Runnable getRequest(String name, Object... args) {
 		switch (name) {
