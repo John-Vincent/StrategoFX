@@ -6,7 +6,7 @@ import java.util.Observable;
 public class FriendModel extends Observable {
 
 	public ArrayList<Friend> friendList;
-	
+
 	public FriendModel(){
 		friendList = new ArrayList<Friend>();
 	}
@@ -14,6 +14,11 @@ public class FriendModel extends Observable {
 	public void addFriend(String name, String status) {
 		friendList.add(new Friend(name, status));
 		this.setChanged();
+		this.notifyObservers();
+	}
+
+	public void clearFriends(){
+		friendList.clear();
 	}
 
 	public String getFriendName(int i) {

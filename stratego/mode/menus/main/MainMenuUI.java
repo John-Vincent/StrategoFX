@@ -58,8 +58,9 @@ public class MainMenuUI extends Mode {
 		lo.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				getTaskList().add(getWorker().getPingRequest());
+				System.out.println("logout requested");
 				setNextMode(new LoginMenuUI());
+				getTaskList().add(getWorker().getRequest("ping"));
 				getTaskList().add(getWorker().getRequest("logout"));
 			}
 		});
@@ -104,12 +105,7 @@ public class MainMenuUI extends Mode {
 		VBox.setVgrow(fl, Priority.ALWAYS);
 		VBox.setVgrow(af, Priority.ALWAYS);
 		af.setMaxSize(Double.MAX_VALUE, 50);
-		friendModel.addFriend("Bill", "Online");
-		friendModel.addFriend("Kyle", "swaq");
-		friendModel.addFriend("Joe", "AWOL");
-		friendModel.addFriend("Brad", "Offline");
-		friendsList.update(friendModel, null);
-		
+
 		af.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -123,7 +119,7 @@ public class MainMenuUI extends Mode {
 		TextField friendName = new TextField();
 		HBox userName = new HBox(5, new Text("Friend's Username:"), friendName);
 		Button addFriend = new Button("Add");
-		Button cancel = new Button("Cancel"); 
+		Button cancel = new Button("Cancel");
 		HBox buttons = new HBox(5, addFriend, cancel);
 		VBox popup = new VBox(5, userName, buttons);
 		popup.setAlignment(Pos.CENTER);
@@ -135,12 +131,10 @@ public class MainMenuUI extends Mode {
 			@Override
 			public void handle(ActionEvent e) {
 				getTaskList().add(getWorker().getRequest("addfriend", friendName.getText()));
-				friendModel.addFriend(friendName.getText(), "Request Pending...");
-				friendsList.update(friendModel, null);
 				pane.setRight(friends);
 			}
 		});
-		
+
 		cancel.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {

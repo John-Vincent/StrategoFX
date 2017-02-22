@@ -3,6 +3,7 @@ package stratego.mode.menus.signup;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import stratego.network.Networker;
 import java.net.*;
+import java.util.Arrays;
 import stratego.mode.ModeWorker;
 
 public class SignupMenuWorker extends ModeWorker {
@@ -31,6 +32,29 @@ public class SignupMenuWorker extends ModeWorker {
 		}
 	}
 
+	@Override
+  protected boolean handlePacket(DatagramPacket p){
+    if(p == null)
+      return false;
+    byte[] data = p.getData();
+    byte type = data[0];
+    data = Arrays.copyOfRange(data, 1, data.length);
+    switch(type){
+      case Networker.PING:
+        System.out.println("ping from: " + p.getSocketAddress());
+        break;
+      case Networker.SIGNUP:
+				System.out.println(data[0]);
+        if(data[0]!=0){
+          this.setRunning(false);
+        }
+        break;
+      default:
+        System.out.println("unknown packet from: " + p.getSocketAddress());
+    }
+    return true;
+  }
+
 	private class SubmitRequest implements Runnable {
 		String name;
 		String password;
@@ -46,10 +70,12 @@ public class SignupMenuWorker extends ModeWorker {
 
 		@Override
 		public void run() {
-			net.signup(name, password);
+			if(name == null || password == null){
+				setRunning(false);
+			}else
+				net.signup(name, password);
 			// this terminates the execution of this worker advancing the
 			// program to the next UI
-			setRunning(false);
 		}
 	}
 

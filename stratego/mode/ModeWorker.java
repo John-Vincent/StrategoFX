@@ -69,7 +69,7 @@ public abstract class ModeWorker implements Runnable{
   }
 
 
-  private boolean handlePacket(DatagramPacket p){
+  protected boolean handlePacket(DatagramPacket p){
     if(p == null)
       return false;
     byte[] data = p.getData();

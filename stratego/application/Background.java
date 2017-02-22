@@ -21,12 +21,12 @@ public class Background implements Runnable{
 
   public void run(){
     try{
-      this.socket = new DatagramSocket(8092);
+      socket = new DatagramSocket(8092);
     } catch(IOException e){
       //todo enter in offline mode
       e.printStackTrace();
     }
-    net = new Networker(this.socket);
+    net = new Networker(socket);
     Thread t = new Thread(net);
     t.start();
     this.m = new LoginMenuUI();
@@ -44,7 +44,7 @@ public class Background implements Runnable{
     }
 
     t.interrupt();
-    this.socket.close();
+    socket.close();
   }
 
   public void setNextMode(Mode m){

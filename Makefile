@@ -5,12 +5,12 @@ ECHO = echo
 
 JC = javac
 CP := -cp .:bin/
-FLAGS = -Werror -d $(BIN) $(CP)
+FLAGS = -Werror -d $(BIN) $(CP) -Xlint
 
 
 APPLICATION = $(addprefix $(SRC)application/, StrategoFX Background )
 
-COMPONENTS = $(addprefix $(SRC)components/, Sizes)
+COMPONENTS = $(addprefix $(SRC)components/, Sizes FriendModel FriendsList)
 
 MENUS = $(addprefix menus/, main/MainMenuUI main/MainMenuWorker settings/SettingsMenuUI settings/SettingsMenuWorker login/LoginMenuUI login/LoginMenuWorker signup/SignupMenuUI signup/SignupMenuWorker )
 MULTIPLAYER = $(addprefix multiplayer/, MultiplayerUI MultiplayerWorker )

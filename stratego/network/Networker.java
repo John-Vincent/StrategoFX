@@ -80,14 +80,14 @@ public class Networker implements Runnable{
       for(int i = 0; i< temp2.length; i++){
         data[i+1] = temp2[i];
       }
-      DatagramPacket p = new DatagramPacket(data, data.length, this.server);
+      DatagramPacket p = new DatagramPacket(data, data.length, Networker.server);
       return sendPacket(p);
   }
 
   public void logout(){
     byte[] data = new byte[1];
     data[0] = LOGOUT;
-    DatagramPacket p = new DatagramPacket(data, data.length, this.server);
+    DatagramPacket p = new DatagramPacket(data, data.length, Networker.server);
     sendPacket(p);
   }
 
@@ -100,15 +100,15 @@ public class Networker implements Runnable{
       for(int i = 0; i<temp2.length; i++){
     	  data[i+1] = temp2[i];
       }
-      DatagramPacket p = new DatagramPacket(data, data.length, this.server);
+      DatagramPacket p = new DatagramPacket(data, data.length, Networker.server);
       return sendPacket(p);
   }
 
   public void ping(){
     byte[] data = {(byte)0x00};
-    DatagramPacket p = new DatagramPacket(data, data.length, this.server);
+    DatagramPacket p = new DatagramPacket(data, data.length, Networker.server);
     sendPacket(p);
-    System.out.println("sent packet to " + this.server);
+    System.out.println("sent packet to " + Networker.server);
   }
 
   public void requestFriendsList(){
@@ -118,7 +118,7 @@ public class Networker implements Runnable{
     for(int i = 0; i< temp.length; i++){
       data[i+1] = temp[i];
     }
-    DatagramPacket p = new DatagramPacket(data, data.length, this.server);
+    DatagramPacket p = new DatagramPacket(data, data.length, Networker.server);
     sendPacket(p);
   }
 
@@ -130,7 +130,7 @@ public class Networker implements Runnable{
     for(int i = 0; i< temp2.length; i++){
       data[i+1] = temp2[i];
     }
-    DatagramPacket p = new DatagramPacket(data, data.length, this.server);
+    DatagramPacket p = new DatagramPacket(data, data.length, Networker.server);
     sendPacket(p);
   }
 

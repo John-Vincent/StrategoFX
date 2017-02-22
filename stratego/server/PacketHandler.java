@@ -38,24 +38,24 @@ public class PacketHandler implements Runnable{
         System.out.println("got PING");
         break;
       case SIGNUP:
-        temp = new String(data, StandardCharsets.UTF_8);
+        temp = new String(data, 0, this.packet.getLength()-1, StandardCharsets.UTF_8);
         temp2 = temp.split(";");
         newdata = signup(temp2[0], temp2[1]);
         System.out.println("got SIGNUP");
         break;
       case LOGIN:
-        temp = new String(data, StandardCharsets.UTF_8);
+        temp = new String(data, 0, this.packet.getLength()-1, StandardCharsets.UTF_8);
         temp2 = temp.split(";");
         newdata = login(temp2[0], temp2[1]);
         System.out.println("got LOGIN");
         break;
       case FRIENDQ:
-        temp = new String(data, StandardCharsets.UTF_8);
+        temp = new String(data, 0, this.packet.getLength()-1, StandardCharsets.UTF_8);
         newdata = friendq(temp);
         System.out.println("got FRIENDQ");
         break;
       case FRIENDR:
-        temp = new String(data, StandardCharsets.UTF_8);
+        temp = new String(data, 0, this.packet.getLength()-1, StandardCharsets.UTF_8);
         temp2 = temp.split(";");
         newdata = friendr(temp2[0], temp2[1]);
         System.out.println("got FRIENDR");
@@ -77,14 +77,15 @@ public class PacketHandler implements Runnable{
 
   private byte[] signup(String username, String password){
     if(DBManager.signup(username, password)){
-      return new byte[]{LOGIN, (byte)0x01};
+      return new byte[]{SIGNUP, (byte)0x01};
     } else{
-      return new byte[]{LOGIN, (byte)0x00};
+      return new byte[]{SIGNUP, (byte)0x00};
     }
   }
 
   private byte[] login(String username, String password){
     if(DBManager.login(username, password)){
+      System.out.println("sending 1");
       return new byte[]{LOGIN, (byte)0x01};
     } else{
       return new byte[]{LOGIN, (byte)0x00};
@@ -105,10 +106,17 @@ public class PacketHandler implements Runnable{
   }
 
   private byte[] friendr(String user, String friend){
-    if(DBManager.login(user, friend)){
-      return new byte[]{LOGIN, (byte)0x01};
+    String ans = DBManager.requestFriend(user, friend);
+    if(ans != null){
+      byte[] temp = ans.getBytes();
+      byte[] val = new byte[temp.length+1];
+      val[0] = FRIENDR;
+      for(int i = 0; i<temp.length; i++){
+        val[i+1] = temp[i];
+      }
+      return val;
     } else{
-      return new byte[]{LOGIN, (byte)0x00};
+      return new byte[]{FRIENDR, (byte)0x00};
     }
   }
 
