@@ -1,8 +1,11 @@
 package stratego.mode.menus.main;
 
+import stratego.components.FriendModel;
+import stratego.components.FriendsList;
 import stratego.components.Sizes;
 import stratego.mode.Mode;
 import stratego.mode.ModeWorker;
+import stratego.mode.menus.settings.SettingsMenuUI;
 import javafx.scene.*;
 import stratego.network.Networker;
 import javafx.scene.layout.*;
@@ -23,7 +26,8 @@ public class MainMenuUI extends Mode {
 
   public MainMenuUI() {
   	super(new BorderPane());
-    this.setWorker(new MainMenuWorker(this.getTaskList()));
+  	FriendModel friendModel = new FriendModel();
+    this.setWorker(new MainMenuWorker(this.getTaskList(), friendModel));
 
 		this.pane = (BorderPane) this.getRoot();
 		this.pane.setPadding(new Insets(0,30,20,30));
@@ -47,7 +51,6 @@ public class MainMenuUI extends Mode {
 		st.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				// TODO
 			}
 		});
 		Button lo = new Button("Log Out");
@@ -86,21 +89,29 @@ public class MainMenuUI extends Mode {
 
 		Text fl = new Text("Friends List");
 		fl.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+		FriendsList friendsList = new FriendsList(10);
+		friendsList.setPadding(new Insets(10, 15, 10, 10));
+		friendModel.addObserver(friendsList);
+
 		Button af = new Button("Add a Friend");
 		af.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				// TODO
+				// TODO - Add a friend
 			}
 		});
 
-		VBox friends = new VBox(5, fl, af);
+		VBox friends = new VBox(5, fl, friendsList, af);
 		friends.setAlignment(Pos.CENTER);
 		pane.setRight(friends);
 		VBox.setVgrow(fl, Priority.ALWAYS);
 		VBox.setVgrow(af, Priority.ALWAYS);
 		af.setMaxSize(Double.MAX_VALUE, 50);
-
+		friendModel.addFriend("Bill", "Online");
+		friendModel.addFriend("Kyle", "swaq");
+		friendModel.addFriend("Joe", "AWOL");
+		friendModel.addFriend("Brad", "Offline");
+		friendsList.update(friendModel, null);
 	}
 
 }

@@ -9,8 +9,12 @@ import javafx.scene.layout.VBox;
 import stratego.components.FriendModel;
 
 public class FriendsList extends VBox implements Observer {
-	public static final int smallPadding = 3;
+	public static final int smallPadding = 2;
 
+	public FriendsList(double n){
+		super(n);
+	}
+	
 	@Override
 	public void update(Observable friends, Object arg1) {
 		FriendModel fm = (FriendModel) friends;

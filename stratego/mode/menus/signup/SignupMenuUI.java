@@ -5,6 +5,7 @@ package stratego.mode.menus.signup;
 import javafx.scene.paint.*;
 import javafx.stage.*;
 import stratego.mode.Mode;
+import stratego.mode.menus.login.LoginMenuUI;
 import stratego.mode.menus.main.MainMenuUI;
 import javafx.scene.*;
 import stratego.network.Networker;
@@ -38,7 +39,7 @@ public class SignupMenuUI extends Mode{
         btn1.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e){
-            	setNextMode(new MainMenuUI());
+            	setNextMode(new LoginMenuUI());
             	getTaskList().add(getWorker().getRequest("submit"));
             }
           });

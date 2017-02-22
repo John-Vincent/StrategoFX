@@ -4,20 +4,23 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import stratego.network.Networker;
 import java.net.*;
 import stratego.mode.ModeWorker;
+import stratego.components.FriendModel;
 
 public class MainMenuWorker extends ModeWorker {
 
-  public MainMenuWorker(ConcurrentLinkedQueue<Runnable> q){
-    super(q);
-  }
+	public FriendModel friendModel;
 
-  @Override
-  public Runnable getRequest(String name){
-    switch(name){
-      default:
-        return null;
-    }
-  }
-
+	public MainMenuWorker(ConcurrentLinkedQueue<Runnable> q, FriendModel fm) {
+		super(q);
+		friendModel = fm;
+	}
+	
+	@Override
+	public Runnable getRequest(String name) {
+		switch (name) {
+		default:
+			return null;
+		}
+	}
 
 }

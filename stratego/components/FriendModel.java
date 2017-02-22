@@ -5,7 +5,11 @@ import java.util.Observable;
 
 public class FriendModel extends Observable {
 
-	public ArrayList<Friend> friendList = new ArrayList<Friend>();
+	public ArrayList<Friend> friendList;
+	
+	public FriendModel(){
+		friendList = new ArrayList<Friend>();
+	}
 
 	public void addFriend(String name, String status) {
 		friendList.add(new Friend(name, status));
