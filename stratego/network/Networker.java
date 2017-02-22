@@ -18,6 +18,7 @@ public class Networker implements Runnable{
   public static final byte LOGIN = (byte)0x02;
   public static final byte FRIENDQ = (byte)0x03;
   public static final byte FRIENDR = (byte)0x04;
+  public static final byte LOGOUT =(byte)0x05;
   public static final byte CHAT = (byte)0xFE;
   public static final byte VOICE = (byte)0xFF;
 
@@ -83,8 +84,14 @@ public class Networker implements Runnable{
       return sendPacket(p);
   }
 
-  public Boolean signup(String username, String password){
+  public void logout(){
+    byte[] data = new byte[1];
+    data[0] = LOGOUT;
+    DatagramPacket p = new DatagramPacket(data, data.length, this.server);
+    return sendPacket(p);
+  }
 
+  public Boolean signup(String username, String password){
       this.id = username;
       String temp = username + ";" + password;
       byte[] data = new byte[temp.length()+1];
@@ -105,11 +112,26 @@ public class Networker implements Runnable{
   }
 
   public void requestFriendsList(){
-
+    byte[] data = new byte[this.id.length() + 1];
+    data[0] = FRIENDQ;
+    byte[] temp = this.id.getBytes();
+    for(int i = 0; i< temp.length; i++){
+      data[i+1] = temp[i];
+    }
+    DatagramPacket p = new DatagramPacket(data, data.length, this.server);
+    sendPacket(p);
   }
 
   public void sendFriendRequest(String username){
-
+    byte[] data = new byte[this.id.length() + username.length() + 2];
+    data[0] = FRIENDR;
+    String temp = this.id + ";" + username;
+    byte[] temp2 = temp.getBytes();
+    for(int i = 0; i< temp2.length; i++){
+      data[i+1] = temp2[i];
+    }
+    DatagramPacket p = new DatagramPacket(data, data.length, this.server);
+    sendPacket(p);
   }
 
 
