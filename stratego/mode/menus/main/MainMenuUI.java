@@ -120,7 +120,9 @@ public class MainMenuUI extends Mode {
 		TextField friendName = new TextField();
 		HBox userName = new HBox(5, new Text("Friend's Username:"), friendName);
 		Button addFriend = new Button("Add");
-		VBox popup = new VBox(5, userName, addFriend);
+		Button cancel = new Button("Cancel"); 
+		HBox buttons = new HBox(5, addFriend, cancel);
+		VBox popup = new VBox(5, userName, buttons);
 		popup.setAlignment(Pos.CENTER);
 		pane.setRight(popup);
 		VBox.setVgrow(addFriend, Priority.ALWAYS);
@@ -132,6 +134,13 @@ public class MainMenuUI extends Mode {
 				getTaskList().add(getWorker().getRequest("addfriend", friendName.getText()));
 				friendModel.addFriend(friendName.getText(), "Request Pending...");
 				friendsList.update(friendModel, null);
+				pane.setRight(friends);
+			}
+		});
+		
+		cancel.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
 				pane.setRight(friends);
 			}
 		});
