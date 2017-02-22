@@ -18,6 +18,7 @@ public class Networker implements Runnable{
   public static final byte LOGIN = (byte)0x02;
   public static final byte FRIENDQ = (byte)0x03;
   public static final byte FRIENDR = (byte)0x04;
+  public static final byte LOGOUT =(byte)0x05;
   public static final byte CHAT = (byte)0xFE;
   public static final byte VOICE = (byte)0xFF;
 
@@ -80,6 +81,13 @@ public class Networker implements Runnable{
       }
       DatagramPacket p = new DatagramPacket(data, data.length, this.server);
       return sendPacket(p);
+  }
+
+  public void logout(){
+    byte[] data = new byte[1];
+    data[0] = LOGOUT;
+    DatagramPacket p = new DatagramPacket(data, data.length, this.server);
+    return sendPacket(p);
   }
 
   public Boolean signup(String username, String password){

@@ -44,13 +44,21 @@ public class PacketHandler implements Runnable{
         }
         break;
       case LOGIN:
-
+        String temp = new String(data, StandardCharsets.UTF_8);
+        String[] temp2 = temp.split(";");
+        if(login(temp2[0], temp2[1])){
+          newdata = new byte[]{LOGIN, (byte)0x01};
+        } else{
+          newdata = new byte[]{LOGIN, (byte)0x00};
+        }
         break;
       case FRIENDQ:
+        String temp = new String(data, StandardCharsets.UTF_8);
 
         break;
       case FRIENDR:
-
+        String temp = new String(data, StandardCharsets.UTF_8);
+        String[] temp2 = temp.split(";");
         break;
       case LOGOUT:
 
@@ -72,6 +80,24 @@ public class PacketHandler implements Runnable{
 
   private boolean login(String username, String password){
     return false;
+  }
+
+  private boolean friendq(){
+    try{
+
+    }
+  }
+
+  private boolean friendr(){
+    try{
+
+    }
+  }
+
+  private boolean logout(){
+    try{
+
+    }
   }
 
 }
