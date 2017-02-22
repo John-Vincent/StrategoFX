@@ -13,6 +13,7 @@ public class MainMenuWorker extends ModeWorker {
 	public MainMenuWorker(ConcurrentLinkedQueue<Runnable> q, FriendModel fm) {
 		super(q);
 		friendModel = fm;
+		super.setTodo(new Runnable[]{new FriendUpdater()});
 	}
 
 	@Override
@@ -39,10 +40,22 @@ public class MainMenuWorker extends ModeWorker {
 		public FriendRequest(String name){
 			friendName = name;
 		}
-		
+
 		@Override
 		public void run() {
 			net.sendFriendRequest(friendName);
+		}
+	}
+
+	private class FriendUpdater implements Runnable {
+		private long time=0;
+
+		@Override
+		public void run(){
+			if(time + 300000 > System.curTimeMillis()){
+				this.time = System.curTimeMillis();
+				net.requestFriendsList();
+			}
 		}
 	}
 

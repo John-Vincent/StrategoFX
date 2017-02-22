@@ -2,6 +2,7 @@ package stratego.server;
 
 import java.sql.*;
 import org.apache.commons.dbcp2.BasicDataSource;
+import java.util.ArrayList;
 
 //can you also add a column to the user table thats a boolean value for if they are online or not
 public final class DBManager{
@@ -17,9 +18,9 @@ public final class DBManager{
   private final String requestFriendQ = "insert into friend(sender,receiver,accepted) "+
                                   "values((select u.id from user u where u.name= ? ),(select u2.id from user u2 where u2.name = ? ),'0') this is the query for friend request";
 
-  private final String acceptFriendRequestQ= "update friend set accepted = '1' where friend.id = ?";
+  private final String acceptFriendRequestQ= "update `friend` set `accepted` = '1' where `friend`.`id` = ?";
 
-  private final String logoutQ = "";
+  private final String logoutQ = "update `user` set `online` = '0' where `name` = 'ryan'";
 
   static{
     source.setDriverClassName("com.mysql.jdbc.Driver");
@@ -49,14 +50,31 @@ public final class DBManager{
       else
         return true;
     } catch(Exception e){
-      System.out.println(e.getMessage());
+      return false;
     }
     return false;
 
   }
 
   public static boolean login(String uname, String password){
+    String temp = loginQ;
+    temp = temp.replaceFirst("?", uname);
+    try{
+      Connection conn1 = DBManager.getConnection();
+      Statement statement  = conn1.createStatement();
+      ResultSet set = statement.execute(temp);
+      while(rs.next()){
+        if(rs.getString().equals(password))
+          return true;
+      }
+      set.close();
+      statement.close();
+      conn1.close();
 
+    } catch(Exception e){
+      return false;
+    }
+    return false;
   }
 
   /**
@@ -68,6 +86,29 @@ public final class DBManager{
    * @date   2017-02-21T16:47:48+000
    */
   public static String[][] getFriends(String uname){
+    ArrayList<String[]> list = new ArrayList<String[]>();
+    String[] array;
+
+    String temp = getFriendsQ;
+    temp = temp.replaceFirst("?", uname);
+    temp = temp.replaceFirst("?", uname);
+    try{
+      Connection conn1 = DBManager.getConnection();
+      Statement statement  = conn1.createStatement();
+      ResultSet set = statement.execute(temp);
+      while(rs.next()){
+        array = new String[2];
+        array[0] = rs.getString();
+        array[1] = rs.getString();
+        list.add(array);
+      }
+      set.close();
+      statement.close();
+      conn1.close();
+    } catch(Exception e){
+      return null;
+    }
+    return list.toArray();
 
   }
 
@@ -80,7 +121,20 @@ public final class DBManager{
    * @date   2017-02-21T16:51:32+000
    */
   public static boolean requestFriend(String user, String friend){
+    String temp = requestFriendQ;
+    temp = temp.replaceFirst("?", user);
+    temp = temp.replaceFirst("?", friend);
+    try{
+      Connection conn1 = DBManager.getConnection();
+      Statement statement  = conn1.createStatement();
+      statement.executeUpdate(temp);
+      statement.close();
+      conn1.close();
 
+    } catch(Exception e){
+      return false
+    }
+    return true;
   }
 
   /**
@@ -91,7 +145,20 @@ public final class DBManager{
    * @date   2017-02-21T16:53:46+000
    */
   public static boolean logout(String username){
+    String temp = logoutQ;
+    temp = temp.replaceFirst("?", user);
+    temp = temp.replaceFirst("?", friend);
+    try{
+      Connection conn1 = DBManager.getConnection();
+      Statement statement  = conn1.createStatement();
+      statement.executeUpdate(temp);
+      statement.close();
+      conn1.close();
 
+    } catch(Exception e){
+      return false
+    }
+    return true;
   }
 
 

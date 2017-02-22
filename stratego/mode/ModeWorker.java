@@ -11,6 +11,8 @@ public abstract class ModeWorker implements Runnable{
 
   protected boolean running;
 
+  private Runnable[] todo = null;
+
   private ConcurrentLinkedQueue<Runnable> task;
 
 
@@ -20,7 +22,7 @@ public abstract class ModeWorker implements Runnable{
   }
 
   abstract public Runnable getRequest(String name);
-  
+
   public Runnable getRequest(String name, Object...arg){
 	  return null;
   }
@@ -28,6 +30,7 @@ public abstract class ModeWorker implements Runnable{
 
   public void run(){
     this.running = true;
+    int i;
     while(!Thread.currentThread().isInterrupted() && this.running){
       try{
         Thread.sleep(100);
@@ -41,6 +44,13 @@ public abstract class ModeWorker implements Runnable{
         r = this.getTask();
       }
 
+      if(todo != null){
+        for(int i = 0; i < todo.length; i++){
+          todo[i].run();
+        }
+      }
+
+
       while(this.handlePacket(this.net.getPacket())){     }
 
     }
@@ -53,6 +63,10 @@ public abstract class ModeWorker implements Runnable{
 
   protected void setRunning(boolean b){
     this.running = b;
+  }
+
+  protected void setTodo(Runnable[] todo){
+    this.todo = todo;
   }
 
 
@@ -71,6 +85,7 @@ public abstract class ModeWorker implements Runnable{
   public PingRequest getPingRequest(){
     return new PingRequest();
   }
+
 
 
   public class PingRequest implements Runnable{

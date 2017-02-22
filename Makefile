@@ -4,7 +4,9 @@ RM = rm -rf
 ECHO = echo
 
 JC = javac
-FLAGS = -Werror -d $(BIN) -cp .:bin/commons-dbcp2-2.1.1.jar
+CP := -cp .:bin/
+FLAGS = -Werror -d $(BIN) $(CP)
+
 
 APPLICATION = $(addprefix $(SRC)application/, StrategoFX Background )
 
@@ -30,6 +32,7 @@ default: makebin $(SOURCES)
 	@$(ECHO) "  "
 	@$(ECHO) "Compilation complete"
 
+server: CP = -cp .:bin/:commons-logging-1.2.jar:mysql-connector-java-5.1.20-bin.jar:commons-dbcp2-2.1.1.jar
 server: makebin $(SERVER)
 	@$(ECHO) "  "
 	@$(ECHO) "Compilation complete"

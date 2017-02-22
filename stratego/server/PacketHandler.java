@@ -67,28 +67,11 @@ public class PacketHandler implements Runnable{
   }
 
   private boolean signup(String username, String password){
-    try{
-      Connection conn1 = DBManager.getConnection();
-		  conn1.setAutoCommit(false);
-      Statement statement  = conn1.createStatement();
-      int i = statement.executeUpdate("insert into user(name, password) values ('"+username+"', '"+password+"')");
-      statement.close();
-      conn1.close();
-      if(i == 0)
-        return false;
-      else
-        return true;
-    } catch(Exception e){
-      e.printStackTrace();
-      System.out.println(e.getMessage());
-    }
     return false;
   }
 
   private boolean login(String username, String password){
-    try{
-
-    }
+    return false;
   }
 
 }

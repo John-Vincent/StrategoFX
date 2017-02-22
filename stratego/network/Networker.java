@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Networker implements Runnable{
 
-  public InetSocketAddress server = new InetSocketAddress("proj-309-sg-1.cs.iastate.edu", 8092);
+  public static final InetSocketAddress server = new InetSocketAddress("proj-309-sg-1.cs.iastate.edu", 8092);
   public InetSocketAddress host;
 
   private ConcurrentLinkedQueue<DatagramPacket> received;
