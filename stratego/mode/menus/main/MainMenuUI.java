@@ -6,6 +6,7 @@ import stratego.components.FriendsList;
 import stratego.components.Sizes;
 import stratego.mode.Mode;
 import stratego.mode.ModeWorker;
+import stratego.mode.menus.login.LoginMenuUI;
 import stratego.mode.menus.settings.SettingsMenuUI;
 import javafx.scene.*;
 import stratego.network.Networker;
@@ -58,6 +59,8 @@ public class MainMenuUI extends Mode {
 			@Override
 			public void handle(ActionEvent e) {
 				getTaskList().add(getWorker().getPingRequest());
+				setNextMode(new LoginMenuUI());
+				getTaskList().add(getWorker().getRequest("logout"));
 			}
 		});
 

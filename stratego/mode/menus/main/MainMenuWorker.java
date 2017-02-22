@@ -19,6 +19,8 @@ public class MainMenuWorker extends ModeWorker {
 	@Override
 	public Runnable getRequest(String name) {
 		switch (name) {
+		case "logout":
+			return new MenuOptions();
 		default:
 			return null;
 		}
@@ -35,15 +37,29 @@ public class MainMenuWorker extends ModeWorker {
 
 	}
 
+	
+	private class MenuOptions implements Runnable{
+
+		@Override
+		public void run() {
+			setRunning(false);
+		}
+		
+	}
+	
 	private class FriendRequest implements Runnable {
 		String friendName;
-		public FriendRequest(String name){
+
+		public FriendRequest(String name) {
 			friendName = name;
 		}
 
 		@Override
 		public void run() {
 			net.sendFriendRequest(friendName);
+			// this terminates the execution of this worker advancing the
+			// program to the next UI
+			setRunning(false);
 		}
 	}
 
