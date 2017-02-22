@@ -229,7 +229,7 @@ public class Main {
 			switch (dice) {
 			case 0:
 				if (marshallCount < 1) {
-					actualBoard[x][y] = marshall+100;
+					actualBoard[x][y] = marshall + 100;
 					marshallCount++;
 				} else {
 					i--;
@@ -238,7 +238,7 @@ public class Main {
 				break;
 			case 1:
 				if (generalCount < 1) {
-					actualBoard[x][y] = general+100;
+					actualBoard[x][y] = general + 100;
 					generalCount++;
 				} else {
 					i--;
@@ -247,7 +247,7 @@ public class Main {
 				break;
 			case 2:
 				if (colonelCount < 2) {
-					actualBoard[x][y] = colonel+100;
+					actualBoard[x][y] = colonel + 100;
 					colonelCount++;
 				} else {
 					i--;
@@ -256,7 +256,7 @@ public class Main {
 				break;
 			case 3:
 				if (majorCount < 3) {
-					actualBoard[x][y] = major+100;
+					actualBoard[x][y] = major + 100;
 					majorCount++;
 				} else {
 					i--;
@@ -265,7 +265,7 @@ public class Main {
 				break;
 			case 4:
 				if (captainCount < 4) {
-					actualBoard[x][y] = captain+100;
+					actualBoard[x][y] = captain + 100;
 					captainCount++;
 				} else {
 					i--;
@@ -274,7 +274,7 @@ public class Main {
 				break;
 			case 5:
 				if (lieutenantCount < 4) {
-					actualBoard[x][y] = lieutenant+100;
+					actualBoard[x][y] = lieutenant + 100;
 					lieutenantCount++;
 				} else {
 					i--;
@@ -283,7 +283,7 @@ public class Main {
 				break;
 			case 6:
 				if (sergantCount < 4) {
-					actualBoard[x][y] = sergant+100;
+					actualBoard[x][y] = sergant + 100;
 					sergantCount++;
 				} else {
 					i--;
@@ -292,7 +292,7 @@ public class Main {
 				break;
 			case 7:
 				if (minerCount < 5) {
-					actualBoard[x][y] = miner+100;
+					actualBoard[x][y] = miner + 100;
 					minerCount++;
 				} else {
 					i--;
@@ -301,7 +301,7 @@ public class Main {
 				break;
 			case 8:
 				if (scoutCount < 8) {
-					actualBoard[x][y] = scout+100;
+					actualBoard[x][y] = scout + 100;
 					scoutCount++;
 				} else {
 					i--;
@@ -310,7 +310,7 @@ public class Main {
 				break;
 			case 9:
 				if (spyCount < 1) {
-					actualBoard[x][y] = spy+100;
+					actualBoard[x][y] = spy + 100;
 					spyCount++;
 				} else {
 					i--;
@@ -319,7 +319,7 @@ public class Main {
 				break;
 			case 10:
 				if (bombCount < 6) {
-					actualBoard[x][y] = bomb+100;
+					actualBoard[x][y] = bomb + 100;
 					bombCount++;
 				} else {
 					i--;
@@ -328,7 +328,7 @@ public class Main {
 				break;
 			case 11:
 				if (flagCount < 1) {
-					actualBoard[x][y] = flag+100;
+					actualBoard[x][y] = flag + 100;
 					flagCount++;
 				} else {
 					i--;
@@ -339,6 +339,10 @@ public class Main {
 			}
 
 		}
+	}
+
+	void cpuMove() {
+
 	}
 
 	public static void main(String args[]) {
@@ -433,16 +437,121 @@ public class Main {
 					System.out.println();
 				}
 				System.out.println();
-
-				System.out.println("Type the coordinates of the piece in the format \"xx:yy\" to move. Type q to quit.");
+				boolean b = false;
+				System.out.println(
+						"Type the coordinates of the piece in the format \"yy:xx\" starting from top-left to move. Type q to quit.");
 				str = scan.nextLine();
-
 				if (str.compareToIgnoreCase("q") == 0) {
 					System.out.println("Game End");
 					System.exit(0);
 				}
+				if (Character.isDigit(str.charAt(0)) && Character.isDigit(str.charAt(1))
+						&& Character.isDigit(str.charAt(3)) && str.charAt(2) == ':') {
+					b = true;
+				}
 
+				while (!b) {
+					System.out.println("Wrong Input, Enter Again");
+					str = scan.nextLine();
+					if (str.compareToIgnoreCase("q") == 0) {
+						System.out.println("Game End");
+						System.exit(0);
+					}
+					if (Character.isDigit(str.charAt(0)) && Character.isDigit(str.charAt(1))
+							&& Character.isDigit(str.charAt(3)) && str.charAt(2) == ':') {
+						b = true;
+					}
+				}
+
+				int arr[] = new int[4];
+				arr[0] = Character.getNumericValue(str.charAt(0));
+				arr[1] = Character.getNumericValue(str.charAt(1));
+				arr[2] = Character.getNumericValue(str.charAt(3));
+				arr[3] = Character.getNumericValue(str.charAt(4));
+
+				System.out.println("Enter move: up, down, left or right");
+				str = scan.nextLine();
+				while (!(str.equals("up") || str.equals("down") || str.equals("left") || str.equals("right"))) {
+					System.out.println("Wrong Input, Enter Again");
+					if (str.compareToIgnoreCase("q") == 0) {
+						System.out.println("Game End");
+						System.exit(0);
+					}
+					str = scan.nextLine();
+				}
+				boolean rPiece = false;
+				if (actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] == spy
+						|| actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] == scout
+						|| actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] == miner
+						|| actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] == sergant
+						|| actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] == lieutenant
+						|| actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] == captain
+						|| actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] == major
+						|| actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] == colonel
+						|| actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] == general
+						|| actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] == marshall) {
+
+					rPiece = true;
+				}
+				try {
+
+					if(rPiece==true){
+						if (str.equals("up")) {
+							if (actualBoard[(arr[0] * 10) + arr[1] - 1][(arr[2] * 10) + arr[3]] == '_') {
+								actualBoard[(arr[0] * 10) + arr[1] - 1][(arr[2] * 10)
+										+ arr[3]] = actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] = '_';
+								board[(arr[0] * 10) + arr[1] - 1][(arr[2] * 10)
+										+ arr[3]] = board[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]];
+								board[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] = '_';
+								actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] = '_';
+							}
+						} else if (str.equals("down")) {
+							if (actualBoard[(arr[0] * 10) + arr[1] + 1][(arr[2] * 10) + arr[3]] == '_') {
+								actualBoard[(arr[0] * 10) + arr[1] + 1][(arr[2] * 10)
+										+ arr[3]] = actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] = '_';
+								board[(arr[0] * 10) + arr[1] + 1][(arr[2] * 10)
+										+ arr[3]] = board[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]];
+								board[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] = '_';
+								actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] = '_';
+							}
+						} else if (str.equals("left")) {
+							if (actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3] - 1] == '_') {
+								actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]
+										- 1] = actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] = '_';
+								board[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]
+										- 1] = board[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]];
+								board[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] = '_';
+								actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] = '_';
+							}
+						} else if (str.equals("right")) {
+							if (actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3] + 1] == '_') {
+								actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]
+										+ 1] = actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] = '_';
+								board[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]
+										+ 1] = board[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]];
+								board[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] = '_';
+								actualBoard[(arr[0] * 10) + arr[1]][(arr[2] * 10) + arr[3]] = '_';
+							}
+						}
+					}else{
+						System.out.println("Can't move that piece.");
+					}
+				} catch (Exception e) {
+					System.out.println("Invalid move try again.");
+				}
+
+				for(int i=0; i<10; i++){
+					for(int j=0; j<10; j++){
+						if(board[i][j]!='X' || board[i][j]!='?' || board[i][j]!='_'){
+							
+						}
+					}
+				}
 				
+				if (str.compareToIgnoreCase("q") == 0) {
+					System.out.println("Game End");
+					System.exit(0);
+				}
 
 			}
 
