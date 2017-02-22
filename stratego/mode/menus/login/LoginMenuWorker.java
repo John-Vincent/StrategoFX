@@ -32,7 +32,7 @@ public class LoginMenuWorker extends ModeWorker{
       password=pass;
     }
     @Override
-    public void run(username,password){
+    public void run(){
       net.sendSignInRequest(username,password);
       //this terminates the execution of this worker advancing the program to the next UI
       setRunning(false);
