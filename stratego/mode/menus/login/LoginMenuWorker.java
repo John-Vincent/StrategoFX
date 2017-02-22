@@ -12,10 +12,10 @@ public class LoginMenuWorker extends ModeWorker{
   }
 
   @Override
-  public Runnable getRequest(String name){
+  public Runnable getRequest(String name, Object... args){
     switch(name){
       case "signin":
-        return new SignInRequest();
+        return new SignInRequest((String) args[0], (String) args[1]);
       case "signup":
     	  return new SignUpRequest();
       default:
@@ -24,8 +24,16 @@ public class LoginMenuWorker extends ModeWorker{
   }
 
   private class SignInRequest implements Runnable{
+    String username;
+    String password;
+
+    public SignInRequest(String name, String pass){
+      username=name;
+      password=pass;
+    }
     @Override
-    public void run(){
+    public void run(username,password){
+      net.sendSignInRequest(username,password);
       //this terminates the execution of this worker advancing the program to the next UI
       setRunning(false);
     }
@@ -37,4 +45,8 @@ public class LoginMenuWorker extends ModeWorker{
             setRunning(false);
         }
     }
+
+
+
+  }
 }

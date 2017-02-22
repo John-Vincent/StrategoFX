@@ -38,7 +38,7 @@ public class LoginMenuUI extends Mode{
           public void handle(ActionEvent e){
             //this sets the next UI to be displayed this UI's worker stops running
             setNextMode(new MainMenuUI());
-            getTaskList().add(getWorker().getRequest("signin"));
+            getTaskList().add(getWorker().getRequest("signin", userTextField.getText(),pwBox.getText()));
           }
         });
 
