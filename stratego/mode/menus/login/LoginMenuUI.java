@@ -33,22 +33,7 @@ public class LoginMenuUI extends Mode{
         Button btn1 = new Button("Sign in");
         Button btn2 = new Button("New? Sign Up!");
 
-        btn1.setOnAction(new EventHandler<ActionEvent>(){
-          @Override
-          public void handle(ActionEvent e){
-            //this sets the next UI to be displayed this UI's worker stops running
-            setNextMode(new MainMenuUI());
-            getTaskList().add(getWorker().getRequest("signin", userTextField.getText(),pwBox.getText()));
-          }
-        });
 
-        btn2.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent e){
-              setNextMode(new SignupMenuUI());
-              getTaskList().add(getWorker().getRequest("signup"));
-            }
-          });
 
         HBox hbBtn1 = new HBox(10, btn1, btn2);
         hbBtn1.setAlignment(Pos.BOTTOM_RIGHT);
@@ -80,7 +65,22 @@ public class LoginMenuUI extends Mode{
         PasswordField pwBox = new PasswordField();
         grid.add(pwBox, 1, 2);
 
+        btn1.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent e){
+                //this sets the next UI to be displayed this UI's worker stops running
+                setNextMode(new MainMenuUI());
+                getTaskList().add(getWorker().getRequest("signin", userTextField.getText(),pwBox.getText()));
+            }
+        });
 
+        btn2.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent e){
+                setNextMode(new SignupMenuUI());
+                getTaskList().add(getWorker().getRequest("signup"));
+            }
+        });
     }
 
 }
