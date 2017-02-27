@@ -1,9 +1,22 @@
 package stratego.mode.menus.settings;
 
-import javafx.concurrent.Task;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import stratego.network.Networker;
+import java.net.*;
+import stratego.mode.ModeWorker;
 
+public class SettingsMenuWorker extends ModeWorker{
 
-public class SettingsMenuWorker extends Task{
+  public SettingsMenuWorker(ConcurrentLinkedQueue<Runnable> q){
+    super(q);
+  }
 
-  
+  @Override
+  public Runnable getRequest(String name){
+    switch(name){
+      default:
+        return null;
+    }
+  }
+
 }
