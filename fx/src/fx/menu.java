@@ -77,7 +77,7 @@ public class menu extends Application {
 		wg.setY(300);
 
 		Text rules = new Text(
-				"The objective is to capture enemy flag\nUse Arrow Keys to Move\nWhen cheat  mode enabled, \npressing 'R' will reveal CPU pieces.");
+				"The objective is to capture enemy flag\nUse Arrow Keys to Move\nPress Enter to select or release\nWhen cheat  mode enabled, \npressing 'R' will reveal CPU pieces.");
 		rules.setX(300);
 		rules.setY(300);
 		rules.setScaleX(2);
