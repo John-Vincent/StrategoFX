@@ -1,5 +1,7 @@
 package fx;
 
+import java.util.Random;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -44,6 +46,8 @@ public class menu extends Application {
 	private Logic logic;
 	private boolean reveal = false;
 	private boolean cheat = false;
+	private int winner = -1;
+	private Text wg;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -61,10 +65,23 @@ public class menu extends Application {
 		Button back = new Button("Back");
 		Button back2 = new Button("Back");
 		Button cheats = new Button("Cheats:" + cheat);
+		Button exit2 = new Button("Exit");
+		Button rac = new Button("Rules and Controls");
+		Button back3 = new Button("Back");
 		Rectangle cursor = new Rectangle(7, 671, 72, 72);
 		cursor.setFill(Color.TRANSPARENT);
 		cursor.setStroke(Color.RED);
 		primaryStage.setResizable(false);
+		wg = new Text();
+		wg.setX(400);
+		wg.setY(300);
+
+		Text rules = new Text(
+				"The objective is to capture enemy flag\nUse Arrow Keys to Move\nWhen cheat  mode enabled, \npressing 'R' will reveal CPU pieces.");
+		rules.setX(300);
+		rules.setY(300);
+		rules.setScaleX(2);
+		rules.setScaleY(2);
 
 		p1Arr = new boardPiece[40];
 		int x = 8;
@@ -80,6 +97,8 @@ public class menu extends Application {
 		Pane ruSure = new Pane();
 		Pane game = new Pane();
 		Pane setg = new Pane();
+		Pane winGame = new Pane();
+		Pane rulePane = new Pane();
 
 		// play button
 		play.setLayoutX(400);
@@ -87,15 +106,21 @@ public class menu extends Application {
 		play.setScaleX(2);
 		play.setScaleY(2);
 
+		// play button
+		rac.setLayoutX(400);
+		rac.setLayoutY(430);
+		rac.setScaleX(2);
+		rac.setScaleY(2);
+
 		// Settings button
-		settings.setLayoutX(410);
+		settings.setLayoutX(400);
 		settings.setLayoutY(330);
 		settings.setScaleX(2);
 		settings.setScaleY(2);
 
 		// Exit button
 		exit.setLayoutX(400);
-		exit.setLayoutY(430);
+		exit.setLayoutY(530);
 		exit.setScaleX(2);
 		exit.setScaleY(2);
 
@@ -123,16 +148,32 @@ public class menu extends Application {
 		back2.setLayoutX(940);
 		back2.setLayoutY(720);
 
+		// Back3 Button
+		back3.setLayoutX(940);
+		back3.setLayoutY(720);
+
 		// Cheats button
 		cheats.setLayoutX(400);
 		cheats.setLayoutY(230);
 		cheats.setScaleX(2);
 		cheats.setScaleY(2);
 
-		root.getChildren().addAll(play, settings, exit);
+		// Exit button
+		exit2.setLayoutX(400);
+		exit2.setLayoutY(430);
+		exit2.setScaleX(2);
+		exit2.setScaleY(2);
+
+		// Win text
+		wg.setScaleX(4);
+		wg.setScaleY(4);
+
+		root.getChildren().addAll(play, settings, exit, rac);
 		ruSure.getChildren().addAll(yes, no, t);
 		game.getChildren().addAll(cursor, back);
 		setg.getChildren().addAll(cheats, back2);
+		winGame.getChildren().addAll(wg, exit2);
+		rulePane.getChildren().addAll(rules, back3);
 
 		for (int i = 0; i < 40; i++) {
 
@@ -151,7 +192,6 @@ public class menu extends Application {
 
 			p2Arr[i] = new boardPiece("Test", (i % 10 * 70) + x2, y2, logic);
 			game.getChildren().add(p2Arr[i].getRec());
-			// p2Arr[i].getRec().setFill(imgp);
 			x2 += 2;
 
 			if ((i + 1) % 10 == 0 && i != 0) {
@@ -165,6 +205,8 @@ public class menu extends Application {
 		Scene exitScene = new Scene(ruSure, w, l);
 		Scene gameScene = new Scene(game, w, l);
 		Scene setgScene = new Scene(setg, w, l);
+		Scene win = new Scene(winGame, w, l);
+		Scene rule = new Scene(rulePane, w, l);
 
 		game.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
 
@@ -186,10 +228,10 @@ public class menu extends Application {
 					cursor.setY(cursor.getY() + 72);
 				}
 			} else if (key.getCode() == KeyCode.ENTER) {
-				try{
-					
-				}catch(NullPointerException e){
-					
+				try {
+
+				} catch (NullPointerException e) {
+
 				}
 				if (m == -1) {
 					for (int i = 0; i < 40; i++) {
@@ -229,10 +271,16 @@ public class menu extends Application {
 								p2Arr[m].getRec().setY(cursor.getY() + 1);
 								p2Arr[m].getRec().setStroke(Color.BLACK);
 
-								if(!computeResult(m,game, primaryStage, gameScene, logic)){
+								if (!computeResult(m, game, primaryStage, win, logic)) {
 									logic.actualBoard[p2Arr[m].getY()][p2Arr[m].getX()] = p2Arr[m].getId();
 								}
-								
+								try {
+
+									computeCpu(cpuMove(), game, primaryStage, win, logic);
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 								m = -1;
 
 								cursor.setFill(Color.TRANSPARENT);
@@ -304,9 +352,15 @@ public class menu extends Application {
 									p2Arr[m].getRec().setY(cursor.getY() + 1);
 									p2Arr[m].getRec().setStroke(Color.BLACK);
 
-									
-									if(!computeResult(m,game, primaryStage, gameScene, logic)){
+									if (!computeResult(m, game, primaryStage, win, logic)) {
 										logic.actualBoard[p2Arr[m].getY()][p2Arr[m].getX()] = p2Arr[m].getId();
+									}
+									try {
+
+										computeCpu(cpuMove(), game, primaryStage, win, logic);
+									} catch (InterruptedException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
 									}
 									m = -1;
 									cursor.setFill(Color.TRANSPARENT);
@@ -346,9 +400,9 @@ public class menu extends Application {
 
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
-					System.out.print(" " + logic.actualBoard[i][j]);
+					// System.out.print(" " + logic.actualBoard[i][j]);
 				}
-				System.out.println("");
+				// System.out.println("");
 			}
 
 		});
@@ -363,10 +417,25 @@ public class menu extends Application {
 			}
 		});
 
+		rac.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				// System.out.println("Test");
+				primaryStage.setScene(rule);
+			}
+		});
+
 		exit.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				primaryStage.setScene(exitScene);
+			}
+		});
+
+		exit2.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				System.exit(0);
 			}
 		});
 
@@ -398,6 +467,13 @@ public class menu extends Application {
 			}
 		});
 
+		back3.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.setScene(mainMenu);
+			}
+		});
+
 		settings.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -422,7 +498,7 @@ public class menu extends Application {
 		primaryStage.show();
 	}
 
-	boolean computeResult(int m, Pane game, Stage primaryStage, Scene gameScene, Logic logic) {
+	boolean computeResult(int m, Pane game, Stage primaryStage, Scene win, Logic logic) {
 		int n = -1;
 		for (int i = 0; i < 40; i++) {
 			if (p1Arr[i].getX() == p2Arr[m].getX() && p1Arr[i].getY() == p2Arr[m].getY()) {
@@ -430,204 +506,596 @@ public class menu extends Application {
 				break;
 			}
 		}
-		if(n!=-1){
-			if(p1Arr[n].getId()=='B'){
-				game.getChildren().remove(p2Arr[m].getRec());
-				boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-				p2Arr[m]=temp;
-				
-				game.getChildren().remove(p1Arr[n].getRec());
-				boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
-				p1Arr[n]=temp2;
-				
-				return true;
-			}else if(p1Arr[n].getId()=='2'){
-				
-				if(p2Arr[m].getId()>'2' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-				}else if(p2Arr[m].getId()=='2' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-					
+		if (n != -1) {
+			if (p1Arr[n].getId() == 'F') {
+
+				wg.setText("Player Wins");
+				primaryStage.setScene(win);
+			}
+			if (p2Arr[m].getId() != 'S') {
+				if (p1Arr[n].getId() == 'B') {
 					game.getChildren().remove(p2Arr[m].getRec());
+					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+					p2Arr[m] = temp;
+
+					game.getChildren().remove(p1Arr[n].getRec());
 					boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp2;
+					p1Arr[n] = temp2;
+
+					return true;
+				} else if (p1Arr[n].getId() == '2') {
+
+					if (p2Arr[m].getId() > '2' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+					} else if (p2Arr[m].getId() == '2' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp2;
+					}
+
+					return true;
+				} else if (p1Arr[n].getId() == '3') {
+
+					if (p2Arr[m].getId() > '3' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+					} else if (p2Arr[m].getId() == '3' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp2;
+					} else if (p2Arr[m].getId() < '3' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp;
+					}
+
+					return true;
+				} else if (p1Arr[n].getId() == '4') {
+
+					if (p2Arr[m].getId() > '4' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+					} else if (p2Arr[m].getId() == '4' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp2;
+					} else if (p2Arr[m].getId() < '4' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp;
+					}
+
+					return true;
+				} else if (p1Arr[n].getId() == '5') {
+
+					if (p2Arr[m].getId() > '5' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+					} else if (p2Arr[m].getId() == '5' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp2;
+					} else if (p2Arr[m].getId() < '5' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp;
+					}
+
+					return true;
+				} else if (p1Arr[n].getId() == '6') {
+
+					if (p2Arr[m].getId() > '6' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+					} else if (p2Arr[m].getId() == '6' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp2;
+					} else if (p2Arr[m].getId() < '6' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp;
+					}
+
+					return true;
+				} else if (p1Arr[n].getId() == '7') {
+
+					if (p2Arr[m].getId() > '7' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+					} else if (p2Arr[m].getId() == '7' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp2;
+					} else if (p2Arr[m].getId() < '7' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp;
+					}
+
+					return true;
+				} else if (p1Arr[n].getId() == '8') {
+
+					if (p2Arr[m].getId() > '8' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+					} else if (p2Arr[m].getId() == '8' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp2;
+					} else if (p2Arr[m].getId() < '8' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp;
+					}
+
+					return true;
+				} else if (p1Arr[n].getId() == '9') {
+
+					if (p2Arr[m].getId() > '9' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+					} else if (p2Arr[m].getId() == '9' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp2;
+					} else if (p2Arr[m].getId() < '9' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp;
+					}
+
+					return true;
+				} else if (p1Arr[n].getId() == 'T') {
+
+					if (p2Arr[m].getId() > 'T' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+					} else if (p2Arr[m].getId() == 'T' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[n] = temp;
+
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp2;
+					} else if (p2Arr[m].getId() < 'T' && p2Arr[m].getId() != 'B' && p2Arr[m].getId() != 'F'
+							&& p2Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[m].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[m] = temp;
+					}
+
+					return true;
+				} else if (p1Arr[n].getId() == 'S') {
+					game.getChildren().remove(p1Arr[n].getRec());
+					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+					p1Arr[n] = temp;
+
+					return true;
 				}
-				
-				return true;
-			}else if(p1Arr[n].getId()=='3'){
-				
-				if(p2Arr[m].getId()>'3' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
+			} else {
+				if (p1Arr[n].getId() == 'T') {
 					game.getChildren().remove(p1Arr[n].getRec());
 					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-				}else if(p2Arr[m].getId()=='3' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-					
-					game.getChildren().remove(p2Arr[m].getRec());
-					boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp2;
-				}else if(p2Arr[m].getId()<'3' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
+					p1Arr[n] = temp;
+				} else {
 					game.getChildren().remove(p2Arr[m].getRec());
 					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp;
+					p2Arr[m] = temp;
 				}
-				
-				return true;
-			}else if(p1Arr[n].getId()=='4'){
-				
-				if(p2Arr[m].getId()>'4' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-				}else if(p2Arr[m].getId()=='4' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-					
-					game.getChildren().remove(p2Arr[m].getRec());
-					boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp2;
-				}else if(p2Arr[m].getId()<'4' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p2Arr[m].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp;
-				}
-				
-				return true;
-			}else if(p1Arr[n].getId()=='5'){
-				
-				if(p2Arr[m].getId()>'5' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-				}else if(p2Arr[m].getId()=='5' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-					
-					game.getChildren().remove(p2Arr[m].getRec());
-					boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp2;
-				}else if(p2Arr[m].getId()<'5' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p2Arr[m].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp;
-				}
-				
-				return true;
-			}else if(p1Arr[n].getId()=='6'){
-				
-				if(p2Arr[m].getId()>'6' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-				}else if(p2Arr[m].getId()=='6' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-					
-					game.getChildren().remove(p2Arr[m].getRec());
-					boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp2;
-				}else if(p2Arr[m].getId()<'6' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p2Arr[m].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp;
-				}
-				
-				return true;
-			}else if(p1Arr[n].getId()=='7'){
-				
-				if(p2Arr[m].getId()>'7' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-				}else if(p2Arr[m].getId()=='7' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-					
-					game.getChildren().remove(p2Arr[m].getRec());
-					boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp2;
-				}else if(p2Arr[m].getId()<'7' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p2Arr[m].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp;
-				}
-				
-				return true;
-			}else if(p1Arr[n].getId()=='8'){
-				
-				if(p2Arr[m].getId()>'8' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-				}else if(p2Arr[m].getId()=='8' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-					
-					game.getChildren().remove(p2Arr[m].getRec());
-					boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp2;
-				}else if(p2Arr[m].getId()<'8' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p2Arr[m].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp;
-				}
-				
-				return true;
-			}else if(p1Arr[n].getId()=='9'){
-				
-				if(p2Arr[m].getId()>'9' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-				}else if(p2Arr[m].getId()=='9' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-					
-					game.getChildren().remove(p2Arr[m].getRec());
-					boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp2;
-				}else if(p2Arr[m].getId()<'9' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p2Arr[m].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp;
-				}
-				
-				return true;
-			}else if(p1Arr[n].getId()=='T'){
-				
-				if(p2Arr[m].getId()>'T' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-				}else if(p2Arr[m].getId()=='T' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p1Arr[n]=temp;
-					
-					game.getChildren().remove(p2Arr[m].getRec());
-					boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp2;
-				}else if(p2Arr[m].getId()<'T' && p2Arr[m].getId()!='B' && p2Arr[m].getId()!='F' && p2Arr[m].getId()!='S'){
-					game.getChildren().remove(p2Arr[m].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
-					p2Arr[m]=temp;
-				}
-				
 				return true;
 			}
+
 		}
 		return false;
+	}
+
+	boolean computeCpu(int m, Pane game, Stage primaryStage, Scene win, Logic logic) {
+		int n = -1;
+		for (int i = 0; i < 40; i++) {
+			if (p2Arr[i].getX() == p1Arr[m].getX() && p2Arr[i].getY() == p1Arr[m].getY()) {
+				n = i;
+				break;
+			}
+		}
+		if (n != -1) {
+			if (p2Arr[n].getId() == 'F') {
+
+				wg.setText("CPU Wins");
+				primaryStage.setScene(win);
+			}
+			if (p1Arr[m].getId() != 'S') {
+				if (p2Arr[n].getId() == 'B') {
+					game.getChildren().remove(p1Arr[m].getRec());
+					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+					p1Arr[m] = temp;
+
+					game.getChildren().remove(p2Arr[n].getRec());
+					boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+					p2Arr[n] = temp2;
+
+					return true;
+				} else if (p2Arr[n].getId() == '2') {
+
+					if (p1Arr[m].getId() > '2' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+					} else if (p1Arr[m].getId() == '2' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp2;
+					}
+
+					return true;
+				} else if (p2Arr[n].getId() == '3') {
+
+					if (p1Arr[m].getId() > '3' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+					} else if (p1Arr[m].getId() == '3' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp2;
+					} else if (p1Arr[m].getId() < '3' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp;
+					}
+
+					return true;
+				} else if (p2Arr[n].getId() == '4') {
+
+					if (p1Arr[m].getId() > '4' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+					} else if (p1Arr[m].getId() == '4' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp2;
+					} else if (p1Arr[m].getId() < '4' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp;
+					}
+
+					return true;
+				} else if (p2Arr[n].getId() == '5') {
+
+					if (p1Arr[m].getId() > '5' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+					} else if (p1Arr[m].getId() == '5' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp2;
+					} else if (p1Arr[m].getId() < '5' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp;
+					}
+
+					return true;
+				} else if (p2Arr[n].getId() == '6') {
+
+					if (p1Arr[m].getId() > '6' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+					} else if (p1Arr[m].getId() == '6' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp2;
+					} else if (p1Arr[m].getId() < '6' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp;
+					}
+
+					return true;
+				} else if (p2Arr[n].getId() == '7') {
+
+					if (p1Arr[m].getId() > '7' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+					} else if (p1Arr[m].getId() == '7' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp2;
+					} else if (p1Arr[m].getId() < '7' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp;
+					}
+
+					return true;
+				} else if (p2Arr[n].getId() == '8') {
+
+					if (p1Arr[m].getId() > '8' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+					} else if (p1Arr[m].getId() == '8' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp2;
+					} else if (p1Arr[m].getId() < '8' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp;
+					}
+
+					return true;
+				} else if (p2Arr[n].getId() == '9') {
+
+					if (p1Arr[m].getId() > '9' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+					} else if (p1Arr[m].getId() == '9' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp2;
+					} else if (p1Arr[m].getId() < '9' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp;
+					}
+
+					return true;
+				} else if (p2Arr[n].getId() == 'T') {
+
+					if (p1Arr[m].getId() > 'T' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+					} else if (p1Arr[m].getId() == 'T' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p2Arr[n].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p2Arr[n] = temp;
+
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp2;
+					} else if (p1Arr[m].getId() < 'T' && p1Arr[m].getId() != 'B' && p1Arr[m].getId() != 'F'
+							&& p1Arr[m].getId() != 'S') {
+						game.getChildren().remove(p1Arr[m].getRec());
+						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						p1Arr[m] = temp;
+					}
+
+					return true;
+				} else if (p2Arr[n].getId() == 'S') {
+					game.getChildren().remove(p2Arr[n].getRec());
+					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+					p2Arr[n] = temp;
+
+					return true;
+				}
+			} else {
+				if (p2Arr[n].getId() == 'T') {
+					game.getChildren().remove(p2Arr[n].getRec());
+					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+					p2Arr[n] = temp;
+				} else {
+					game.getChildren().remove(p1Arr[m].getRec());
+					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+					p1Arr[m] = temp;
+				}
+				return true;
+			}
+
+		}
+		return false;
+	}
+
+	int cpuMove() throws InterruptedException {
+
+		Random rand = new Random();
+		int n = rand.nextInt(40);
+		int move = -1;
+		boolean found = false;
+		while (!found) {
+			n = rand.nextInt(40);
+			if (p1Arr[n].getId() == 'F' || p1Arr[n].getId() == 'B') {
+				n = rand.nextInt(40);
+				continue;
+			}
+			if (p1Arr[n].getRec().getX() != 12000) {
+				if (p1Arr[n].getId() != '2') {
+					int l = 0, r = 0, u = 0, d = 0;
+					while (true) {
+						if (l == 1 && r == 1 && u == 1 && d == 1) {
+							l = 0;
+							r = 0;
+							u = 0;
+							d = 0;
+							break;
+						}
+						move = rand.nextInt(4);
+						if (move == 0) {
+							if (search(p1Arr[n].getX() - 1, p1Arr[n].getY()) == -1 && p1Arr[n].getX() - 1 != -1) {
+								p1Arr[n].getRec().setX(p1Arr[n].getRec().getX() - 72);
+								found = true;
+								break;
+							} else {
+								l = 1;
+								continue;
+							}
+						} else if (move == 1) {
+							if (search(p1Arr[n].getX() + 1, p1Arr[n].getY()) == -1 && p1Arr[n].getX() + 1 != 10) {
+								p1Arr[n].getRec().setX(p1Arr[n].getRec().getX() + 72);
+								found = true;
+								break;
+							} else {
+								r = 1;
+								continue;
+							}
+						} else if (move == 2) {
+							if (search(p1Arr[n].getX(), p1Arr[n].getY() - 1) == -1 && p1Arr[n].getY() - 1 != -1) {
+								p1Arr[n].getRec().setY(p1Arr[n].getRec().getY() - 72);
+								found = true;
+								break;
+							} else {
+								u = 1;
+								continue;
+							}
+						} else if (move == 3) {
+							if (search(p1Arr[n].getX(), p1Arr[n].getY() + 1) == -1 && p1Arr[n].getY() + 1 != 10) {
+								p1Arr[n].getRec().setY(p1Arr[n].getRec().getY() + 72);
+								found = true;
+								break;
+							} else {
+								d = 1;
+								continue;
+							}
+						}
+
+					}
+				}
+			}
+
+		}
+
+		return n;
+	}
+
+	int search(int x, int y) {
+		int n = -1;
+		for (int i = 0; i < 40; i++) {
+			if (p1Arr[i].getX() == x && p1Arr[i].getY() == y) {
+				n = i;
+			}
+		}
+		return n;
 	}
 }
