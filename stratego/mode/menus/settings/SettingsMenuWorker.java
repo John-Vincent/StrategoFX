@@ -14,9 +14,20 @@ public class SettingsMenuWorker extends ModeWorker{
   @Override
   public Runnable getRequest(String name){
     switch(name){
+      case "back":
+    	  return new BackRequest();
       default:
         return null;
     }
   }
+  
+  private class BackRequest implements Runnable{
+
+		@Override
+		public void run() {
+			setRunning(false);
+		}
+
+	}
 
 }

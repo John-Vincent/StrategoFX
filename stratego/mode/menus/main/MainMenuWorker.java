@@ -24,6 +24,10 @@ public class MainMenuWorker extends ModeWorker {
 			return new PingRequest();
 		case "logout":
 			return new MenuOptions();
+		case "singleplayer":
+			return new MenuOptions();
+		case "settings":
+			return new MenuOptions();
 		default:
 			return null;
 		}
@@ -113,5 +117,6 @@ public class MainMenuWorker extends ModeWorker {
 			}
 		}
 	}
+	
 
 }

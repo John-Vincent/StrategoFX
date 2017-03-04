@@ -14,9 +14,20 @@ public class SingleplayerWorker extends ModeWorker{
   @Override
   public Runnable getRequest(String name){
     switch(name){
-      default:
+      case "back":
+    	  return new MenuOptions();
+      default: 
         return null;
     }
   }
+  
+  private class MenuOptions implements Runnable{
+
+		@Override
+		public void run() {
+			setRunning(false);
+		}
+
+	}
 
 }
