@@ -54,7 +54,7 @@ public class GameScene extends Pane{
 			p1Arr[i] = new boardPiece("Test", (i % 10 * 70) + x, y, logic);
 			this.getChildren().add(p1Arr[i].getRec());
 			x += 2;
-			p1Arr[i].getRec().setFill(Color.WHITE);
+			p1Arr[i].getRec().setFill(Color.GREEN);
 			if ((i + 1) % 10 == 0 && i != 0) {
 				y += 72;
 				x = 8;
