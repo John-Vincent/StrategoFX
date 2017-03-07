@@ -13,7 +13,7 @@ import javafx.scene.*;
 import javafx.scene.control.Button;
 import stratego.network.Networker;
 import stratego.application.Background;
-import stratego.components.*;
+import stratego.components.gameboard.*;
 
 public class SettingsMenuUI extends Mode{
 
@@ -22,8 +22,8 @@ public class SettingsMenuUI extends Mode{
   public SettingsMenuUI(){
     super(new BorderPane());
     this.setWorker(new SettingsMenuWorker(this.getTaskList()));
-    
-    
+
+
     Button back = new Button("Back");
     back.setLayoutX(8);
     back.setLayoutY(8);
@@ -32,13 +32,13 @@ public class SettingsMenuUI extends Mode{
 		public void handle(ActionEvent event) {
 			// System.out.println("Test");
 			setNextMode(new MainMenuUI());
-			getTaskList().add(getWorker().getRequest("back"));
+			addTask("back");
 		}
 	});
-    
-    
+
+
     Button cheats = new Button("Cheats:" + GameScene.getCheat());
-    
+
     cheats.setOnAction(new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent event) {
@@ -52,13 +52,13 @@ public class SettingsMenuUI extends Mode{
 			cheats.setText("Cheats: " + GameScene.getCheat());
 		}
 	});
-    
+
     VBox buttons = new VBox(50, cheats, back);
     buttons.setPadding(new Insets(100,100,100,100));
-    
+
     buttons.setAlignment(Pos.TOP_CENTER);
     ((BorderPane)this.getRoot()).setCenter(buttons);
-    
+
   }
 
 

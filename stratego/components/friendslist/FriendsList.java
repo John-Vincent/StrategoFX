@@ -1,4 +1,4 @@
-package stratego.components;
+package stratego.components.friendslist;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -6,7 +6,6 @@ import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import stratego.components.FriendModel;
 
 /**
 * @author Bradley Rhein <bdrhein@iastate.edu>
@@ -22,14 +21,14 @@ public class FriendsList extends VBox implements Observer {
 	public FriendsList(double n){
 		super(n);
 	}
-	
+
 	/**
 	* Updates the friend list.
 	*
 	* When called, the vbox which is displaying the friend list is cleared, and filled with an updated list of friends.
 	*
 	* @param friends The FriendModel object which stores information about this users friends.
-	* @param arg1 
+	* @param arg1
 	*/
 	@Override
 	public void update(Observable friends, Object arg1) {
@@ -65,7 +64,7 @@ public class FriendsList extends VBox implements Observer {
 		}
 		return friendBoxes;
 	}
-	
+
 	/**
 	* FriendVBox Object.
 	* Creates a unique VBox storing the name of a friend and online status. This makes dynamic resizing of the friends list possible.
@@ -89,7 +88,7 @@ public class FriendsList extends VBox implements Observer {
 			this.name.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 			this.status.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		}
-		
+
 		/** Returns this instances created VBox. */
 		private VBox getVBox() {
 			return box;

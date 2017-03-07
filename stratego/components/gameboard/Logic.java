@@ -1,4 +1,4 @@
-package stratego.components;
+package stratego.components.gameboard;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 /**
  * Class for game logic
- * 
+ *
  * @author manthan
  *
  */
@@ -348,7 +348,35 @@ public class Logic {
 			}
 		}
 
+		flagCount = 0;
+		bombCount = 0;
+		spyCount = 0;
+		scoutCount = 0;
+		minerCount = 0;
+		sergantCount = 0;
+		lieutenantCount = 0;
+		captainCount = 0;
+		majorCount = 0;
+		colonelCount = 0;
+		generalCount = 0;
+		marshallCount = 0;
+
+		cpuflagCount = 0;
+		cpubombCount = 0;
+		cpuspyCount = 0;
+		cpuscoutCount = 0;
+		cpuminerCount = 0;
+		cpusergantCount = 0;
+		cpulieutenantCount = 0;
+		cpucaptainCount = 0;
+		cpumajorCount = 0;
+		cpucolonelCount = 0;
+		cpugeneralCount = 0;
+		cpumarshallCount = 0;
+
+
 		arrangeRandomly();
+		System.out.println("past Random");
 		arrangeCpu();
 
 		for (int i = 0; i < 10; i++) {
@@ -362,7 +390,7 @@ public class Logic {
 
 	/**
 	 * Computes the result after player 1 moves
-	 * 
+	 *
 	 * @param m
 	 *            index of the piece that moved
 	 * @param game
@@ -371,7 +399,7 @@ public class Logic {
 	 *            instance of stratego.components.Logic
 	 * @return true if a piece was eliminated else returns false
 	 */
-	boolean computeResult(int m, Pane game, Logic logic) {
+	static boolean computeResult(int m, Pane game) {
 		int n = -1;
 		for (int i = 0; i < 40; i++) {
 
@@ -392,11 +420,11 @@ public class Logic {
 			if (GameScene.p2Arr[m].getId() != 'S') {
 				if (GameScene.p1Arr[n].getId() == 'B') {
 					game.getChildren().remove(GameScene.p2Arr[m].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+					boardPiece temp = new boardPiece("Null", 12000, 12000);
 					GameScene.p2Arr[m] = temp;
 
 					game.getChildren().remove(GameScene.p1Arr[n].getRec());
-					boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+					boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 					GameScene.p1Arr[n] = temp2;
 
 					return true;
@@ -405,16 +433,16 @@ public class Logic {
 					if (GameScene.p2Arr[m].getId() > '2' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 					} else if (GameScene.p2Arr[m].getId() == '2' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp2;
 					}
 
@@ -424,21 +452,21 @@ public class Logic {
 					if (GameScene.p2Arr[m].getId() > '3' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 					} else if (GameScene.p2Arr[m].getId() == '3' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp2;
 					} else if (GameScene.p2Arr[m].getId() < '3' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp;
 					}
 
@@ -448,21 +476,21 @@ public class Logic {
 					if (GameScene.p2Arr[m].getId() > '4' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 					} else if (GameScene.p2Arr[m].getId() == '4' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp2;
 					} else if (GameScene.p2Arr[m].getId() < '4' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp;
 					}
 
@@ -472,21 +500,21 @@ public class Logic {
 					if (GameScene.p2Arr[m].getId() > '5' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 					} else if (GameScene.p2Arr[m].getId() == '5' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp2;
 					} else if (GameScene.p2Arr[m].getId() < '5' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp;
 					}
 
@@ -496,21 +524,21 @@ public class Logic {
 					if (GameScene.p2Arr[m].getId() > '6' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 					} else if (GameScene.p2Arr[m].getId() == '6' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp2;
 					} else if (GameScene.p2Arr[m].getId() < '6' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp;
 					}
 
@@ -520,21 +548,21 @@ public class Logic {
 					if (GameScene.p2Arr[m].getId() > '7' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 					} else if (GameScene.p2Arr[m].getId() == '7' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp2;
 					} else if (GameScene.p2Arr[m].getId() < '7' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp;
 					}
 
@@ -544,21 +572,21 @@ public class Logic {
 					if (GameScene.p2Arr[m].getId() > '8' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 					} else if (GameScene.p2Arr[m].getId() == '8' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp2;
 					} else if (GameScene.p2Arr[m].getId() < '8' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp;
 					}
 
@@ -568,21 +596,21 @@ public class Logic {
 					if (GameScene.p2Arr[m].getId() > '9' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 					} else if (GameScene.p2Arr[m].getId() == '9' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp2;
 					} else if (GameScene.p2Arr[m].getId() < '9' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp;
 					}
 
@@ -592,28 +620,28 @@ public class Logic {
 					if (GameScene.p2Arr[m].getId() > 'T' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 					} else if (GameScene.p2Arr[m].getId() == 'T' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp2;
 					} else if (GameScene.p2Arr[m].getId() < 'T' && GameScene.p2Arr[m].getId() != 'B'
 							&& GameScene.p2Arr[m].getId() != 'F' && GameScene.p2Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[m].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[m] = temp;
 					}
 
 					return true;
 				} else if (GameScene.p1Arr[n].getId() == 'S') {
 					game.getChildren().remove(GameScene.p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+					boardPiece temp = new boardPiece("Null", 12000, 12000);
 					GameScene.p1Arr[n] = temp;
 
 					return true;
@@ -621,11 +649,11 @@ public class Logic {
 			} else {
 				if (GameScene.p1Arr[n].getId() == 'T') {
 					game.getChildren().remove(GameScene.p1Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+					boardPiece temp = new boardPiece("Null", 12000, 12000);
 					GameScene.p1Arr[n] = temp;
 				} else {
 					game.getChildren().remove(GameScene.p2Arr[m].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+					boardPiece temp = new boardPiece("Null", 12000, 12000);
 					GameScene.p2Arr[m] = temp;
 				}
 				return true;
@@ -637,7 +665,7 @@ public class Logic {
 
 	/**
 	 * Computes the result after player 2 moves
-	 * 
+	 *
 	 * @param m
 	 *            index of the piece that moved
 	 * @param game
@@ -646,7 +674,7 @@ public class Logic {
 	 *            instance of stratego.components.Logic
 	 * @return true if a piece was eliminated else returns false
 	 */
-	boolean computeCpu(int m, Pane game, Logic logic) {
+	static boolean computeCpu(int m, Pane game) {
 		int n = -1;
 		for (int i = 0; i < 40; i++) {
 			if (GameScene.p2Arr[i].getX() == GameScene.p1Arr[m].getX()
@@ -664,11 +692,11 @@ public class Logic {
 			if (GameScene.p1Arr[m].getId() != 'S') {
 				if (GameScene.p2Arr[n].getId() == 'B') {
 					game.getChildren().remove(GameScene.p1Arr[m].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+					boardPiece temp = new boardPiece("Null", 12000, 12000);
 					GameScene.p1Arr[m] = temp;
 
 					game.getChildren().remove(GameScene.p2Arr[n].getRec());
-					boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+					boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 					GameScene.p2Arr[n] = temp2;
 
 					return true;
@@ -677,16 +705,16 @@ public class Logic {
 					if (GameScene.p1Arr[m].getId() > '2' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 					} else if (GameScene.p1Arr[m].getId() == '2' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp2;
 					}
 
@@ -696,21 +724,21 @@ public class Logic {
 					if (GameScene.p1Arr[m].getId() > '3' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 					} else if (GameScene.p1Arr[m].getId() == '3' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp2;
 					} else if (GameScene.p1Arr[m].getId() < '3' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp;
 					}
 
@@ -720,21 +748,21 @@ public class Logic {
 					if (GameScene.p1Arr[m].getId() > '4' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 					} else if (GameScene.p1Arr[m].getId() == '4' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp2;
 					} else if (GameScene.p1Arr[m].getId() < '4' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp;
 					}
 
@@ -744,21 +772,21 @@ public class Logic {
 					if (GameScene.p1Arr[m].getId() > '5' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 					} else if (GameScene.p1Arr[m].getId() == '5' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp2;
 					} else if (GameScene.p1Arr[m].getId() < '5' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp;
 					}
 
@@ -768,21 +796,21 @@ public class Logic {
 					if (GameScene.p1Arr[m].getId() > '6' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 					} else if (GameScene.p1Arr[m].getId() == '6' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp2;
 					} else if (GameScene.p1Arr[m].getId() < '6' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp;
 					}
 
@@ -792,21 +820,21 @@ public class Logic {
 					if (GameScene.p1Arr[m].getId() > '7' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 					} else if (GameScene.p1Arr[m].getId() == '7' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp2;
 					} else if (GameScene.p1Arr[m].getId() < '7' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp;
 					}
 
@@ -816,21 +844,21 @@ public class Logic {
 					if (GameScene.p1Arr[m].getId() > '8' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 					} else if (GameScene.p1Arr[m].getId() == '8' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp2;
 					} else if (GameScene.p1Arr[m].getId() < '8' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp;
 					}
 
@@ -840,21 +868,21 @@ public class Logic {
 					if (GameScene.p1Arr[m].getId() > '9' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 					} else if (GameScene.p1Arr[m].getId() == '9' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp2;
 					} else if (GameScene.p1Arr[m].getId() < '9' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp;
 					}
 
@@ -864,28 +892,28 @@ public class Logic {
 					if (GameScene.p1Arr[m].getId() > 'T' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 					} else if (GameScene.p1Arr[m].getId() == 'T' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p2Arr[n].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p2Arr[n] = temp;
 
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp2 = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp2 = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp2;
 					} else if (GameScene.p1Arr[m].getId() < 'T' && GameScene.p1Arr[m].getId() != 'B'
 							&& GameScene.p1Arr[m].getId() != 'F' && GameScene.p1Arr[m].getId() != 'S') {
 						game.getChildren().remove(GameScene.p1Arr[m].getRec());
-						boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+						boardPiece temp = new boardPiece("Null", 12000, 12000);
 						GameScene.p1Arr[m] = temp;
 					}
 
 					return true;
 				} else if (GameScene.p2Arr[n].getId() == 'S') {
 					game.getChildren().remove(GameScene.p2Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+					boardPiece temp = new boardPiece("Null", 12000, 12000);
 					GameScene.p2Arr[n] = temp;
 
 					return true;
@@ -893,11 +921,11 @@ public class Logic {
 			} else {
 				if (GameScene.p2Arr[n].getId() == 'T') {
 					game.getChildren().remove(GameScene.p2Arr[n].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+					boardPiece temp = new boardPiece("Null", 12000, 12000);
 					GameScene.p2Arr[n] = temp;
 				} else {
 					game.getChildren().remove(GameScene.p1Arr[m].getRec());
-					boardPiece temp = new boardPiece("Null", 12000, 12000, logic);
+					boardPiece temp = new boardPiece("Null", 12000, 12000);
 					GameScene.p1Arr[m] = temp;
 				}
 				return true;
@@ -909,12 +937,12 @@ public class Logic {
 
 	/**
 	 * Computes the move to be made by player 2, in this case cpu
-	 * 
+	 *
 	 * @return n An integer with value either 0,1,2 or 3. 0 equals left, 1 equals
 	 *          right, 2 equals up, 3 equals down
 	 * @throws InterruptedException
 	 */
-	int cpuMove() throws InterruptedException {
+	static int cpuMove() throws InterruptedException {
 
 		Random rand = new Random();
 		int n = rand.nextInt(40);
@@ -991,7 +1019,7 @@ public class Logic {
 
 	/**
 	 * Searches if another player piece exists at that spot.
-	 * 
+	 *
 	 * @param x
 	 *            Horizontal location of the spot to be searched
 	 * @param y
@@ -999,7 +1027,7 @@ public class Logic {
 	 * @return Returns the index of the piece that is present at the spot else
 	 *         if no piece is present return -1
 	 */
-	int search(int x, int y) {
+	static int search(int x, int y) {
 		int n = -1;
 		for (int i = 0; i < 40; i++) {
 			if (GameScene.p1Arr[i].getX() == x && GameScene.p1Arr[i].getY() == y) {
@@ -1011,14 +1039,14 @@ public class Logic {
 
 	/**
 	 * Searches if same player piece exists at that spot.
-	 * 
+	 *
 	 * @param x
 	 *            Horizontal location of the spot to be searched
 	 * @param y
 	 *            Vertical location of the spot to be searched
 	 * @return True if spot is empty and move can be else returns false
 	 */
-	boolean isEmpty(int x, int y) {
+	static boolean isEmpty(int x, int y) {
 		x = ((x - 8) / 72);
 		y = ((y - 24) / 72);
 		boolean empty = true;

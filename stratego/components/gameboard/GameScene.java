@@ -1,8 +1,9 @@
-package stratego.components;
+package stratego.components.gameboard;
 
 import javafx.scene.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -12,7 +13,7 @@ import stratego.application.*;
 
 /**
  * Class for javafx scene that runs game
- * 
+ *
  * @author manthan
  *
  */
@@ -31,10 +32,7 @@ public class GameScene extends Pane {
 	 * Integer value for index of the board piece.
 	 */
 	private int m = -1;
-	/**
-	 * Instance of stratego.components.Logic
-	 */
-	private Logic logic;
+
 	/**
 	 * Boolean value that decides whether enemy pieces should be enabled
 	 */
@@ -46,7 +44,7 @@ public class GameScene extends Pane {
 
 	/**
 	 * Mutator method to enable or disable cheats
-	 * 
+	 *
 	 * @param c
 	 */
 	public static void setCheat(boolean c) {
@@ -55,7 +53,7 @@ public class GameScene extends Pane {
 
 	/**
 	 * Accesor method to get value of cheat setting
-	 * 
+	 *
 	 * @return cheat returns the currect setting for cheat
 	 */
 	public static boolean getCheat() {
@@ -72,8 +70,9 @@ public class GameScene extends Pane {
 	 */
 	public GameScene() {
 		// TODO Auto-generated constructor stub
-		logic = new Logic();
-		logic.arrange();
+		System.out.println("into GameScene");
+		Logic.arrange();
+		System.out.println("past arrange");
 		Rectangle cursor = new Rectangle(7, 647 + startY, 72, 72);
 		cursor.setFill(Color.TRANSPARENT);
 		cursor.setStroke(Color.RED);
@@ -88,7 +87,7 @@ public class GameScene extends Pane {
 
 		for (int i = 0; i < 40; i++) {
 
-			p1Arr[i] = new boardPiece("Test", (i % 10 * 70) + x, y, logic);
+			p1Arr[i] = new boardPiece("Test", (i % 10 * 70) + x, y);
 			this.getChildren().add(p1Arr[i].getRec());
 			x += 2;
 			p1Arr[i].getRec().setFill(Color.GREEN);
@@ -101,7 +100,7 @@ public class GameScene extends Pane {
 
 		for (int i = 0; i < 40; i++) {
 
-			p2Arr[i] = new boardPiece("Test", (i % 10 * 70) + x2, y2, logic);
+			p2Arr[i] = new boardPiece("Test", (i % 10 * 70) + x2, y2);
 			this.getChildren().add(p2Arr[i].getRec());
 			x2 += 2;
 
@@ -112,17 +111,7 @@ public class GameScene extends Pane {
 
 		}
 
-		///////////////////////
-		HBox sizingBoxes = null;
-		for (int i = 0; i < 10; i += 10) {
-			// sizingBoxes = new HBox(p1Arr[i].getRec(), p1Arr[i+1].getRec(),
-			// p1Arr[i+2].getRec(), p1Arr[i+3].getRec(), p1Arr[i+4].getRec(),
-			// p1Arr[i+5].getRec(), p1Arr[i+6].getRec(), p1Arr[i+7].getRec(),
-			// p1Arr[i+8].getRec(), p1Arr[i+9].getRec());
 
-		}
-		// this.getChildren().add(sizingBoxes);
-		//////////////////////
 
 		this.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
 
@@ -161,10 +150,10 @@ public class GameScene extends Pane {
 
 									cursor.setFill(Color.GREY);
 									cursor.setStroke(Color.BLUE);
-									logic.actualBoard[p2Arr[i].getY()][p2Arr[i].getX()] = '?';
+									Logic.actualBoard[p2Arr[i].getY()][p2Arr[i].getX()] = '?';
 									for (int j = 0; j < 40; j++) {
 										if (p1Arr[j].getY() == p2Arr[i].getY() && p1Arr[j].getX() == p2Arr[i].getX()) {
-											logic.actualBoard[p2Arr[i].getY()][p2Arr[i].getX()] = p1Arr[j].getId();
+											Logic.actualBoard[p2Arr[i].getY()][p2Arr[i].getX()] = p1Arr[j].getId();
 										}
 									}
 									p2Arr[i].getRec().setStroke(Color.GREEN);
@@ -176,7 +165,7 @@ public class GameScene extends Pane {
 
 					}
 				} else {
-					if (logic.isEmpty((int) (cursor.getX() + 1), (int) (cursor.getY() + 1))) {
+					if (Logic.isEmpty((int) (cursor.getX() + 1), (int) (cursor.getY() + 1))) {
 						if (!(p2Arr[m].getId() == '2')) {
 							if (((Math.abs((cursor.getX() + 1) - p2Arr[m].getRec().getX()) == 72)
 									&& (Math.abs((cursor.getY() + 1) - p2Arr[m].getRec().getY()) == 0))
@@ -187,12 +176,12 @@ public class GameScene extends Pane {
 								p2Arr[m].getRec().setY(cursor.getY() + 1);
 								p2Arr[m].getRec().setStroke(Color.BLACK);
 
-								if (!logic.computeResult(m, this, logic)) {
-									logic.actualBoard[p2Arr[m].getY()][p2Arr[m].getX()] = p2Arr[m].getId();
+								if (!Logic.computeResult(m, this)) {
+									Logic.actualBoard[p2Arr[m].getY()][p2Arr[m].getX()] = p2Arr[m].getId();
 								}
 								try {
 
-									logic.computeCpu(logic.cpuMove(), this, logic);
+									Logic.computeCpu(Logic.cpuMove(), this);
 								} catch (InterruptedException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
@@ -268,12 +257,12 @@ public class GameScene extends Pane {
 									p2Arr[m].getRec().setY(cursor.getY() + 1);
 									p2Arr[m].getRec().setStroke(Color.BLACK);
 
-									if (!logic.computeResult(m, this, logic)) {
-										logic.actualBoard[p2Arr[m].getY()][p2Arr[m].getX()] = p2Arr[m].getId();
+									if (!Logic.computeResult(m, this)) {
+										Logic.actualBoard[p2Arr[m].getY()][p2Arr[m].getX()] = p2Arr[m].getId();
 									}
 									try {
 
-										logic.computeCpu(logic.cpuMove(), this, logic);
+										Logic.computeCpu(Logic.cpuMove(), this);
 									} catch (InterruptedException e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
@@ -296,7 +285,7 @@ public class GameScene extends Pane {
 					if (reveal == false) {
 						reveal = true;
 						for (int i = 0; i < 40; i++) {
-							p1Arr[i].refreshImg(logic);
+							p1Arr[i].refreshImg();
 						}
 					} else if (reveal == true) {
 						reveal = false;
@@ -316,7 +305,7 @@ public class GameScene extends Pane {
 
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
-					// System.out.print(" " + logic.actualBoard[i][j]);
+					// System.out.print(" " + Logic.actualBoard[i][j]);
 				}
 				// System.out.println("");
 			}

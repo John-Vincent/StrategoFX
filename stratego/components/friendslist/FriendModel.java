@@ -1,4 +1,4 @@
-package stratego.components;
+package stratego.components.friendslist;
 
 import java.util.ArrayList;
 import java.util.Observable;

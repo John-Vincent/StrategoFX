@@ -38,18 +38,22 @@ public class StrategoFX extends Application{
       }
     });
 
+    this.stage.setX((Sizes.screenSize.getWidth()-this.stage.getWidth())/2 + Sizes.screenSize.getMinX());
+    this.stage.setY((Sizes.screenSize.getHeight()-this.stage.getHeight())/2 + Sizes.screenSize.getMinY());
+
   }
 
   public void setMode(Mode mode){
     this.mode = mode;
     this.stage.setScene(this.mode);
-    this.stage.setX((Sizes.screenSize.getWidth()-this.stage.getWidth())/2 + Sizes.screenSize.getMinX());
-    this.stage.setY((Sizes.screenSize.getHeight()-this.stage.getHeight())/2 + Sizes.screenSize.getMinY());
     double[] size = mode.getMinSize();
     this.stage.setMinWidth(size[0]);
     this.stage.setMinHeight(size[1]);
+    this.stage.setWidth(mode.getPrefWidth());
+    this.stage.setHeight(mode.getPrefHeight());
+    this.stage.setResizable(mode.resizable());
   }
-  
+
   public static Stage getPrimaryStage(){
 	  return primaryStage;
   }

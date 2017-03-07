@@ -61,12 +61,12 @@ public class SignupMenuUI extends Mode {
 
 		PasswordField pwBox2 = new PasswordField();
 		grid.add(pwBox2, 2, 3);
-		
-		
+
+
 		btn1.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			
-			
+
+
 			public void handle(ActionEvent e) {
 				if (!(userTextField.getText().isEmpty() || pwBox.getText().isEmpty() || pwBox2.getText().isEmpty())) {
 					if (!pwBox.getText().equals(pwBox2.getText())) {
@@ -77,7 +77,7 @@ public class SignupMenuUI extends Mode {
 						}
 					} else {
 						setNextMode(new LoginMenuUI());
-						getTaskList().add(getWorker().getRequest("signup", userTextField.getText(), pwBox.getText()));
+						addTask("signup", userTextField.getText(), pwBox.getText());
 					}
 				} else {
 					missmatch.setText("Field(s) left blank. All fields are required.");
@@ -94,7 +94,7 @@ public class SignupMenuUI extends Mode {
 			@Override
 			public void handle(ActionEvent e) {
 				setNextMode(new LoginMenuUI());
-				getTaskList().add(getWorker().getRequest("login"));
+				addTask("login");
 			}
 		});
 

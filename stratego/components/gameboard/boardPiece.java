@@ -1,4 +1,4 @@
-package stratego.components;
+package stratego.components.gameboard;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -33,42 +33,42 @@ public class boardPiece {
 	/*
 	 * The instances below initialize the images for the pieces
 	 */
-	static final  Image f = new Image("FLAG.png");
+	static final  Image f = new Image(boardPiece.class.getClass().getResourceAsStream("/stratego/components/gameboard/images/FLAG.png"));
 	static final  ImagePattern flag = new ImagePattern(f);
 
-	static final  Image b = new Image("BOMB.png");
+	static final  Image b = new Image(boardPiece.class.getClass().getResourceAsStream("/stratego/components/gameboard/images/BOMB.png"));
 	static final  ImagePattern bomb = new ImagePattern(b);
 
-	static final  Image sc = new Image("SCOUT.png");
+	static final  Image sc = new Image(boardPiece.class.getClass().getResourceAsStream("/stratego/components/gameboard/images/SCOUT.png"));
 	static final  ImagePattern scout = new ImagePattern(sc);
 
-	static final  Image m = new Image("MINER.png");
+	static final  Image m = new Image(boardPiece.class.getClass().getResourceAsStream("/stratego/components/gameboard/images/MINER.png"));
 	static final  ImagePattern miner = new ImagePattern(m);
 
-	static final  Image se = new Image("SERGEANT.png");
+	static final  Image se = new Image(boardPiece.class.getClass().getResourceAsStream("/stratego/components/gameboard/images/SERGEANT.png"));
 	static final  ImagePattern sergeant = new ImagePattern(se);
 
-	static final  Image lieu = new Image("LIEUTENANT.png");
+	static final  Image lieu = new Image(boardPiece.class.getClass().getResourceAsStream("/stratego/components/gameboard/images/LIEUTENANT.png"));
 	static final  ImagePattern lieutenant = new ImagePattern(lieu);
 
-	static final  Image c = new Image("CAPTAIN.png");
+	static final  Image c = new Image(boardPiece.class.getClass().getResourceAsStream("/stratego/components/gameboard/images/CAPTAIN.png"));
 	static final  ImagePattern captain = new ImagePattern(c);
 
-	static final  Image maj = new Image("MAJOR.png");
+	static final  Image maj = new Image(boardPiece.class.getClass().getResourceAsStream("/stratego/components/gameboard/images/MAJOR.png"));
 	static final  ImagePattern major = new ImagePattern(maj);
 
-	static final  Image col = new Image("COLONEL.png");
+	static final  Image col = new Image(boardPiece.class.getClass().getResourceAsStream("/stratego/components/gameboard/images/COLONEL.png"));
 	static final  ImagePattern colonel = new ImagePattern(col);
 
-	static final  Image gen = new Image("GENERAL.png");
+	static final  Image gen = new Image(boardPiece.class.getClass().getResourceAsStream("/stratego/components/gameboard/images/GENERAL.png"));
 	static final  ImagePattern general = new ImagePattern(gen);
 
-	static final  Image mar = new Image("MARSHAL.png");
+	static final  Image mar = new Image(boardPiece.class.getClass().getResourceAsStream("/stratego/components/gameboard/images/MARSHAL.png"));
 	static final  ImagePattern marshal = new ImagePattern(mar);
 
-	static final  Image s = new Image("SPY.png");
+	static final  Image s = new Image(boardPiece.class.getClass().getResourceAsStream("/stratego/components/gameboard/images/SPY.png"));
 	static final  ImagePattern spy = new ImagePattern(s);
-	
+
 	/**
 	 * Constructor for boardpiece.
 	 * @param str takes in name of the board piece
@@ -76,24 +76,24 @@ public class boardPiece {
 	 * @param y takes in vertical  location of boardpiece on the javafx scene
 	 * @param logic instance of stratego.components.logic
 	 */
-	boardPiece(String str, int x, int y, Logic logic) {
+	boardPiece(String str, int x, int y) {
 		r = new Rectangle(x, y, 70, 70);
 		name = str;
 		char id = '?';
 		if (getY() < 10 && getX() < 10) {
 
-			id = logic.actualBoard[getY()][getX()];
+			id = Logic.actualBoard[getY()][getX()];
 		}
 		this.id = id;
 
-		refreshImg(logic);
+		refreshImg();
 	}
-	
+
 	/**
 	 * Returns the rectangle object for the boardpiece.
 	 * @return r rectangle object of this boardpiece
 	 */
-	
+
 	Rectangle getRec() {
 		return r;
 	}
@@ -115,8 +115,8 @@ public class boardPiece {
 		return (int) ((r.getX() - 8) / 72);
 
 	}
-	
-	
+
+
 	/**
 	 * Returns the vertical location of the board piece.
 	 * @return vertical location of the board piece
@@ -139,7 +139,7 @@ public class boardPiece {
 	 * Initializes the board piece with an image according to its char ID.
 	 * @param logic instance of stratego.components.logic
 	 */
-	void refreshImg(Logic logic) {
+	void refreshImg() {
 
 		if (id == 'F') {
 			r.setFill(flag);

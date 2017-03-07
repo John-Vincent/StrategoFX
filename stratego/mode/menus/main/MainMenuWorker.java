@@ -5,7 +5,7 @@ import stratego.network.Networker;
 import java.net.*;
 import java.util.Arrays;
 import stratego.mode.ModeWorker;
-import stratego.components.FriendModel;
+import stratego.components.friendslist.FriendModel;
 
 public class MainMenuWorker extends ModeWorker {
 
@@ -117,6 +117,6 @@ public class MainMenuWorker extends ModeWorker {
 			}
 		}
 	}
-	
+
 
 }

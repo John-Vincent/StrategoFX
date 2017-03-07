@@ -2,8 +2,8 @@ package stratego.mode.menus.main;
 
 import stratego.application.StrategoFX;
 import stratego.mode.singleplayer.*;
-import stratego.components.FriendModel;
-import stratego.components.FriendsList;
+import stratego.components.friendslist.FriendModel;
+import stratego.components.friendslist.FriendsList;
 import stratego.components.Sizes;
 import stratego.mode.Mode;
 import stratego.mode.ModeWorker;
@@ -35,15 +35,14 @@ public class MainMenuUI extends Mode {
 		this.pane.setPadding(new Insets(0, 30, 20, 30));
 		this.setMinSize(500, 400);
 
-		
-		
+
+
 		Button ai = new Button("Vs. AI");
 		ai.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				// TODO
 				setNextMode(new SingleplayerUI());
-				getTaskList().add(getWorker().getRequest("singleplayer"));
+				addTask("singleplayer");
 			}
 		});
 		Button pl = new Button("Vs. Player");
@@ -58,7 +57,7 @@ public class MainMenuUI extends Mode {
 			@Override
 			public void handle(ActionEvent e) {
 				setNextMode(new SettingsMenuUI());
-				getTaskList().add(getWorker().getRequest("settings"));
+				addTask("settings");
 			}
 		});
 		Button lo = new Button("Log Out");
@@ -67,11 +66,11 @@ public class MainMenuUI extends Mode {
 			public void handle(ActionEvent e) {
 				System.out.println("logout requested");
 				setNextMode(new LoginMenuUI());
-				getTaskList().add(getWorker().getRequest("ping"));
-				getTaskList().add(getWorker().getRequest("logout"));
+				addTask("ping");
+				addTask("logout");
 			}
 		});
-		
+
 
 		VBox buttons = new VBox(50, ai, pl, st, lo);
 		buttons.setFillWidth(true);
@@ -138,7 +137,7 @@ public class MainMenuUI extends Mode {
 		addFriend.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				getTaskList().add(getWorker().getRequest("addfriend", friendName.getText()));
+				addTask("addfriend", friendName.getText());
 				pane.setRight(friends);
 			}
 		});
