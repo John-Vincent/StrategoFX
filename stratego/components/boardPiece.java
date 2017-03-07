@@ -91,7 +91,7 @@ public class boardPiece {
 	
 	/**
 	 * Returns the rectangle object for the boardpiece.
-	 * @return rectangle object of this boardpiece
+	 * @return r rectangle object of this boardpiece
 	 */
 	
 	Rectangle getRec() {
@@ -100,7 +100,7 @@ public class boardPiece {
 
 	/**
 	 * Returns the name of the boardpiece
-	 * @returns String that contains the name of this board piece.
+	 * @return name String that contains the name of this board piece.
 	 */
 	String getName() {
 		return name;

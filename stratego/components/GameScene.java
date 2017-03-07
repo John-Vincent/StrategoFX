@@ -56,7 +56,7 @@ public class GameScene extends Pane {
 	/**
 	 * Accesor method to get value of cheat setting
 	 * 
-	 * @return
+	 * @return cheat returns the currect setting for cheat
 	 */
 	public static boolean getCheat() {
 		return cheat;

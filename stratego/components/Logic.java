@@ -910,7 +910,7 @@ public class Logic {
 	/**
 	 * Computes the move to be made by player 2, in this case cpu
 	 * 
-	 * @returns An integer with value either 0,1,2 or 3. 0 equals left, 1 equals
+	 * @return n An integer with value either 0,1,2 or 3. 0 equals left, 1 equals
 	 *          right, 2 equals up, 3 equals down
 	 * @throws InterruptedException
 	 */
