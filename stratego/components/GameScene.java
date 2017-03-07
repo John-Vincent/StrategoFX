@@ -1,4 +1,5 @@
 package stratego.components;
+
 import javafx.scene.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -9,46 +10,82 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import stratego.application.*;
 
+/**
+ * Class for javafx scene that runs game
+ * 
+ * @author manthan
+ *
+ */
+public class GameScene extends Pane {
 
-public class GameScene extends Pane{
-	
+	/**
+	 * Board piece for player 2
+	 */
 	protected static boardPiece[] p1Arr;
+	/**
+	 * Board piece for player 1
+	 */
 	protected static boardPiece[] p2Arr;
-	
-	private int w = 1024;
-	private int l = 768;
+
+	/**
+	 * Integer value for index of the board piece.
+	 */
 	private int m = -1;
+	/**
+	 * Instance of stratego.components.Logic
+	 */
 	private Logic logic;
+	/**
+	 * Boolean value that decides whether enemy pieces should be enabled
+	 */
 	private boolean reveal = false;
+	/**
+	 * Cheat function value
+	 */
 	private static boolean cheat = false;
-	private int winner = -1;
-	
-	public static void setCheat(boolean c){
-		cheat = c ;
+
+	/**
+	 * Mutator method to enable or disable cheats
+	 * 
+	 * @param c
+	 */
+	public static void setCheat(boolean c) {
+		cheat = c;
 	}
-	
- 	public static boolean getCheat(){
+
+	/**
+	 * Accesor method to get value of cheat setting
+	 * 
+	 * @return
+	 */
+	public static boolean getCheat() {
 		return cheat;
 	}
-	
- 	public static final int startY = 50;
- 	
+
+	/**
+	 * Vertical resolution at which board starts displaying
+	 */
+	public static final int startY = 50;
+
+	/**
+	 * Constructor that initializes game scene
+	 */
 	public GameScene() {
 		// TODO Auto-generated constructor stub
 		logic = new Logic();
 		logic.arrange();
-		Rectangle cursor = new Rectangle(7, 647+startY, 72, 72);
+		Rectangle cursor = new Rectangle(7, 647 + startY, 72, 72);
 		cursor.setFill(Color.TRANSPARENT);
 		cursor.setStroke(Color.RED);
-		
+
 		p1Arr = new boardPiece[40];
 		int x = 8;
 		int y = startY;
 
 		p2Arr = new boardPiece[40];
 		int x2 = 8;
-		int y2 = 432+startY;
-		
+		int y2 = 432 + startY;
+
 		for (int i = 0; i < 40; i++) {
 
 			p1Arr[i] = new boardPiece("Test", (i % 10 * 70) + x, y, logic);
@@ -61,8 +98,6 @@ public class GameScene extends Pane{
 			}
 
 		}
-		
-		
 
 		for (int i = 0; i < 40; i++) {
 
@@ -76,19 +111,21 @@ public class GameScene extends Pane{
 			}
 
 		}
-		
+
 		///////////////////////
 		HBox sizingBoxes = null;
-		for(int i = 0; i < 10; i+=10){
-			//sizingBoxes = new HBox(p1Arr[i].getRec(), p1Arr[i+1].getRec(), p1Arr[i+2].getRec(), p1Arr[i+3].getRec(), p1Arr[i+4].getRec(), p1Arr[i+5].getRec(), p1Arr[i+6].getRec(), p1Arr[i+7].getRec(), p1Arr[i+8].getRec(), p1Arr[i+9].getRec());
-			
+		for (int i = 0; i < 10; i += 10) {
+			// sizingBoxes = new HBox(p1Arr[i].getRec(), p1Arr[i+1].getRec(),
+			// p1Arr[i+2].getRec(), p1Arr[i+3].getRec(), p1Arr[i+4].getRec(),
+			// p1Arr[i+5].getRec(), p1Arr[i+6].getRec(), p1Arr[i+7].getRec(),
+			// p1Arr[i+8].getRec(), p1Arr[i+9].getRec());
+
 		}
-		//this.getChildren().add(sizingBoxes);
+		// this.getChildren().add(sizingBoxes);
 		//////////////////////
-		
-		
+
 		this.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-			
+
 			Rectangle temp = null;
 			if (key.getCode() == KeyCode.RIGHT) {
 				if (cursor.getX() < 650) {
@@ -103,7 +140,7 @@ public class GameScene extends Pane{
 					cursor.setY(cursor.getY() - 72);
 				}
 			} else if (key.getCode() == KeyCode.DOWN) {
-				if (cursor.getY() <= 650 -24 + startY) {
+				if (cursor.getY() <= 650 - 24 + startY) {
 					cursor.setY(cursor.getY() + 72);
 				}
 			} else if (key.getCode() == KeyCode.ENTER) {
@@ -236,7 +273,7 @@ public class GameScene extends Pane{
 									}
 									try {
 
-										logic.computeCpu(logic.cpuMove(),this, logic);
+										logic.computeCpu(logic.cpuMove(), this, logic);
 									} catch (InterruptedException e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
@@ -285,21 +322,8 @@ public class GameScene extends Pane{
 			}
 
 		});
-		
-		
-		
-		
-		
-		
+
 		this.getChildren().addAll(cursor);
 	}
-	
-	
-	
-	
-	
-	
 
-	
-	
 }
