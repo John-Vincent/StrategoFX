@@ -12,11 +12,29 @@ public class Networker implements Runnable{
   private ConcurrentLinkedQueue<DatagramPacket> received;
   private DatagramSocket socket;
 
-
+  /**
+   * byte that identifies a Ping Packet
+   */
   public static final byte PING = (byte)0x00;
+
+  /**
+   * byte that Identifies a Sign up Packet
+   */
   public static final byte SIGNUP = (byte)0x01;
+
+  /**
+   * byte that identifies a Login Packet
+   */
   public static final byte LOGIN = (byte)0x02;
+
+  /**
+   * byte that identifies a friend query Packet
+   */
   public static final byte FRIENDQ = (byte)0x03;
+
+  /**
+   * byte that identifies a friend request Packet
+   */
   public static final byte FRIENDR = (byte)0x04;
   public static final byte LOGOUT =(byte)0x05;
   public static final byte CHAT = (byte)0xFE;

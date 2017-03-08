@@ -9,7 +9,7 @@ import stratego.components.friendslist.FriendModel;
 
 public class MainMenuWorker extends ModeWorker {
 
-	public FriendModel friendModel;
+	private FriendModel friendModel;
 
 	public MainMenuWorker(ConcurrentLinkedQueue<Runnable> q, FriendModel fm) {
 		super(q);
@@ -21,7 +21,7 @@ public class MainMenuWorker extends ModeWorker {
 	public Runnable getRequest(String name) {
 		switch (name) {
 		case "ping":
-			return new PingRequest();
+			return getPingRequest();
 		case "logout":
 			return new MenuOptions();
 		case "singleplayer":
