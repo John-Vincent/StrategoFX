@@ -14,8 +14,18 @@ import stratego.mode.menus.signup.SignupMenuUI;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 
+/**
+ * Login Menu UI
+ * The Login meny contains two clearly labeled text fields for users to input their username and password as well as two
+ * buttons:Sign in which verifies credentials before sending the user to the main menu and
+ * sign up which sends the user to the sign up menu
+ */
 public class LoginMenuUI extends Mode {
-
+	/**
+	 * Constructor
+	 * uses the grid pane tool to create the login menu screen
+	 * @author Ryan McCullough <rmm@iastate.edu>
+	 */
 	public LoginMenuUI() {
 
 		super(new GridPane());
