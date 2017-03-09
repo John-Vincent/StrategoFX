@@ -16,7 +16,7 @@ import javafx.event.ActionEvent;
 
 /**
  * Login Menu UI
- * The Login meny contains two clearly labeled text fields for users to input their username and password as well as two
+ * The Login menu contains two clearly labeled text fields for users to input their username and password as well as two
  * buttons:Sign in which verifies credentials before sending the user to the main menu and
  * sign up which sends the user to the sign up menu
  */

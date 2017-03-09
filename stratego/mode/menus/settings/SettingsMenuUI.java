@@ -15,10 +15,18 @@ import stratego.network.Networker;
 import stratego.application.Background;
 import stratego.components.gameboard.*;
 
+/**
+*Settings Menu UI
+*The settings menu contains buttons that will change different settings for the gameplay experience.
+*/
 public class SettingsMenuUI extends Mode{
 
   Mode lastMode;
 
+  /**
+  *Constructor
+  *Uses BorderPane to create the settings menu.
+  */
   public SettingsMenuUI(){
     super(new BorderPane());
     this.setWorker(new SettingsMenuWorker(this.getTaskList()));
