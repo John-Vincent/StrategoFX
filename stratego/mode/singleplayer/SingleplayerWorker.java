@@ -13,7 +13,7 @@ public class SingleplayerWorker extends ModeWorker{
 	/**
 	*Constructor
 	*sets the tasklist that communicates tasks between the UI and the worker.
-	*@param  ConcurrentLinkedQueue<Runnable>	q	The queue that SinglePlayerUI uses to pass request to the SinglePlayerWorker.
+	*@param	q	The queue that SinglePlayerUI uses to pass request to the SinglePlayerWorker.
 	*/
   public SingleplayerWorker(ConcurrentLinkedQueue<Runnable> q){
     super(q);
@@ -24,11 +24,11 @@ public class SingleplayerWorker extends ModeWorker{
     switch(name){
       case "back":
     	  return new MenuOptions();
-      default: 
+      default:
         return null;
     }
   }
-  
+
   private class MenuOptions implements Runnable{
 
 		@Override

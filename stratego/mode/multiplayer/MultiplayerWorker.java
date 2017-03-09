@@ -12,7 +12,7 @@ public class MultiplayerWorker extends ModeWorker{
 
 	/**
 	*Sets the tasklist that communicates tasks from the UI to the worker.
-	*@param  ConcurrentLinkedQueue<Runnable>	q	The queue that MultiplayerUI uses to pass request to the MultiplayerWorker.
+	*@param	q	The queue that MultiplayerUI uses to pass request to the MultiplayerWorker.
 	*/
   public MultiplayerWorker(ConcurrentLinkedQueue<Runnable> q){
     super(q);

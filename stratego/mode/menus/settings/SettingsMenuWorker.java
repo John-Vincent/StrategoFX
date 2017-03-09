@@ -11,7 +11,7 @@ public class SettingsMenuWorker extends ModeWorker{
 
 	/**
 	*Sets the tasklist that communicates tasks between the SettingsMenuUI and the worker.
-	*@param  ConcurrentLinkedQueue<Runnable>	q	The queue that SettingsMenuUI uses to pass request to the SettingsMenuWorkerWorker.
+	*@param	q	The queue that SettingsMenuUI uses to pass request to the SettingsMenuWorkerWorker.
 	*
 	*/
   public SettingsMenuWorker(ConcurrentLinkedQueue<Runnable> q){
@@ -27,7 +27,7 @@ public class SettingsMenuWorker extends ModeWorker{
         return null;
     }
   }
-  
+
   private class BackRequest implements Runnable{
 
 		@Override

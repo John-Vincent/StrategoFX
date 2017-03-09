@@ -19,9 +19,8 @@ public class Background implements Runnable{
 
   /**
    * returns an instance of Background this will only be called from StrategoFX
-   * @param  StrategoFX              app           This is the instance of Stratego that will be needed to set the next Mode
-   * @return                         the instance of Background
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @param  app                     This is the instance of Stratego that will be needed to set the next Mode
+   * @author Collin Vincent collinvincent96@gmail.com
    * @date   2017-03-08T22:00:31+000
    */
   public Background(StrategoFX app){
@@ -31,7 +30,7 @@ public class Background implements Runnable{
   /**
    * this runs the loop that will set the next mode when the current one ends, To set the mode it makes Stratego display it, and the starts that modes Worker.
    * this also starts the Networker object/thread that will watch for packets coming in.
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @author Collin Vincent collinvincent96@gmail.com
    * @date   2017-03-08T22:01:42+000
    */
   public void run(){
@@ -65,7 +64,7 @@ public class Background implements Runnable{
   /**
    * This is used by the ModeWorker to get the Networker that is handling the apps connection
    * @return [description]
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @author Collin Vincent collinvincent96@gmail.com
    * @date   2017-03-08T22:05:05+000
    */
   public static Networker getNetworker(){

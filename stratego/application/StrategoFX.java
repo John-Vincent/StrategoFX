@@ -18,8 +18,8 @@ public class StrategoFX extends Application{
 
   /**
    * sets up the stage the Background object/thread and the basic application settings
-   * @param  Stage                   stage the stage made by javafx to be used as the main stage for the application
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @param  stage                   the stage made by javafx to be used as the main stage for the application
+   * @author Collin Vincent collinvincent96@gmail.com
    * @date   2017-03-08T21:28:59+000
    */
   public void start(Stage stage){
@@ -50,8 +50,8 @@ public class StrategoFX extends Application{
 
   /**
    * sets the current Mode that is being displayed
-   * @param  Mode                    mode the mode to be displayed
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @param  mode                   the mode to be displayed
+   * @author Collin Vincent collinvincent96@gmail.com
    * @date   2017-03-08T21:30:19+000
    */
   public void setMode(Mode mode){
@@ -67,8 +67,8 @@ public class StrategoFX extends Application{
 
   /**
    * launches the app
-   * @param  String[]                args this will be empty
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @param  args                this will be empty
+   * @author Collin Vincent collinvincent96@gmail.com
    * @date   2017-03-08T21:51:21+000
    */
   public static void main(String[] args){

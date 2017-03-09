@@ -1,8 +1,9 @@
-SRC = ./stratego/
-BIN = ./bin/
+SRC = stratego/
+BIN = bin/
 RM = rm -rf
 ECHO = echo
 
+DOC = javadoc
 JC = javac
 CP := -cp .:bin/
 FLAGS = -Werror -d $(BIN) $(CP) -Xlint
@@ -10,7 +11,7 @@ FLAGS = -Werror -d $(BIN) $(CP) -Xlint
 
 APPLICATION = $(addprefix $(SRC)application/, StrategoFX Background )
 
-COMPONENTS = $(addprefix $(SRC)components/, Sizes friendslist/FriendModel friendslist/FriendsList gameboard/boardPiece gameboard/GameScene gameboard/Logic )
+COMPONENTS = $(addprefix $(SRC)components/, Sizes friendslist/FriendModel friendslist/FriendsList gameboard/BoardPiece gameboard/GameScene gameboard/Logic )
 
 MENUS = $(addprefix menus/, main/MainMenuUI main/MainMenuWorker settings/SettingsMenuUI settings/SettingsMenuWorker login/LoginMenuUI login/LoginMenuWorker signup/SignupMenuUI signup/SignupMenuWorker )
 MULTIPLAYER = $(addprefix multiplayer/, MultiplayerUI MultiplayerWorker )
@@ -37,6 +38,8 @@ server: makebin $(SERVER)
 	@$(ECHO) "  "
 	@$(ECHO) "Compilation complete"
 
+doc:
+	@$(DOC) $(MODE) $(NETWORK) $(COMPONENETS) $(APPLICATION)
 
 $(BIN)%.class: %.java
 	@$(ECHO) "  "
@@ -47,7 +50,7 @@ $(BIN)%.class: %.java
 $(BIN)%: %
 	@cp -r $< $@
 
-.PHONY: clean makebin default server resources
+.PHONY: clean makebin default server resources doc
 
 resources: $(RESOURCES)
 	@cp -r

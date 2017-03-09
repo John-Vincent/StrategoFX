@@ -24,7 +24,7 @@ public class LoginMenuUI extends Mode {
 	/**
 	 * Constructor
 	 * uses the grid pane tool to create the login menu screen
-	 * @author Ryan McCullough <rmm@iastate.edu>
+	 * @author Ryan McCullough rmm@iastate.edu
 	 */
 	public LoginMenuUI() {
 

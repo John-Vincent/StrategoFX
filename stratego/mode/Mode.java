@@ -23,9 +23,9 @@ public abstract class Mode extends Scene{
 
   /**
    * constructs a scene with the root node p
-   * @param  Parent                  p             some javafx object that extends parent
+   * @param  p             some javafx object that extends parent
    * @return                         an instance of the mode class
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T19:13:03+000
    */
   public Mode(Parent p){
@@ -35,8 +35,8 @@ public abstract class Mode extends Scene{
 
   /**
    * sets the worker object for this mode. the ModeWorker will be run automatically from the background thread.
-   * @param  ModeWorker              w The ModeWorker object that will compute the logic for this mode
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @param  w The ModeWorker object that will compute the logic for this mode
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T19:13:59+000
    */
   protected void setWorker(ModeWorker w){
@@ -46,7 +46,7 @@ public abstract class Mode extends Scene{
   /**
    * returns the current worker for this Mode
    * @return null if the worker has not been set, or a ModeWorker instance.
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T19:16:48+000
    */
   protected ModeWorker getWorker(){
@@ -59,8 +59,8 @@ public abstract class Mode extends Scene{
 
   /**
    * request a task to be run by the ModeWorker, this task must be defined in the ModeWorker class
-   * @param  String                  task the name of that task to be run
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @param  task           the name of that task to be run
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T19:21:51+000
    */
   protected void addTask(String task){
@@ -69,9 +69,9 @@ public abstract class Mode extends Scene{
 
   /**
    * request a task to be run by the ModeWorker, this task must be defined in the ModeWorker class.
-   * @param  String                  name the name of the task
-   * @param  Object...               args any arguments that the task will need to run
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @param  name the name of the task
+   * @param  args any arguments that the task will need to run
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T19:22:41+000
    */
   protected void addTask(String name, Object... args){
@@ -80,7 +80,7 @@ public abstract class Mode extends Scene{
 
   /**
    * this will start the execution of the ModeWorker, most users will not need to call this method. It is called by the Background class and should only be used if you are rewriting Background
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T19:24:16+000
    */
   public void startWorker(){
@@ -89,8 +89,8 @@ public abstract class Mode extends Scene{
 
   /**
    * this sets the next Mode to be displayed by the application after the execution of this mode terminates.
-   * @param  Mode                    next an instance of the next mode that should be displayed.
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @param  next an instance of the next mode that should be displayed.
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T19:25:43+000
    */
   protected void setNextMode(Mode next){
@@ -100,7 +100,7 @@ public abstract class Mode extends Scene{
   /**
    * returns the minimum size in an array
    * @return returns an array with the width in the first index and the height in the second index
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T19:32:41+000
    */
   public double[] getMinSize(){
@@ -110,9 +110,9 @@ public abstract class Mode extends Scene{
 
   /**
    * this sets the minimum size that this mode should be displayed at.
-   * @param  double                  width the width of the scene
-   * @param  double                  height the height of the scene
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @param                  width the width of the scene
+   * @param                  height the height of the scene
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T19:32:41+000
    */
   protected void setMinSize(double width, double height){
@@ -122,8 +122,8 @@ public abstract class Mode extends Scene{
 
   /**
    * sets the Prefered width of the Mode, the Mode will be displayed with this width when it is shown.
-   * @param  double                  w the width in pixels
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @param                  w the width in pixels
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T19:34:03+000
    */
   protected void setPrefWidth(double w){
@@ -132,8 +132,8 @@ public abstract class Mode extends Scene{
 
   /**
    * sets the prefered hieght of this Mode, the Application will be set to this heigth when this Mode is Displayed
-   * @param  double                  h the Height in pixels
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @param                  h the Height in pixels
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T19:39:09+000
    */
   protected void setPrefHeight(double h){
@@ -143,7 +143,7 @@ public abstract class Mode extends Scene{
   /**
    * returns the Prefered Width of this Mode
    * @return the Prefered Width in Pixels
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T20:14:01+000
    */
   public double getPrefWidth(){
@@ -153,7 +153,7 @@ public abstract class Mode extends Scene{
   /**
    * returns the Prefered Height of this Mode
    * @return The Prefered Height in pixels
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T20:14:31+000
    */
   public double getPrefHeight(){
@@ -162,8 +162,8 @@ public abstract class Mode extends Scene{
 
   /**
    * This sets the resizable parameter of this Mode, this will prevent the application from being resized while this Mode is Active.
-   * @param  boolean                 r the resizable value
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @param                 r the resizable value
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T20:15:01+000
    */
   protected void setResizable(boolean r){
@@ -173,7 +173,7 @@ public abstract class Mode extends Scene{
   /**
    * returns the Resizable property of this object
    * @return the resizable attribute
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T20:17:06+000
    */
   public boolean resizable(){
@@ -183,7 +183,7 @@ public abstract class Mode extends Scene{
   /**
    * the Mode that will be displayed after this Mode is Closed.
    * @return an instance of Mode.
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T20:17:33+000
    */
   public Mode nextMode(){

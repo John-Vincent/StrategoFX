@@ -66,9 +66,9 @@ public class Networker implements Runnable{
 
   /**
    * this will be called from other threads to actually send a packet
-   * @param  DatagramPacket          p             [description]
+   * @param	p             [description]
    * @return                         [description]
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-02-15T20:24:47+000
    */
   public Boolean sendPacket(DatagramPacket p){

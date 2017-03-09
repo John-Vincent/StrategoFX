@@ -22,12 +22,12 @@ public class PacketHandler implements Runnable{
   public static final byte FRIENDQ = (byte)0x03;
   public static final byte FRIENDR =(byte)0x04;
   public static final byte LOGOUT =(byte)0x05;
-	
+
 	/**
 	*PacketHandler Constructor
-	*@param DatagramPacket          p         the incoming packet
-	*@param DatagramSocket          s         the socket 
-	*@author Collin Vincent <collinvincent96@gmail.com>
+	*@param	p         the incoming packet
+	*@param	s         the socket
+	*@author Collin Vincent collinvincent96@gmail.com
 	*/
   public PacketHandler(DatagramPacket p, DatagramSocket s){
     this.packet = p;
@@ -35,8 +35,10 @@ public class PacketHandler implements Runnable{
   }
 
   /**
-  *decodes a packet and performs a function based on its type.
-  */
+   * decodes the packet and responds accordingly
+   * @author Collin Vincent collinvincent96@gmail.com
+   * @date   2017-03-09T20:28:58+000
+   */
   public void run(){
     String temp;
     String[] temp2;

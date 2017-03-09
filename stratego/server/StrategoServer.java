@@ -19,7 +19,7 @@ public class StrategoServer implements Runnable{
 
 /**
 *Constructor for the SErver that sets class variables
-*@author Collin Vincent <collinvincent96@gmail.com>
+* @author  Collin Vincent  collinvincent96@gmail.com
 */
   public StrategoServer() throws IOException{
     this.socket = new DatagramSocket(8092);
@@ -28,7 +28,7 @@ public class StrategoServer implements Runnable{
 
   /**
   *creates and sends a packet.
-  *@author Collin Vincent <collinvincent96@gmail.com>
+  * @author  Collin Vincent  collinvincent96@gmail.com
   */
   public void run(){
     DatagramPacket p = new DatagramPacket(new byte[packetSize], packetSize);
@@ -45,7 +45,7 @@ public class StrategoServer implements Runnable{
   }
 	/**
 	*main method that creates and runs a server
-	*@author Collin Vincent <collinvincent96@gmail.com>
+	* @author  Collin Vincent  collinvincent96@gmail.com
 	*/
   public static void main(String[] args){
     try{

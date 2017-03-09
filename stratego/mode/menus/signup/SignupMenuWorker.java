@@ -8,13 +8,13 @@ import stratego.mode.ModeWorker;
 
 /**
 *	This is the class the helps the SignupMenuUI and Network communicate, it controls the whole app while its active.
-*	
+*
 */
 public class SignupMenuWorker extends ModeWorker {
-	
+
 	/**
 	*	Calls it's superconstructor {@link stratego.mode.ModeWorker#ModeWorker(ConcurrentLinkedQueue<Runnable> q) ModeWorker}.
-	*	@author	Bradley Rhein <bdrhein@iastate.edu>
+	* @author 	Bradley Rhein  bdrhein@iastate.edu
 	*/
 	public SignupMenuWorker(ConcurrentLinkedQueue<Runnable> q) {
 		super(q);
@@ -70,19 +70,19 @@ public class SignupMenuWorker extends ModeWorker {
 		/**
 		*	Constructor.
 		*	Sets the user name and password for the new user request.
-		*	@param	String	name	The requested username for the new user.
-		*	@param	String	password	The requested password for the new user.
-		*	@author Bradley Rhein <bdrhein@iastate.edu>
+		*	@param	name	The requested username for the new user.
+		*	@param	password	The requested password for the new user.
+		* @author  Bradley Rhein  bdrhein@iastate.edu
 		*/
 		public SubmitRequest(String name, String password) {
 			this.name = name;
 			this.password = password;
 		}
-		
+
 		/**
 		*	No-argument constructor.
 		*	Creates an empty submit request when the user attempts to return to the login screen.
-		*	@author Bradley Rhein <bdrhein@iastate.edu>
+		* @author  Bradley Rhein  bdrhein@iastate.edu
 		*/
 		public SubmitRequest() {
 

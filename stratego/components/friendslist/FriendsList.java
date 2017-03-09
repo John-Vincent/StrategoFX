@@ -20,8 +20,8 @@ public class FriendsList extends VBox implements Observer {
 	/**
 	*	Constructor.
 	*	Uses the parent constructor to create a VBox.
-	*	@param	double	n	The padding to be used in this unique VBox.
-	*	@author	Bradley Rhein <bdrhein@iastate.edu>
+	*	@param	n	The padding to be used in this unique VBox.
+	* @author Bradley Rhein bdrhein@iastate.edu
 	*/
 	public FriendsList(double n){
 		super(n);
@@ -49,10 +49,10 @@ public class FriendsList extends VBox implements Observer {
 	/**
 	*	Creates an array of FriendVBoxes.
 	*	This method uses the arraylist stored in FriendModel to generate a FriendVBox for each friend in that arraylist.
-	*	@param	FriendModel	friends	The FriendModel object from which the arraylist will come from.
-	*	@param	int	size	The size of the created FriendVBox array.
+	*	@param	friends	The FriendModel object from which the arraylist will come from.
+	*	@param	size	The size of the created FriendVBox array.
 	*	@return	The created FriendVBox array.
-	*	@author	Bradley Rhein <bdrhein@iastate.edu>
+	* @author Bradley Rhein bdrhein@iastate.edu
 	*/
 	public FriendVBox[] createBoxes(FriendModel friends, int size) {
 		FriendVBox[] friendBoxes = new FriendVBox[size];

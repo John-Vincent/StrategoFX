@@ -30,7 +30,7 @@ public class BoardPiece {
 	 * 1-letter char id for the piece
 	 */
 	private char id;
-	
+
 	/**
 	 * Stores the info for the color of the piece
 	 */
@@ -80,7 +80,6 @@ public class BoardPiece {
 	 * @param str takes in name of the board piece
 	 * @param x takes in horizontal location of BoardPiece on the javafx scene.=
 	 * @param y takes in vertical  location of BoardPiece on the javafx scene
-	 * @param logic instance of stratego.components.logic
 	 */
 	BoardPiece(String str, int x, int y) {
 		r = new Rectangle(x, y, 70, 70);
@@ -143,7 +142,6 @@ public class BoardPiece {
 
 	/**
 	 * Initializes the board piece with an image according to its char ID.
-	 * @param logic instance of stratego.components.logic
 	 */
 	void refreshImg() {
 
@@ -173,7 +171,7 @@ public class BoardPiece {
 			r.setFill(spy);
 		}
 	}
-	
+
 	/**
 	 * Sets the color of the piece
 	 * @param color color of the piece on board
@@ -181,10 +179,10 @@ public class BoardPiece {
 	public void setColor(Color color){
 		this.color = color;
 	}
-	
+
 	/**
 	 * Returns color of the board piece
-	 * @return Returns a color object of type javafx.scene.paint 
+	 * @return Returns a color object of type javafx.scene.paint
 	 */
 	public Color getColor(){
 		return color;

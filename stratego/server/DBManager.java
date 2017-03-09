@@ -34,7 +34,7 @@ public final class DBManager{
   /**
   *Gets the database connection info.
   *@return Connection 	this is the database connection info.
-  *@author Collin Vincent <collinvincent96@gmail.com>
+  * @author  Collin Vincent  collinvincent96@gmail.com
   */
   public static Connection getConnection() throws SQLException{
     return source.getConnection();
@@ -42,10 +42,10 @@ public final class DBManager{
 
 	/**
 	*This method runs a query that adds a new user to the users table.
-	*@param String                  uname         the new user
-	*@param String                  password      the desired password
+	*@param	uname         the new user
+	*@param	password      the desired password
 	*@return Boolean		True or false based on whether the name is available.
-	*@author Collin Vincent <collinvincent96@gmail.com>
+	* @author  Collin Vincent  collinvincent96@gmail.com
 	*/
   public static boolean signup(String uname, String password){
     String temp = signupQ;
@@ -70,13 +70,13 @@ public final class DBManager{
     }
 
   }
-	
+
 	/**
 	*This runs a query to see if the submitted username and password match a user in the users table.
-	*@param  String                  uname         the submitted username
-	*@param  String                  password      the submitted password
+	*@param	uname         the submitted username
+	*@param	password      the submitted password
 	*@return Boolean		True or false based on whether the username and password match a user from the table.
-	*@author Collin Vincent <collinvincent96@gmail.com>
+	* @author  Collin Vincent  collinvincent96@gmail.com
 	*/
   public static boolean login(String uname, String password){
     String temp = loginQ;
@@ -110,9 +110,9 @@ public final class DBManager{
   /**
    * this runs a query to return the name and online status of every user that has a friend relationship with the current user. if the request as not been accepted then the second value
    * should be request instead of online status
-   * @param  String                  uname         the current user
+   * @param	uname         the current user
    * @return                         String[][]    this should be a x by 2 array where x is the number of friends
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-02-21T16:47:48+000
    */
   public static String getFriends(String uname){
@@ -141,10 +141,10 @@ public final class DBManager{
 
   /**
    * this makes a request that will create a new row in the friend table with the user's id as the first element and the friends id as the second and the accepted value as false
-   * @param  String                  user          [description]
-   * @param  String                  friend        [description]
+   * @param	user          [description]
+   * @param	friend        [description]
    * @return                         [description]
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-02-21T16:51:32+000
    */
   public static String requestFriend(String user, String friend){
@@ -168,9 +168,9 @@ public final class DBManager{
 
   /**
    * changes the online status of the user to false in the user table
-   * @param  String                  username      [description]
+   * @param	username      [description]
    * @return                         [description]
-   * @author Collin Vincent <collinvincent96@gmail.com>
+   * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-02-21T16:53:46+000
    */
   public static boolean logout(String username){

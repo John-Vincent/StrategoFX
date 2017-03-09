@@ -20,11 +20,11 @@ import javafx.geometry.*;
 */
 public class SignupMenuUI extends Mode {
 	int flag = 0;
-	
+
 	/**
 	* Constructor.
 	* Uses the GridPane format to create the signup menu which contains a few textboxes to input a new unsername and password, and a submit and escape button.
-	* @author Bradley Rhein <bdrhein@iastate.edu>
+	* @author  Bradley Rhein  bdrhein@iastate.edu
 	*/
 	public SignupMenuUI() {
 

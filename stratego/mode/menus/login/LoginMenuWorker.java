@@ -13,8 +13,8 @@ public class LoginMenuWorker extends ModeWorker {
 
 	/**
 	*Sets the task list that gets tasks from LoginMenuUI
-	*@param  ConcurrentLinkedQueue<Runnable>	q	A queue that passes requests from LoginMenuUI to LoginMenuWorker.
-	*@author Ryan McCullough <rmm@iastate.edu>
+	* @param	q	A queue that passes requests from LoginMenuUI to LoginMenuWorker.
+	* @author Ryan McCullough rmm@iastate.edu
 	*/
 	public LoginMenuWorker(ConcurrentLinkedQueue<Runnable> q) {
 		super(q);
