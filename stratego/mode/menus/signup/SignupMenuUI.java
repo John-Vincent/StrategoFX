@@ -75,8 +75,6 @@ public class SignupMenuUI extends Mode {
 
 		btn1.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-
-
 			public void handle(ActionEvent e) {
 				if (!(userTextField.getText().isEmpty() || pwBox.getText().isEmpty() || pwBox2.getText().isEmpty())) {
 					if (!pwBox.getText().equals(pwBox2.getText())) {

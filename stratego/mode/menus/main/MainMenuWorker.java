@@ -7,15 +7,27 @@ import java.util.Arrays;
 import stratego.mode.ModeWorker;
 import stratego.components.friendslist.FriendModel;
 
+/**
+ * This is the class the helps the MainMenuUI and Network communicate, it controls the whole app while its active.
+ */
 public class MainMenuWorker extends ModeWorker {
-
+	/**
+	*	An instance of the FriendModel object for the logged in user.
+	*/
 	private FriendModel friendModel;
 
+	/**
+	*	Sets the FriendModel object and the tasklist that is used to get tasks from MainMenuUI. 
+	*	@param  ConcurrentLinkedQueue<Runnable>	q	The queue that MainMenuUI uses to pass request to the MainMenuWorker.
+	*	@param	FriendModel	fm	This users FriendModel provided by MainMenuUI.
+	*	@author Bradley Rhein	<bdrhein@iastate.edu>
+	*/
 	public MainMenuWorker(ConcurrentLinkedQueue<Runnable> q, FriendModel fm) {
 		super(q);
 		friendModel = fm;
 		super.setTodo(new Runnable[]{new FriendUpdater()});
 	}
+	
 
 	@Override
 	public Runnable getRequest(String name) {
@@ -32,7 +44,7 @@ public class MainMenuWorker extends ModeWorker {
 			return null;
 		}
 	}
-
+	
 	@Override
 	public Runnable getRequest(String name, Object... args) {
 		switch (name) {
@@ -95,7 +107,13 @@ public class MainMenuWorker extends ModeWorker {
 
 	private class FriendRequest implements Runnable {
 		String friendName;
-
+		
+		/**
+		*	Constructor.
+		*	Creates a friend request for the user with the provided name, if the user exists.
+		*	@param	String	name	The name of the requested user.
+		*	@author	Bradley Rhein	<bdrhein@iastate.edu>
+		*/
 		public FriendRequest(String name) {
 			friendName = name;
 		}
