@@ -22,10 +22,18 @@ import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+/**
+* Main Menu UI
+* The main menu contains multiple buttons leading to the game screen (single and multiplayer), as well as a settings button and a logout button. The main menu also holds a friends list VBox with information unique to the user logged in.
+*/
 public class MainMenuUI extends Mode {
 	BorderPane pane;
 	public final static double buttonWidth = 200;
 
+	/**
+	* Constructor.
+	* Uses the BorderPane format to create the main menu.
+	*/
 	public MainMenuUI() {
 		super(new BorderPane());
 		FriendModel friendModel = new FriendModel();
@@ -121,7 +129,14 @@ public class MainMenuUI extends Mode {
 			}
 		});
 	}
-
+	
+	/**
+	*	Adds a friend to this users friendlist.
+	*	For demo 3, this method will be moved to the components package into the FriendsList class so that other screens can utilize this feature without duplication of code.
+	*	@param friends The VBox containing the components of the friend list.
+	*	@param friendsList The logged in users friend list.
+	*	@param friendModel The observable FriendModel object of this user.
+	*/
 	public void addFriend(VBox friends, FriendsList friendsList, FriendModel friendModel) {
 		TextField friendName = new TextField();
 		HBox userName = new HBox(5, new Text("Friend's Username:"), friendName);

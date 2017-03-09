@@ -15,6 +15,10 @@ public class FriendModel extends Observable {
 	*/
 	public ArrayList<Friend> friendList;
 
+	/** 
+	* Constructor.
+	* Creates a new arraylist to store this users friends.
+	*/
 	public FriendModel(){
 		friendList = new ArrayList<Friend>();
 	}
