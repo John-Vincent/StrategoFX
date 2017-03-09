@@ -55,7 +55,7 @@ public class LoginMenuWorker extends ModeWorker {
 		@Override
 		public void run() {
 			net.login(username, password);
-			setRunning(false);
+			//setRunning(false);
 			// this terminates the execution of this worker advancing the
 			// program to the next UI
 		}
