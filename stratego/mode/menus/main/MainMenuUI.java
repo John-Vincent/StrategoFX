@@ -33,6 +33,7 @@ public class MainMenuUI extends Mode {
 	/**
 	* Constructor.
 	* Uses the BorderPane format to create the main menu.
+	* @author Bradley Rhein <bdrhein@iastate.edu>
 	*/
 	public MainMenuUI() {
 		super(new BorderPane());
@@ -136,6 +137,7 @@ public class MainMenuUI extends Mode {
 	*	@param friends The VBox containing the components of the friend list.
 	*	@param friendsList The logged in users friend list.
 	*	@param friendModel The observable FriendModel object of this user.
+	*	@author	Bradley Rhein <bdrhein@iastate.edu>
 	*/
 	public void addFriend(VBox friends, FriendsList friendsList, FriendModel friendModel) {
 		TextField friendName = new TextField();

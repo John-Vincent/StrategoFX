@@ -14,8 +14,18 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.*;
 
+/**
+* Signup Menu UI
+* The signup menu contains text input boxes for users to create a new account to sign in with and use the program. The signup information provided by the user is used to create a new user in the database.
+*/
 public class SignupMenuUI extends Mode {
 	int flag = 0;
+	
+	/**
+	* Constructor.
+	* Uses the GridPane format to create the signup menu which contains a few textboxes to input a new unsername and password, and a submit and escape button.
+	* @author Bradley Rhein <bdrhein@iastate.edu>
+	*/
 	public SignupMenuUI() {
 
 		super(new GridPane());
