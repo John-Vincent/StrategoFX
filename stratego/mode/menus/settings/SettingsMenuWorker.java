@@ -4,9 +4,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import stratego.network.Networker;
 import java.net.*;
 import stratego.mode.ModeWorker;
-
+/**
+*Class that helps the Settings Menu and the network communicate
+*/
 public class SettingsMenuWorker extends ModeWorker{
 
+	/**
+	*Sets the tasklist that communicates tasks between the SettingsMenuUI and the worker.
+	*@param  ConcurrentLinkedQueue<Runnable>	q	The queue that SettingsMenuUI uses to pass request to the SettingsMenuWorkerWorker.
+	*
+	*/
   public SettingsMenuWorker(ConcurrentLinkedQueue<Runnable> q){
     super(q);
   }
