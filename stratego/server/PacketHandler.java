@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.nio.charset.StandardCharsets;
 
+/**
+*Class that handles Packets.
+*/
 public class PacketHandler implements Runnable{
 
   private DatagramPacket packet;
@@ -19,12 +22,21 @@ public class PacketHandler implements Runnable{
   public static final byte FRIENDQ = (byte)0x03;
   public static final byte FRIENDR =(byte)0x04;
   public static final byte LOGOUT =(byte)0x05;
-
+	
+	/**
+	*PacketHandler Constructor
+	*@param DatagramPacket          p         the incoming packet
+	*@param DatagramSocket          s         the socket 
+	*@author Collin Vincent <collinvincent96@gmail.com>
+	*/
   public PacketHandler(DatagramPacket p, DatagramSocket s){
     this.packet = p;
     this.socket = s;
   }
 
+  /**
+  *decodes a packet and performs a function based on its type.
+  */
   public void run(){
     String temp;
     String[] temp2;

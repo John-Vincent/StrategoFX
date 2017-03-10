@@ -1,6 +1,6 @@
 package stratego.server;
 
-// Sports page burger, Anytime burger
+
 
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
@@ -17,12 +17,19 @@ public class StrategoServer implements Runnable{
   private final ExecutorService pool;
 
 
-
+/**
+*Constructor for the SErver that sets class variables
+*@author Collin Vincent <collinvincent96@gmail.com>
+*/
   public StrategoServer() throws IOException{
     this.socket = new DatagramSocket(8092);
     this.pool = Executors.newFixedThreadPool(10);
   }
 
+  /**
+  *creates and sends a packet.
+  *@author Collin Vincent <collinvincent96@gmail.com>
+  */
   public void run(){
     DatagramPacket p = new DatagramPacket(new byte[packetSize], packetSize);
     while(!this.socket.isClosed()){
@@ -36,7 +43,10 @@ public class StrategoServer implements Runnable{
       }
     }
   }
-
+	/**
+	*main method that creates and runs a server
+	*@author Collin Vincent <collinvincent96@gmail.com>
+	*/
   public static void main(String[] args){
     try{
       StrategoServer s = new StrategoServer();

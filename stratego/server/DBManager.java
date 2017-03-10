@@ -4,7 +4,9 @@ import java.sql.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 import java.util.ArrayList;
 
-//can you also add a column to the user table thats a boolean value for if they are online or not
+/**
+*The DB manager class contains variables and methods for database queries and interactions.
+*/
 public final class DBManager{
 
   private static final BasicDataSource source = new BasicDataSource();
@@ -29,11 +31,22 @@ public final class DBManager{
     source.setPassword("M2EyMTIwYmEz");
   }
 
+  /**
+  *Gets the database connection info.
+  *@return Connection 	this is the database connection info.
+  *@author Collin Vincent <collinvincent96@gmail.com>
+  */
   public static Connection getConnection() throws SQLException{
     return source.getConnection();
   }
 
-
+	/**
+	*This method runs a query that adds a new user to the users table.
+	*@param String                  uname         the new user
+	*@param String                  password      the desired password
+	*@return Boolean		True or false based on whether the name is available.
+	*@author Collin Vincent <collinvincent96@gmail.com>
+	*/
   public static boolean signup(String uname, String password){
     String temp = signupQ;
     temp = temp.replaceFirst("\\?", uname);
@@ -57,7 +70,14 @@ public final class DBManager{
     }
 
   }
-
+	
+	/**
+	*This runs a query to see if the submitted username and password match a user in the users table.
+	*@param  String                  uname         the submitted username
+	*@param  String                  password      the submitted password
+	*@return Boolean		True or false based on whether the username and password match a user from the table.
+	*@author Collin Vincent <collinvincent96@gmail.com>
+	*/
   public static boolean login(String uname, String password){
     String temp = loginQ;
     boolean ans=false;
