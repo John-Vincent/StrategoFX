@@ -14,9 +14,16 @@ import javafx.scene.layout.Pane;
 import stratego.network.Networker;
 import stratego.application.Background;
 
-
+/**
+*Single Player UI
+*Displays the gameboard for the user.
+*/
 public class SingleplayerUI extends Mode{
 
+	/**
+	*Constructor
+	*creates the gameboard.
+	*/
   public SingleplayerUI(){
     super(new GameScene());
     Button back = new Button("Back");

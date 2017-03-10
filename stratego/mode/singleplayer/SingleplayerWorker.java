@@ -5,8 +5,16 @@ import stratego.network.Networker;
 import java.net.*;
 import stratego.mode.ModeWorker;
 
+/**
+*The class that lets the SinglePlayerUI communicate with the network.
+*/
 public class SingleplayerWorker extends ModeWorker{
 
+	/**
+	*Constructor
+	*sets the tasklist that communicates tasks between the UI and the worker.
+	*@param  ConcurrentLinkedQueue<Runnable>	q	The queue that SinglePlayerUI uses to pass request to the SinglePlayerWorker.
+	*/
   public SingleplayerWorker(ConcurrentLinkedQueue<Runnable> q){
     super(q);
   }
