@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 /**
- * this class is the default display class for the Stratego project
+ * this class is the default display class for the Stratego project. it relies on ModeWorker to run logic on the Background thread, and it queues up task for the Worker using the addTask() method.
  */
 public abstract class Mode extends Scene{
 

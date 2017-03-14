@@ -49,7 +49,7 @@ public class StrategoFX extends Application{
   }
 
   /**
-   * sets the current Mode that is being displayed
+   * sets the current Mode that is being displayed, this is called by Background to change the current Mode.
    * @param  mode                   the mode to be displayed
    * @author Collin Vincent collinvincent96@gmail.com
    * @date   2017-03-08T21:30:19+000

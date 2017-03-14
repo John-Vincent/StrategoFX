@@ -20,7 +20,7 @@ MODE = $(addprefix $(SRC)mode/, Mode ModeWorker $(MENUS) $(MULTIPLAYER) $(SINGLE
 
 NETWORK = $(addprefix $(SRC)network/, Networker )
 
-SERVER = $(addprefix $(BIN)$(SRC)server/, StrategoServer PacketHandler DBManager )
+SERVER = $(addprefix $(BIN)$(SRC)server/, StrategoServer PacketHandler DBManager SessionManager)
 SERVER := $(addsuffix .class, $(SERVER) )
 
 SOURCES = $(addsuffix .class, $(APPLICATION) $(MODE) $(NETWORK) $(COMPONENTS))

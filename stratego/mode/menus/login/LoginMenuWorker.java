@@ -73,7 +73,9 @@ public class LoginMenuWorker extends ModeWorker {
         System.out.println("ping from: " + p.getSocketAddress());
         break;
       case Networker.LOGIN:
-        if(data[0]!=0){
+        if(data[4]!=0){
+					int id = data[0] << 24 | data[1] << 16 | data[2] << 8 | data[3];
+					this.net.setID(id);
           this.setRunning(false);
         }
         break;

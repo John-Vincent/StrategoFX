@@ -6,7 +6,7 @@ import java.net.DatagramPacket;
 import stratego.application.Background;
 
 /**
- * This is the class the helps the UI and Network communicate, it controls the whole app while its active.
+ * This is the class the helps the UI and Network communicate, it controls the whole app while its Mode is active.
  */
 public abstract class ModeWorker implements Runnable{
   /**
@@ -34,8 +34,9 @@ public abstract class ModeWorker implements Runnable{
   }
 
   /**
-   * a Method that any subclass must override. This returns request to the Mode object.
-   * @param	name          the name of the request to be returned
+   * a Method that any subclass must override. This Method is called by the Mode on the JavaFX thread, it returns a runnable that will added to the Task queue by the Mode, and then processed by the Worker
+   * on the Background thread as soon as possible.
+   * @param	name          the name of the runnable to be returned
    * @return                         returns a Runnable object that preforms the task requested.
    * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T20:32:46+000
@@ -43,9 +44,9 @@ public abstract class ModeWorker implements Runnable{
   abstract public Runnable getRequest(String name);
 
   /**
-   * a Method that any subclass must override. This returns request to the Mode object.
-   * @param	name          the name of the request to be returned.
-   * @param	arg          a list of arguments for the task to use.
+   * a Method that any subclass must override. This returns a runnable that requires parameters to the Mode.
+   * @param	name          the name of the runnable to be returned.
+   * @param	arg          a list of arguments to be passed to the runnable.
    * @return                         returns a Runnable object that preforms the task requested.
    * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T20:32:46+000
@@ -108,7 +109,8 @@ public abstract class ModeWorker implements Runnable{
   }
 
   /**
-   * this sets the todo array for the ModeWorker, this is an array of runnables that will be executed after the request from the UI are processed and before the Network is checked for packets
+   * this sets the todo array for the ModeWorker, this is an array of runnables that will be executed after the request from the UI are processed and before the Network is checked for packets,
+   * this list allows subclasses to add additional functionalitly to the run method without having to override it.
    * @param	todo array of runnables
    * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T21:17:50+000

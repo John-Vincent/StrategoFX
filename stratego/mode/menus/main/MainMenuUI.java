@@ -75,7 +75,6 @@ public class MainMenuUI extends Mode {
 			public void handle(ActionEvent e) {
 				System.out.println("logout requested");
 				setNextMode(new LoginMenuUI());
-				addTask("ping");
 				addTask("logout");
 			}
 		});
