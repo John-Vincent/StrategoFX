@@ -16,7 +16,7 @@ public class Networker implements Runnable{
 
   private static MessageDigest hash;
 
-  private static final int packetSize = 1024;
+  private static final int packetSize = 576;
 
   /**
    * byte that identifies a Ping Packet

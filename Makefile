@@ -20,6 +20,9 @@ MODE = $(addprefix $(SRC)mode/, Mode ModeWorker $(MENUS) $(MULTIPLAYER) $(SINGLE
 
 NETWORK = $(addprefix $(SRC)network/, Networker )
 
+KEY-GEN = $(addprefix $(BIN)$(SRC)security/, KeyFileGenerator KeyFileTester )
+KEY-GEN := $(addsuffix .class, $(KEY-GEN))
+
 SERVER = $(addprefix $(BIN)$(SRC)server/, StrategoServer PacketHandler DBManager SessionManager)
 SERVER := $(addsuffix .class, $(SERVER) )
 
@@ -37,6 +40,10 @@ server: CP = -cp .:bin/:commons-logging-1.2.jar:mysql-connector-java-5.1.20-bin.
 server: makebin $(SERVER)
 	@$(ECHO) "  "
 	@$(ECHO) "Compilation complete"
+
+key-gen: makebin $(KEY-GEN)
+	@$(ECHO) " "
+	@$(ECHO) "Key Generator Compiled"
 
 doc:
 	@$(DOC) $(MODE) $(NETWORK) $(COMPONENETS) $(APPLICATION)

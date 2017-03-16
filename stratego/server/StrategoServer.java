@@ -13,7 +13,7 @@ import java.sql.*;
 public class StrategoServer implements Runnable{
 
   private DatagramSocket socket;
-  final private int packetSize = 1024;
+  final private int packetSize = 576;
   private final ExecutorService pool;
 
 

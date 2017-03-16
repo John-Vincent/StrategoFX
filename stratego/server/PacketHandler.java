@@ -82,7 +82,9 @@ public class PacketHandler implements Runnable{
         System.out.println("got FRIENDR");
         break;
       case LOGOUT:
-        return;
+        id = data[0] << 24 | data[1] << 16 | data[2] << 8 | data[3];
+        logout(id);
+        break;
       default:
         return;
     }
@@ -146,9 +148,9 @@ public class PacketHandler implements Runnable{
     }
   }
 
-  private byte[] logout(int id){
+  private void logout(int id){
+    DBManager.logout(SessionManager.getUName(id, this.packet.getSocketAddress()));
     SessionManager.removeSession(id);
-    return null;
   }
 
 }
