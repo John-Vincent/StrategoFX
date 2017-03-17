@@ -18,7 +18,7 @@ MULTIPLAYER = $(addprefix multiplayer/, MultiplayerUI MultiplayerWorker )
 SINGLEPLAYER = $(addprefix singleplayer/, SingleplayerUI SingleplayerWorker )
 MODE = $(addprefix $(SRC)mode/, Mode ModeWorker $(MENUS) $(MULTIPLAYER) $(SINGLEPLAYER) )
 
-NETWORK = $(addprefix $(SRC)network/, Networker )
+NETWORK = $(addprefix $(SRC)network/, Networker SecurityManager )
 
 KEY-GEN = $(addprefix $(BIN)$(SRC)security/, KeyFileGenerator KeyFileTester )
 KEY-GEN := $(addsuffix .class, $(KEY-GEN))

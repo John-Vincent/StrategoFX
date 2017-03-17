@@ -9,7 +9,7 @@ import java.util.Arrays;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.util.Random;
+
 
 public class KeyFileTester{
 
@@ -42,7 +42,7 @@ public class KeyFileTester{
     try{
 
       stream = new FileInputStream(publicKeyPath);
-      byte[] data = new byte[1024];
+      byte[] data = new byte[2048];
       stream.read(data);
       X509EncodedKeySpec keySpec = new X509EncodedKeySpec(data);
       KeyFactory factory = KeyFactory.getInstance(algorithm);
@@ -64,7 +64,7 @@ public class KeyFileTester{
     try{
 
       stream = new FileInputStream(privateKeyPath);
-      byte[] data = new byte[1024];
+      byte[] data = new byte[2048];
       stream.read(data);
       PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(data);
       KeyFactory factory = KeyFactory.getInstance(algorithm);
