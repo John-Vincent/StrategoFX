@@ -23,18 +23,20 @@ import javafx.event.ActionEvent;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
-* Main Menu UI
-* The main menu contains multiple buttons leading to the game screen (single and multiplayer), as well as a settings button and a logout button. The main menu also holds a friends list VBox with information unique to the user logged in.
-*/
+ * Main Menu UI The main menu contains multiple buttons leading to the game
+ * screen (single and multiplayer), as well as a settings button and a logout
+ * button. The main menu also holds a friends list VBox with information unique
+ * to the user logged in.
+ */
 public class MainMenuUI extends Mode {
 	BorderPane pane;
 	public final static double buttonWidth = 200;
 
 	/**
-	* Constructor.
-	* Uses the BorderPane format to create the main menu.
-	* @author  Bradley Rhein  bdrhein@iastate.edu
-	*/
+	 * Constructor. Uses the BorderPane format to create the main menu.
+	 * 
+	 * @author Bradley Rhein bdrhein@iastate.edu
+	 */
 	public MainMenuUI() {
 		super(new BorderPane());
 		FriendModel friendModel = new FriendModel();
@@ -43,8 +45,6 @@ public class MainMenuUI extends Mode {
 		this.pane = (BorderPane) this.getRoot();
 		this.pane.setPadding(new Insets(0, 30, 20, 30));
 		this.setMinSize(500, 400);
-
-
 
 		Button ai = new Button("Vs. AI");
 		ai.setOnAction(new EventHandler<ActionEvent>() {
@@ -79,7 +79,6 @@ public class MainMenuUI extends Mode {
 			}
 		});
 
-
 		VBox buttons = new VBox(50, ai, pl, st, lo);
 		buttons.setFillWidth(true);
 		buttons.setAlignment(Pos.CENTER);
@@ -106,64 +105,8 @@ public class MainMenuUI extends Mode {
 		pane.setTop(title);
 		BorderPane.setAlignment(title, Pos.TOP_CENTER);
 
-		Text fl = new Text("Friends List");
-		fl.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-		FriendsList friendsList = new FriendsList(10);
-		friendsList.setPadding(new Insets(10, 15, 10, 10));
-		friendModel.addObserver(friendsList);
+		FriendsList friendsList = new FriendsList(5, friendModel);
+		pane.setRight(friendsList);
 
-		Button af = new Button("Add a Friend");
-
-		VBox friends = new VBox(5, fl, friendsList, af);
-		friends.setAlignment(Pos.CENTER);
-		pane.setRight(friends);
-		VBox.setVgrow(fl, Priority.ALWAYS);
-		VBox.setVgrow(af, Priority.ALWAYS);
-		af.setMaxSize(Double.MAX_VALUE, 50);
-
-		af.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				addFriend(friends, friendsList, friendModel);
-
-			}
-		});
 	}
-
-	/**
-	*	Adds a friend to this users friendlist.
-	*	For demo 3, this method will be moved to the components package into the FriendsList class so that other screens can utilize this feature without duplication of code.
-	*	@param friends The VBox containing the components of the friend list.
-	*	@param friendsList The logged in users friend list.
-	*	@param friendModel The observable FriendModel object of this user.
-	* @author 	Bradley Rhein  bdrhein@iastate.edu
-	*/
-	public void addFriend(VBox friends, FriendsList friendsList, FriendModel friendModel) {
-		TextField friendName = new TextField();
-		HBox userName = new HBox(5, new Text("Friend's Username:"), friendName);
-		Button addFriend = new Button("Add");
-		Button cancel = new Button("Cancel");
-		HBox buttons = new HBox(5, addFriend, cancel);
-		VBox popup = new VBox(5, userName, buttons);
-		popup.setAlignment(Pos.CENTER);
-		pane.setRight(popup);
-		VBox.setVgrow(addFriend, Priority.ALWAYS);
-		addFriend.setMaxSize(Double.MAX_VALUE, 50);
-
-		addFriend.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				addTask("addfriend", friendName.getText());
-				pane.setRight(friends);
-			}
-		});
-
-		cancel.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				pane.setRight(friends);
-			}
-		});
-	}
-
 }
