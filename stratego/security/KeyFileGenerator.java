@@ -7,6 +7,8 @@ import java.security.spec.*;
 import java.nio.charset.StandardCharsets;
 
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 
 
 public class KeyFileGenerator{
@@ -24,7 +26,7 @@ public class KeyFileGenerator{
     KeyPair pair = null;
     try{
       KeyPairGenerator gen = KeyPairGenerator.getInstance(algorithm);
-      gen.initialize(1024);
+      gen.initialize(2048);
       pair = gen.genKeyPair();
     } catch(Exception e){
       e.printStackTrace();

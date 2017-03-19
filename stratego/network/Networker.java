@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.net.*;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
+
 
 public class Networker implements Runnable{
 
@@ -14,7 +14,6 @@ public class Networker implements Runnable{
   private ConcurrentLinkedQueue<DatagramPacket> received;
   private DatagramSocket socket;
 
-  private static MessageDigest hash;
 
   private static final int packetSize = 576;
 
@@ -43,26 +42,33 @@ public class Networker implements Runnable{
    */
   public static final byte FRIENDR = (byte)0x04;
   public static final byte LOGOUT =(byte)0x05;
+  public static final byte SECURE = (byte)0x06;
   public static final byte CHAT = (byte)0xFE;
   public static final byte VOICE = (byte)0xFF;
 
   private int id;
 
-  static{
-    try{
-      hash = MessageDigest.getInstance("SHA-256");
-    } catch(Exception e){
-      e.printStackTrace();
-    }
-  }
+
 
   public Networker(DatagramSocket s){
     this.socket = s;
   }
 
   public void run(){
+    /*byte[] data = SecurityManager.securePacket();
 
-    DatagramPacket p = new DatagramPacket(new byte[packetSize], packetSize);
+    DatagramPacket p = new DatagramPacket(data, data.length, server);
+    try{
+      this.socket.send(p);
+      p = new DatagramPacket(new byte[packetSize], packetSize);
+      this.socket.receive(p);
+      data = p.getData();
+      SecurityManager.verifySecurity(data);
+    } catch(Exception e){
+      System.out.println(e.getMessage());
+    }
+    */
+    p = new DatagramPacket(new byte[packetSize], packetSize);
     this.received = new ConcurrentLinkedQueue<DatagramPacket>();
 
     while(!Thread.currentThread().isInterrupted()){
@@ -95,6 +101,18 @@ public class Networker implements Runnable{
     return true;
   }
 
+  public Boolean sendData(byte[] data){
+    try{
+      DatagramPacket packet = new DatagramPacket(data, data.length, server);
+      this.socket.send(packet);
+      System.out.println("Packet sent to " + packet.getSocketAddress());
+    } catch(IOException e){
+      e.printStackTrace();
+      return false;
+    }
+    return true;
+  }
+
   /**
    * returns a Networker object that handles sending all the packets, as well as receiving all the packets and passing them into the
    * Packet queue
@@ -120,7 +138,7 @@ public class Networker implements Runnable{
   public Boolean login(String username, String password){
       byte[] data = new byte[username.length()+257];
       byte[] temp = username.getBytes();
-      byte[] pass = hash.digest(password.getBytes(StandardCharsets.UTF_8));
+      byte[] pass = SecurityManager.hashBytes(password.getBytes(StandardCharsets.UTF_8));
       data[0] = LOGIN;
       for(int i = 0; i< temp.length; i++){
         data[i+1] = temp[i];
@@ -155,7 +173,7 @@ public class Networker implements Runnable{
   public Boolean signup(String username, String password){
       byte[] data = new byte[username.length()+257];
       byte[] temp = username.getBytes();
-      byte[] pass = hash.digest(password.getBytes(StandardCharsets.UTF_8));
+      byte[] pass = SecurityManager.hashBytes(password.getBytes(StandardCharsets.UTF_8));
       data[0] = SIGNUP;
       for(int i = 0; i<temp.length; i++){
     	  data[i+1] = temp[i];
