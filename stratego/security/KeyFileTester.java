@@ -12,7 +12,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 
 public class KeyFileTester{
-
+  private static final int PKCSSIZE = 635;
+  private static final int X509SIZE = 162;
   private static final String publicKeyPath = "onlinekey";
   private static final String privateKeyPath = "serverkey";
   private static final String algorithm = "RSA";
@@ -42,7 +43,7 @@ public class KeyFileTester{
     try{
 
       stream = new FileInputStream(publicKeyPath);
-      byte[] data = new byte[2048];
+      byte[] data = new byte[162];
       stream.read(data);
       X509EncodedKeySpec keySpec = new X509EncodedKeySpec(data);
       KeyFactory factory = KeyFactory.getInstance(algorithm);
@@ -64,7 +65,7 @@ public class KeyFileTester{
     try{
 
       stream = new FileInputStream(privateKeyPath);
-      byte[] data = new byte[128];
+      byte[] data = new byte[635];
       stream.read(data);
       PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(data);
       KeyFactory factory = KeyFactory.getInstance(algorithm);

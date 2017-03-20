@@ -57,6 +57,7 @@ public class Background implements Runnable{
       m = m.nextMode();
     }
 
+    net.endSession();
     t.interrupt();
     socket.close();
   }

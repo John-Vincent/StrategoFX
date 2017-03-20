@@ -23,7 +23,7 @@ public final class DBManager{
 
   private static final String acceptFriendRequestQ= "update `friend` set `accepted` = '1' where `friend`.`id` = ?;";
 
-  private static final String logoutQ = "update `user` set `online` = '0' where `name` = ?; ";
+  private static final String logoutQ = "update `user` set `online` = '0', `last` = NOW() where `name` = ?; ";
 
   static{
     source.setDriverClassName("com.mysql.jdbc.Driver");
@@ -149,7 +149,6 @@ public final class DBManager{
 
     String ans="";
     String temp = getFriendsQ;
-    System.out.println(temp);
 
     try{
       conn1 = DBManager.getConnection();

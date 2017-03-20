@@ -18,12 +18,12 @@ MULTIPLAYER = $(addprefix multiplayer/, MultiplayerUI MultiplayerWorker )
 SINGLEPLAYER = $(addprefix singleplayer/, SingleplayerUI SingleplayerWorker )
 MODE = $(addprefix $(SRC)mode/, Mode ModeWorker $(MENUS) $(MULTIPLAYER) $(SINGLEPLAYER) )
 
-NETWORK = $(addprefix $(SRC)network/, Networker SecurityManager )
+NETWORK = $(addprefix $(SRC)network/, Networker SecurityManager Packet )
 
 KEY-GEN = $(addprefix $(BIN)$(SRC)security/, KeyFileGenerator KeyFileTester )
 KEY-GEN := $(addsuffix .class, $(KEY-GEN))
 
-SERVER = $(addprefix $(BIN)$(SRC)server/, StrategoServer PacketHandler DBManager SessionManager )
+SERVER = $(addprefix $(BIN)$(SRC)server/, StrategoServer PacketHandler DBManager SessionManager SecurityManager)
 SERVER := $(addsuffix .class, $(SERVER) )
 
 SRESOURCES = $(addprefix $(BIN)$(SRC)server/, serverkey )

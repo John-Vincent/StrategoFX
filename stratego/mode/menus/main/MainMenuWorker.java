@@ -35,7 +35,7 @@ public class MainMenuWorker extends ModeWorker {
 		case "ping":
 			return getPingRequest();
 		case "logout":
-			return new MenuOptions();
+			return new LogoutOption();
 		case "singleplayer":
 			return new MenuOptions();
 		case "settings":
@@ -62,8 +62,7 @@ public class MainMenuWorker extends ModeWorker {
     if(p == null)
       return false;
     byte[] data = p.getData();
-    byte type = data[0];
-    data = Arrays.copyOfRange(data, 1, data.length);
+    byte type = p.getType();
     switch(type){
       case Networker.PING:
         System.out.println("ping from: " + p.getSocketAddress());
@@ -103,6 +102,15 @@ public class MainMenuWorker extends ModeWorker {
 			setRunning(false);
 		}
 
+	}
+
+	private class LogoutOption implements Runnable{
+
+		@Override
+		public void run(){
+			net.logout();
+			setRunning(false);
+		}
 	}
 
 	private class FriendRequest implements Runnable {

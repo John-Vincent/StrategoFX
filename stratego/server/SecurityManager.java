@@ -22,21 +22,23 @@ public class SecurityManager{
 
   private static final int RSAKeySize = 128;
   private static final int AESKeySize = 16;
-  private static PrivateKey rsaDecrypt = null;
-
-  static{
-    rsaDecrypt = getPrivateKey();
-  }
+  private static final int PKCSSIZE = 635;
+  private static final PrivateKey rsaDecrypt = getPrivateKey();
 
 
+
+
+
+//needs fixing
   private static PrivateKey getPrivateKey(){
     InputStream stream = null;
     PrivateKey key = null;
+    byte[] data;
 
     try{
 
-      stream = SecurityManager.class.getClass().getResourceAsStream("stratego/server/serverkey");
-      byte[] data = new byte[RSAKeySize];
+      stream = SecurityManager.class.getClass().getResourceAsStream("/stratego/server/serverkey");
+      data = new byte[PKCSSIZE];
       stream.read(data);
       PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(data);
       KeyFactory factory = KeyFactory.getInstance("RSA");
@@ -47,7 +49,7 @@ public class SecurityManager{
     } finally{
       try{stream.close();} catch(Exception e){}
     }
-
+    System.out.println("i think i loaded the key");
     return key;
   }
 
@@ -57,6 +59,11 @@ public class SecurityManager{
       return gen.generateKey();
     } catch(Exception e){ e.printStackTrace();}
     return null;
+  }
+
+  //for some reason the java class loader hates me so im just going to call an empty function to force the program to load the class
+  public static void load(){
+
   }
 
   public static byte[] encrypt(byte[] data, byte[] key){
@@ -102,18 +109,19 @@ public class SecurityManager{
   public static byte[] decrypt(byte[] data){
     byte[] ans = null;
     byte[] AES = Arrays.copyOfRange(data, 0, RSAKeySize);
-
+    
     try{
       Cipher cipher = Cipher.getInstance("RSA");
       cipher.init(Cipher.DECRYPT_MODE, rsaDecrypt);
-      AES = cipher.doFinal(AES, 0, RSAKeySize);
+      AES = cipher.doFinal(AES, 0, AES.length);
 
       SecretKey AESKey = new SecretKeySpec(AES, 0, AES.length, "AES");
 
       cipher = Cipher.getInstance("AES");
       cipher.init(Cipher.DECRYPT_MODE, AESKey);
-      ans = cipher.doFinal(data, RSAKeySize, data.length);
+      ans = cipher.doFinal(data, RSAKeySize, data.length - RSAKeySize);
     } catch(Exception e){
+      e.printStackTrace();
       System.out.println(e.getMessage());
     }
     return ans;

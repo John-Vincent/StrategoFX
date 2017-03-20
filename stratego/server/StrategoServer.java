@@ -1,7 +1,7 @@
 package stratego.server;
 
 
-
+import java.lang.ClassLoader;
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.sql.*;
 public class StrategoServer implements Runnable{
 
   private DatagramSocket socket;
-  final private int packetSize = 576;
+  final private int packetSize = 1024;
   private final ExecutorService pool;
 
 
@@ -49,10 +49,12 @@ public class StrategoServer implements Runnable{
 	*/
   public static void main(String[] args){
     try{
+      SecurityManager.load();
       StrategoServer s = new StrategoServer();
       s.run();
-    } catch(IOException e){
+    } catch(Exception e){
       e.printStackTrace();
+      System.out.println(e.getMessage());
     }
   }
 

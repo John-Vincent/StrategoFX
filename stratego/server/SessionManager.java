@@ -28,6 +28,11 @@ public class SessionManager{
     return null;
   }
 
+  public static void removeUName(int id){
+    Session session = map.get(id);
+    session.username = null;
+  }
+
   public static boolean isSession(int id, SocketAddress address){
     if(map.get(id) == null || !map.get(id).getAddress().equals(address)){
       return false;
@@ -44,7 +49,7 @@ public class SessionManager{
   }
 
   private static class Session{
-    private String username;
+    private String username = null;
     private SocketAddress address;
     private byte[] RSAKey;
 

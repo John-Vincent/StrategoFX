@@ -17,9 +17,9 @@ public class Packet{
    * @date   2017-03-19T13:31:28+000
    */
   public Packet(DatagramPacket p){
-    byte[] data = SecurityManager.decrypt(p.getData());
+    byte[] data = SecurityManager.decrypt(Arrays.copyOfRange(p.getData(), p.getOffset(), p.getLength()));
     this.type = data[0];
-    this.data = Arrays.copyOfRange(data, p.getOffset()+1, p.getLength());
+    this.data = Arrays.copyOfRange(data, 1, data.length);
     this.address = p.getSocketAddress();
   }
 
@@ -45,27 +45,28 @@ public class Packet{
    */
   public DatagramPacket getPacket(){
     DatagramPacket p;
+    byte[] packet;
     if(this.data == null){
-      byte[] data = new byte[5];
+      packet = new byte[5];
     } else{
-      byte[] data = new byte[this.data.length + 5];
+      packet = new byte[this.data.length + 5];
     }
     int id = Networker.getID();
 
-    data[0] = (byte) (id >> 24);
-    data[1] = (byte) (id >> 16);
-    data[2] = (byte) (id >> 8);
-    data[3] = (byte) (id);
-    data[4] = type;
+    packet[0] = (byte) (id >> 24);
+    packet[1] = (byte) (id >> 16);
+    packet[2] = (byte) (id >> 8);
+    packet[3] = (byte) (id);
+    packet[4] = type;
 
     if(this.data != null){
       for(int i = 0; i<this.data.length; i++){
-        data[i+1] = this.data[i];
+        packet[i+5] = this.data[i];
       }
     }
 
-    data = SecurityManager.encrypt(data);
-    p = new DatagramPacket(data, data.length, address);
+    packet = SecurityManager.encrypt(packet);
+    p = new DatagramPacket(packet, packet.length, address);
 
     return p;
   }

@@ -45,8 +45,7 @@ public class SignupMenuWorker extends ModeWorker {
     if(p == null)
       return false;
     byte[] data = p.getData();
-    byte type = data[0];
-    data = Arrays.copyOfRange(data, 1, data.length);
+    byte type = p.getType();
     switch(type){
       case Networker.PING:
         System.out.println("ping from: " + p.getSocketAddress());

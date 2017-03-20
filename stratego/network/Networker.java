@@ -19,7 +19,7 @@ public class Networker implements Runnable{
   private static final int HASHLENGTH = 32;
 
 
-  private static final int packetSize = 576;
+  private static final int packetSize = 1024;
 
   /**
    * byte that identifies a Ping Packet
@@ -47,6 +47,7 @@ public class Networker implements Runnable{
   public static final byte FRIENDR = (byte)0x04;
   public static final byte LOGOUT =(byte)0x05;
   public static final byte SECURE = (byte)0x06;
+  public static final byte CLOSE = (byte)0x07;
   public static final byte CHAT = (byte)0xFE;
 
 
@@ -56,6 +57,7 @@ public class Networker implements Runnable{
 
   public Networker(DatagramSocket s){
     this.socket = s;
+    this.received = new ConcurrentLinkedQueue<DatagramPacket>();
   }
 
   public void run(){
@@ -68,7 +70,6 @@ public class Networker implements Runnable{
     }
 
     p = new DatagramPacket(new byte[packetSize], packetSize);
-    this.received = new ConcurrentLinkedQueue<DatagramPacket>();
 
     while(!Thread.currentThread().isInterrupted() && online){
       try{
@@ -138,7 +139,7 @@ public class Networker implements Runnable{
       byte[] data = new byte[username.length() + HASHLENGTH];
       byte[] temp = username.getBytes();
       byte[] pass = SecurityManager.hashBytes(password.getBytes(StandardCharsets.UTF_8));
-      System.out.println(pass.length + " " + temp.length + 1);
+      System.out.println(username + " " + new String(pass, 0, pass.length, StandardCharsets.UTF_8));
       for(int i = 0; i< temp.length; i++){
         data[i] = temp[i];
       }
@@ -168,7 +169,7 @@ public class Networker implements Runnable{
    * @date   2017-03-14T15:51:27+000
    */
   public Boolean signup(String username, String password){
-      byte[] data = new byte[username.length()+ HASHLENGTH + 1];
+      byte[] data = new byte[username.length()+ HASHLENGTH];
       byte[] temp = username.getBytes();
       byte[] pass = SecurityManager.hashBytes(password.getBytes(StandardCharsets.UTF_8));
       for(int i = 0; i<temp.length; i++){
@@ -269,6 +270,11 @@ public class Networker implements Runnable{
       System.out.println(e.getMessage());
     }
      return ans;
+  }
+
+  public void endSession(){
+    Packet p = new Packet(CLOSE, null, Networker.server);
+    sendPacket(p);
   }
 
 }

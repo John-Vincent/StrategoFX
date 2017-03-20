@@ -20,10 +20,12 @@ import javax.crypto.KeyGenerator;
 
 public class SecurityManager{
 
+  private static final int X509SIZE = 162;
   private static final int RSAKeySize = 128;
   private static final int AESKeySize = 16;
   private static PrivateKey rsaDecrypt = null;
   private static PublicKey rsaEncrypt = null;
+  private static PublicKey pubKey = null;
 
   private static MessageDigest hash;
 
@@ -42,7 +44,6 @@ public class SecurityManager{
 
   protected static byte[] securePacket(){
     SecretKey aes = getAESKey();
-    PublicKey rsa = null;
     KeyPair pair = null;
     byte[] data = null;
     byte[] temp = null;
@@ -55,9 +56,9 @@ public class SecurityManager{
 
       Cipher cipher = Cipher.getInstance("AES");
       cipher.init(Cipher.ENCRYPT_MODE, aes);
-      rsa = pair.getPublic();
+      pubKey = pair.getPublic();
 
-      byte[] rsaKey = rsa.getEncoded();
+      byte[] rsaKey = pubKey.getEncoded();
 
       temp = new byte[rsaKey.length + 5];
       temp[4] = Networker.SECURE;
@@ -71,7 +72,7 @@ public class SecurityManager{
 
       cipher = Cipher.getInstance("RSA");
       cipher.init(Cipher.ENCRYPT_MODE, rsaEncrypt);
-      cipher.doFinal(aes.getEncoded(), 0, AESKeySize, data, 0);
+      cipher.doFinal(aes.getEncoded(), 0, aes.getEncoded().length, data, 0);
 
       for(int i = 0; i < temp.length; i++){
         data[RSAKeySize + i] = temp[i];
@@ -80,6 +81,7 @@ public class SecurityManager{
     } catch(Exception e){
       e.printStackTrace();
     }
+
     return data;
   }
 
@@ -100,7 +102,7 @@ public class SecurityManager{
     try{
 
       stream = SecurityManager.class.getClass().getResourceAsStream("/stratego/network/onlinekey");
-      byte[] data = new byte[RSAKeySize];
+      byte[] data = new byte[X509SIZE];
       stream.read(data);
       X509EncodedKeySpec keySpec = new X509EncodedKeySpec(data);
       KeyFactory factory = KeyFactory.getInstance("RSA");
@@ -156,19 +158,20 @@ public class SecurityManager{
 
   public static byte[] decrypt(byte[] data){
     byte[] ans = null;
-    byte[] AES = Arrays.copyOfRange(data, 0, RSAKeySize);
+    byte[] AES = null;
 
     try{
       Cipher cipher = Cipher.getInstance("RSA");
       cipher.init(Cipher.DECRYPT_MODE, rsaDecrypt);
-      AES = cipher.doFinal(AES, 0, RSAKeySize);
+      AES = cipher.doFinal(data, 0, RSAKeySize);
 
       SecretKey AESKey = new SecretKeySpec(AES, 0, AES.length, "AES");
 
       cipher = Cipher.getInstance("AES");
       cipher.init(Cipher.DECRYPT_MODE, AESKey);
-      ans = cipher.doFinal(data, RSAKeySize, data.length);
+      ans = cipher.doFinal(data, RSAKeySize, data.length - RSAKeySize);
     } catch(Exception e){
+      e.printStackTrace();
       System.out.println(e.getMessage());
     }
     return ans;

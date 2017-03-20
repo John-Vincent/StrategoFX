@@ -26,6 +26,7 @@ public class PacketHandler implements Runnable{
   private static final byte FRIENDR =(byte)0x04;
   private static final byte LOGOUT =(byte)0x05;
   private static final byte SECURE = (byte)0x06;
+  private static final byte CLOSE = (byte)0x07;
 
 
 	/**
@@ -49,7 +50,7 @@ public class PacketHandler implements Runnable{
     String temp;
     String[] temp2;
 
-    byte[] data = SecurityManager.decrypt(this.packet.getData());
+    byte[] data = SecurityManager.decrypt(Arrays.copyOfRange(this.packet.getData(), this.packet.getOffset(), this.packet.getLength()));
 
     id = data[0] << 24 | data[1] << 16 | data[2] << 8 | data[3];
 
@@ -65,12 +66,12 @@ public class PacketHandler implements Runnable{
         System.out.println("got PING");
         break;
       case SIGNUP:
-        temp = new String(data, 0, this.packet.getLength()-32, StandardCharsets.UTF_8);
+        temp = new String(data, 0, data.length-32, StandardCharsets.UTF_8);
         newdata = signup( temp, Arrays.copyOfRange(data, data.length-32, data.length));
         System.out.println("got SIGNUP");
         break;
       case LOGIN:
-        temp = new String(data, 0, this.packet.getLength()-32, StandardCharsets.UTF_8);
+        temp = new String(data, 0, data.length-32, StandardCharsets.UTF_8);
         newdata = login(temp, Arrays.copyOfRange(data, data.length-32, data.length));
         System.out.println("got LOGIN");
         break;
@@ -79,15 +80,20 @@ public class PacketHandler implements Runnable{
         System.out.println("got FRIENDQ");
         break;
       case FRIENDR:
-        temp = new String(data, 4, this.packet.getLength()-1, StandardCharsets.UTF_8);
+        temp = new String(data, 0, data.length, StandardCharsets.UTF_8);
         newdata = friendr(id, temp);
         System.out.println("got FRIENDR");
         break;
       case LOGOUT:
         logout(id);
+        System.out.println("got LOGOUT");
         break;
       case SECURE:
         newdata = startSession(data);
+        System.out.println("got SECURE");
+        break;
+      case CLOSE:
+        close(id);
         break;
       default:
         return;
@@ -112,7 +118,6 @@ public class PacketHandler implements Runnable{
 
   private byte[] signup(String username, byte[] password){
 
-    System.out.println(new String(password, 0, password.length, StandardCharsets.UTF_8) + password.length);
     if(DBManager.signup(username, password)){
       return new byte[]{SIGNUP, (byte)0x01};
     } else{
@@ -121,6 +126,7 @@ public class PacketHandler implements Runnable{
   }
 
   private byte[] login(String username, byte[] password){
+    System.out.println(username + " " + new String(password, 0, password.length, StandardCharsets.UTF_8));
     if( DBManager.login(username, password)){
       System.out.println("returned true");
       return new byte[]{LOGIN, (byte)0x01};
@@ -165,7 +171,8 @@ public class PacketHandler implements Runnable{
 
   private void logout(int id){
     DBManager.logout(SessionManager.getUName(id, this.packet.getSocketAddress()));
-    SessionManager.removeSession(id);
+    if(SessionManager.isSession(id, this.packet.getSocketAddress()))
+      SessionManager.removeUName(id);
   }
 
   private byte[] startSession(byte[] data){
@@ -173,6 +180,12 @@ public class PacketHandler implements Runnable{
     byte[] ans = {(byte)0x06, (byte) (id >> 24), (byte) (id >> 16), (byte) (id >> 8), (byte) id };
     this.id = id;
     return ans;
+  }
+
+  private void close(int id){
+    if(SessionManager.isSession(id, this.packet.getSocketAddress())){
+      SessionManager.removeSession(id);
+    }
   }
 
 }
