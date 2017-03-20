@@ -23,13 +23,15 @@ NETWORK = $(addprefix $(SRC)network/, Networker SecurityManager )
 KEY-GEN = $(addprefix $(BIN)$(SRC)security/, KeyFileGenerator KeyFileTester )
 KEY-GEN := $(addsuffix .class, $(KEY-GEN))
 
-SERVER = $(addprefix $(BIN)$(SRC)server/, StrategoServer PacketHandler DBManager SessionManager)
+SERVER = $(addprefix $(BIN)$(SRC)server/, StrategoServer PacketHandler DBManager SessionManager )
 SERVER := $(addsuffix .class, $(SERVER) )
+
+SRESOURCES = $(addprefix $(BIN)$(SRC)server/, serverkey )
 
 SOURCES = $(addsuffix .class, $(APPLICATION) $(MODE) $(NETWORK) $(COMPONENTS))
 SOURCES := $(addprefix $(BIN), $(SOURCES))
 
-RESOURCES := $(addprefix $(BIN), $(SRC)components/gameboard/images)
+RESOURCES := $(addprefix $(BIN), $(SRC)components/gameboard/images $(SRC)network/onlinekey )
 
 
 default: makebin $(SOURCES) $(RESOURCES)
@@ -37,7 +39,7 @@ default: makebin $(SOURCES) $(RESOURCES)
 	@$(ECHO) "Compilation complete"
 
 server: CP = -cp .:bin/:commons-logging-1.2.jar:mysql-connector-java-5.1.20-bin.jar:commons-dbcp2-2.1.1.jar
-server: makebin $(SERVER)
+server: makebin $(SERVER) $(SRESOURCES)
 	@$(ECHO) "  "
 	@$(ECHO) "Compilation complete"
 

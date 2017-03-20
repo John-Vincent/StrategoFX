@@ -2,7 +2,7 @@ package stratego.mode.menus.main;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 import stratego.network.Networker;
-import java.net.*;
+import stratego.network.Packet;
 import java.util.Arrays;
 import stratego.mode.ModeWorker;
 import stratego.components.friendslist.FriendModel;
@@ -57,7 +57,7 @@ public class MainMenuWorker extends ModeWorker {
 	}
 
 	@Override
-  protected boolean handlePacket(DatagramPacket p){
+  protected boolean handlePacket(Packet p){
 		String temp;
     if(p == null)
       return false;
@@ -69,7 +69,7 @@ public class MainMenuWorker extends ModeWorker {
         System.out.println("ping from: " + p.getSocketAddress());
         break;
       case Networker.FRIENDQ:
-        temp = new String(data, p.getOffset(), p.getLength()-1);
+        temp = new String(data, 0, data.length);
 				String[] friends = temp.split(";");
 				friendModel.clearFriends();
 				for(int i = 0; i < friends.length; i++){
@@ -86,7 +86,7 @@ public class MainMenuWorker extends ModeWorker {
 			case Networker.FRIENDR:
 				if(data[0] == 0x00)
 					break;
-				temp = new String(data, p.getOffset(), p.getLength()-1);
+				temp = new String(data, 0, data.length);
 				friendModel.addFriend(temp, "pending");
 				break;
       default:

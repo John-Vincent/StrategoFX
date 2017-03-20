@@ -2,7 +2,7 @@ package stratego.mode;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 import stratego.network.Networker;
-import java.net.DatagramPacket;
+import stratego.network.Packet;
 import stratego.application.Background;
 
 /**
@@ -81,8 +81,12 @@ public abstract class ModeWorker implements Runnable{
         }
       }
 
-
-      while(this.handlePacket(this.net.getPacket())){     }
+      Packet p = this.net.getPacket();
+      while(p != null){
+        System.out.println("Packet recieved from: " + p.getSocketAddress());
+        this.handlePacket(p);
+        p = this.net.getPacket();
+      }
 
     }
 
@@ -127,7 +131,7 @@ public abstract class ModeWorker implements Runnable{
    * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T21:23:56+000
    */
-  protected boolean handlePacket(DatagramPacket p){
+  protected boolean handlePacket(Packet p){
     if(p == null)
       return false;
     byte[] data = p.getData();

@@ -13,10 +13,11 @@ import javax.crypto.SecretKey;
 
 public class KeyFileGenerator{
   private final KeyPair keys;
-  private static String publicKeyPath = "onlinekey";
-  private static String privateKeyPath = "serverkey";
-  private static String algorithm = "RSA";
-  private static String test = "testing the keys";
+  private final static String publicKeyPath = "onlinekey";
+  private final static String privateKeyPath = "serverkey";
+  private final static String algorithm = "RSA";
+  private final static String test = "testing the keys";
+  private final static int keySize = 1024;
 
   public KeyFileGenerator(){
     this.keys = setKeys();
@@ -26,7 +27,7 @@ public class KeyFileGenerator{
     KeyPair pair = null;
     try{
       KeyPairGenerator gen = KeyPairGenerator.getInstance(algorithm);
-      gen.initialize(2048);
+      gen.initialize(keySize);
       pair = gen.genKeyPair();
     } catch(Exception e){
       e.printStackTrace();

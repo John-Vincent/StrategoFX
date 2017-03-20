@@ -2,7 +2,7 @@ package stratego.mode.menus.settings;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 import stratego.network.Networker;
-import java.net.*;
+import stratego.network.Packet;
 import stratego.mode.ModeWorker;
 /**
 *Class that helps the Settings Menu and the network communicate

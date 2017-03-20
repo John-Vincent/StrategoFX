@@ -2,7 +2,7 @@ package stratego.mode.menus.signup;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 import stratego.network.Networker;
-import java.net.*;
+import stratego.network.Packet;
 import java.util.Arrays;
 import stratego.mode.ModeWorker;
 
@@ -41,7 +41,7 @@ public class SignupMenuWorker extends ModeWorker {
 	}
 
 	@Override
-  protected boolean handlePacket(DatagramPacket p){
+  protected boolean handlePacket(Packet p){
     if(p == null)
       return false;
     byte[] data = p.getData();

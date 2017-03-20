@@ -3,7 +3,7 @@ package stratego.mode.menus.login;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.Arrays;
 import stratego.network.Networker;
-import java.net.*;
+import stratego.network.Packet;
 import stratego.mode.ModeWorker;
 
 /**
@@ -62,7 +62,7 @@ public class LoginMenuWorker extends ModeWorker {
 	}
 
   @Override
-  protected boolean handlePacket(DatagramPacket p){
+  protected boolean handlePacket(Packet p){
     if(p == null)
       return false;
     byte[] data = p.getData();
@@ -73,9 +73,7 @@ public class LoginMenuWorker extends ModeWorker {
         System.out.println("ping from: " + p.getSocketAddress());
         break;
       case Networker.LOGIN:
-        if(data[4]!=0){
-					int id = data[0] << 24 | data[1] << 16 | data[2] << 8 | data[3];
-					this.net.setID(id);
+        if(data[0]==1){
           this.setRunning(false);
         }
         break;

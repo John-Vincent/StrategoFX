@@ -64,7 +64,7 @@ public class KeyFileTester{
     try{
 
       stream = new FileInputStream(privateKeyPath);
-      byte[] data = new byte[2048];
+      byte[] data = new byte[128];
       stream.read(data);
       PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(data);
       KeyFactory factory = KeyFactory.getInstance(algorithm);

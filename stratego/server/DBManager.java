@@ -51,6 +51,7 @@ public final class DBManager{
   public static boolean signup(String uname, byte[] password){
     Connection conn1 = null;
     PreparedStatement statement = null;
+    boolean ans =false;
     String temp = signupQ;
 
     try{
@@ -59,18 +60,16 @@ public final class DBManager{
       statement.setString(1, uname);
       statement.setBytes(2, password);
       int i = statement.executeUpdate();
-      statement.close();
-      conn1.close();
       if(i == 0){
-        return false;
+        ans = false;
       }
       else{
         System.out.println("update worked");
-        return true;
+        ans = true;
       }
     } catch(Exception e){
       System.out.println(e.getMessage());
-      return false;
+      ans = false;
     } finally{
 
       if(conn1 != null){
@@ -83,6 +82,7 @@ public final class DBManager{
 
     }
 
+    return ans;
   }
 
 	/**
@@ -97,9 +97,7 @@ public final class DBManager{
     PreparedStatement statement = null;
     ResultSet set = null;
 
-    String temp = loginQ;
     boolean ans=false;
-    System.out.println(temp);
 
     try{
       conn1 = DBManager.getConnection();
@@ -116,7 +114,7 @@ public final class DBManager{
 
     } catch(Exception e){
 
-      return false;
+      ans = false;
 
     } finally{
 
@@ -165,7 +163,7 @@ public final class DBManager{
 
     } catch(Exception e){
       System.out.println(e.getMessage());
-      return null;
+      ans = null;
     } finally{
 
       if( set != null){
@@ -213,7 +211,7 @@ public final class DBManager{
 
     } catch(Exception e){
       System.out.println(e.getMessage());
-      return null;
+      friend = null;
     } finally{
       if(conn1 != null){
         try{
@@ -240,6 +238,7 @@ public final class DBManager{
   public static boolean logout(String username){
     Connection conn1 = null;
     PreparedStatement statement = null;
+    boolean ans = false;
 
     String temp = logoutQ;
 
@@ -248,9 +247,10 @@ public final class DBManager{
       statement = conn1.prepareStatement(logoutQ);
       statement.setString(1, username);
       statement.executeUpdate();
-
+      ans = true;
     } catch(Exception e){
-      return false;
+      System.out.println(e.getMessage());
+      ans = false;
     } finally{
       if(conn1 != null){
         try{
@@ -264,7 +264,7 @@ public final class DBManager{
       }
     }
 
-    return true;
+    return ans;
   }
 
 
