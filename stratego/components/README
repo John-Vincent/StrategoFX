@@ -1,3 +1,0 @@
-this package is meant to be used to hold ui components that will need to be used by multiple different screens.
-for example the frends list component will need to be used by multiple different modes, and the game
-board will need to be used by both the single player and multiplayer modes

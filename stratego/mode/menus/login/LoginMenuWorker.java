@@ -3,11 +3,19 @@ package stratego.mode.menus.login;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.Arrays;
 import stratego.network.Networker;
-import java.net.*;
+import stratego.network.Packet;
 import stratego.mode.ModeWorker;
 
+/**
+*Class that helps the LoginMenuUI and network communicate and controls the whole app while active.
+*/
 public class LoginMenuWorker extends ModeWorker {
 
+	/**
+	*Sets the task list that gets tasks from LoginMenuUI
+	* @param	q	A queue that passes requests from LoginMenuUI to LoginMenuWorker.
+	* @author Ryan McCullough rmm@iastate.edu
+	*/
 	public LoginMenuWorker(ConcurrentLinkedQueue<Runnable> q) {
 		super(q);
 	}
@@ -47,24 +55,24 @@ public class LoginMenuWorker extends ModeWorker {
 		@Override
 		public void run() {
 			net.login(username, password);
+			//setRunning(false);
 			// this terminates the execution of this worker advancing the
 			// program to the next UI
 		}
 	}
 
   @Override
-  protected boolean handlePacket(DatagramPacket p){
+  protected boolean handlePacket(Packet p){
     if(p == null)
       return false;
     byte[] data = p.getData();
-    byte type = data[0];
-    data = Arrays.copyOfRange(data, 1, data.length);
+    byte type = p.getType();
     switch(type){
       case Networker.PING:
         System.out.println("ping from: " + p.getSocketAddress());
         break;
       case Networker.LOGIN:
-        if(data[0]!=0){
+        if(data[0]==1){
           this.setRunning(false);
         }
         break;

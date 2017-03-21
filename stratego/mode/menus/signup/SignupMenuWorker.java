@@ -2,12 +2,20 @@ package stratego.mode.menus.signup;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 import stratego.network.Networker;
-import java.net.*;
+import stratego.network.Packet;
 import java.util.Arrays;
 import stratego.mode.ModeWorker;
 
+/**
+*	This is the class the helps the SignupMenuUI and Network communicate, it controls the whole app while its active.
+*
+*/
 public class SignupMenuWorker extends ModeWorker {
 
+	/**
+	*	Calls it's superconstructor {@link stratego.mode.ModeWorker#ModeWorker(ConcurrentLinkedQueue<Runnable> q) ModeWorker}.
+	* @author 	Bradley Rhein  bdrhein@iastate.edu
+	*/
 	public SignupMenuWorker(ConcurrentLinkedQueue<Runnable> q) {
 		super(q);
 	}
@@ -33,12 +41,11 @@ public class SignupMenuWorker extends ModeWorker {
 	}
 
 	@Override
-  protected boolean handlePacket(DatagramPacket p){
+  protected boolean handlePacket(Packet p){
     if(p == null)
       return false;
     byte[] data = p.getData();
-    byte type = data[0];
-    data = Arrays.copyOfRange(data, 1, data.length);
+    byte type = p.getType();
     switch(type){
       case Networker.PING:
         System.out.println("ping from: " + p.getSocketAddress());
@@ -59,11 +66,23 @@ public class SignupMenuWorker extends ModeWorker {
 		String name;
 		String password;
 
+		/**
+		*	Constructor.
+		*	Sets the user name and password for the new user request.
+		*	@param	name	The requested username for the new user.
+		*	@param	password	The requested password for the new user.
+		* @author  Bradley Rhein  bdrhein@iastate.edu
+		*/
 		public SubmitRequest(String name, String password) {
 			this.name = name;
 			this.password = password;
 		}
 
+		/**
+		*	No-argument constructor.
+		*	Creates an empty submit request when the user attempts to return to the login screen.
+		* @author  Bradley Rhein  bdrhein@iastate.edu
+		*/
 		public SubmitRequest() {
 
 		}

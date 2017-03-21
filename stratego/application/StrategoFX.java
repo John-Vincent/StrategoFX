@@ -8,18 +8,23 @@ import javafx.event.EventHandler;
 import stratego.mode.Mode;
 import stratego.components.Sizes;
 
-
-
+/**
+ * this class is where JavaFX enters the program
+ */
 public class StrategoFX extends Application{
   private Stage stage;
-  private static Stage primaryStage;
   private Mode mode;
   private Thread back = new Thread(new Background(this));
 
+  /**
+   * sets up the stage the Background object/thread and the basic application settings
+   * @param  stage                   the stage made by javafx to be used as the main stage for the application
+   * @author Collin Vincent collinvincent96@gmail.com
+   * @date   2017-03-08T21:28:59+000
+   */
   public void start(Stage stage){
 
     this.stage = stage;
-    StrategoFX.primaryStage = stage;
     back.start();
 
     this.stage.setWidth(Sizes.screenSize.getWidth()*Sizes.stageSize);
@@ -38,23 +43,34 @@ public class StrategoFX extends Application{
       }
     });
 
+    this.stage.setX((Sizes.screenSize.getWidth()-this.stage.getWidth())/2 + Sizes.screenSize.getMinX());
+    this.stage.setY((Sizes.screenSize.getHeight()-this.stage.getHeight())/2 + Sizes.screenSize.getMinY());
+
   }
 
+  /**
+   * sets the current Mode that is being displayed, this is called by Background to change the current Mode.
+   * @param  mode                   the mode to be displayed
+   * @author Collin Vincent collinvincent96@gmail.com
+   * @date   2017-03-08T21:30:19+000
+   */
   public void setMode(Mode mode){
     this.mode = mode;
     this.stage.setScene(this.mode);
-    this.stage.setX((Sizes.screenSize.getWidth()-this.stage.getWidth())/2 + Sizes.screenSize.getMinX());
-    this.stage.setY((Sizes.screenSize.getHeight()-this.stage.getHeight())/2 + Sizes.screenSize.getMinY());
     double[] size = mode.getMinSize();
     this.stage.setMinWidth(size[0]);
     this.stage.setMinHeight(size[1]);
-  }
-  
-  public static Stage getPrimaryStage(){
-	  return primaryStage;
+    this.stage.setWidth(mode.getPrefWidth());
+    this.stage.setHeight(mode.getPrefHeight());
+    this.stage.setResizable(mode.resizable());
   }
 
-
+  /**
+   * launches the app
+   * @param  args                this will be empty
+   * @author Collin Vincent collinvincent96@gmail.com
+   * @date   2017-03-08T21:51:21+000
+   */
   public static void main(String[] args){
     launch(args);
 

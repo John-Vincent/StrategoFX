@@ -1,8 +1,9 @@
 package stratego.mode.menus.main;
 
 import stratego.application.StrategoFX;
-import stratego.components.FriendModel;
-import stratego.components.FriendsList;
+import stratego.mode.singleplayer.*;
+import stratego.components.friendslist.FriendModel;
+import stratego.components.friendslist.FriendsList;
 import stratego.components.Sizes;
 import stratego.mode.Mode;
 import stratego.mode.ModeWorker;
@@ -21,10 +22,21 @@ import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+/**
+ * Main Menu UI The main menu contains multiple buttons leading to the game
+ * screen (single and multiplayer), as well as a settings button and a logout
+ * button. The main menu also holds a friends list VBox with information unique
+ * to the user logged in.
+ */
 public class MainMenuUI extends Mode {
 	BorderPane pane;
 	public final static double buttonWidth = 200;
 
+	/**
+	 * Constructor. Uses the BorderPane format to create the main menu.
+	 * 
+	 * @author Bradley Rhein bdrhein@iastate.edu
+	 */
 	public MainMenuUI() {
 		super(new BorderPane());
 		FriendModel friendModel = new FriendModel();
@@ -38,7 +50,8 @@ public class MainMenuUI extends Mode {
 		ai.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				// TODO
+				setNextMode(new SingleplayerUI());
+				addTask("singleplayer");
 			}
 		});
 		Button pl = new Button("Vs. Player");
@@ -52,6 +65,8 @@ public class MainMenuUI extends Mode {
 		st.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
+				setNextMode(new SettingsMenuUI());
+				addTask("settings");
 			}
 		});
 		Button lo = new Button("Log Out");
@@ -60,8 +75,7 @@ public class MainMenuUI extends Mode {
 			public void handle(ActionEvent e) {
 				System.out.println("logout requested");
 				setNextMode(new LoginMenuUI());
-				getTaskList().add(getWorker().getRequest("ping"));
-				getTaskList().add(getWorker().getRequest("logout"));
+				addTask("logout");
 			}
 		});
 
@@ -91,56 +105,8 @@ public class MainMenuUI extends Mode {
 		pane.setTop(title);
 		BorderPane.setAlignment(title, Pos.TOP_CENTER);
 
-		Text fl = new Text("Friends List");
-		fl.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-		FriendsList friendsList = new FriendsList(10);
-		friendsList.setPadding(new Insets(10, 15, 10, 10));
-		friendModel.addObserver(friendsList);
+		FriendsList friendsList = new FriendsList(5, friendModel);
+		pane.setRight(friendsList);
 
-		Button af = new Button("Add a Friend");
-
-		VBox friends = new VBox(5, fl, friendsList, af);
-		friends.setAlignment(Pos.CENTER);
-		pane.setRight(friends);
-		VBox.setVgrow(fl, Priority.ALWAYS);
-		VBox.setVgrow(af, Priority.ALWAYS);
-		af.setMaxSize(Double.MAX_VALUE, 50);
-
-		af.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				addFriend(friends, friendsList, friendModel);
-
-			}
-		});
 	}
-
-	public void addFriend(VBox friends, FriendsList friendsList, FriendModel friendModel) {
-		TextField friendName = new TextField();
-		HBox userName = new HBox(5, new Text("Friend's Username:"), friendName);
-		Button addFriend = new Button("Add");
-		Button cancel = new Button("Cancel");
-		HBox buttons = new HBox(5, addFriend, cancel);
-		VBox popup = new VBox(5, userName, buttons);
-		popup.setAlignment(Pos.CENTER);
-		pane.setRight(popup);
-		VBox.setVgrow(addFriend, Priority.ALWAYS);
-		addFriend.setMaxSize(Double.MAX_VALUE, 50);
-
-		addFriend.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				getTaskList().add(getWorker().getRequest("addfriend", friendName.getText()));
-				pane.setRight(friends);
-			}
-		});
-
-		cancel.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				pane.setRight(friends);
-			}
-		});
-	}
-
 }
