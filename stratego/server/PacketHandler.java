@@ -128,10 +128,8 @@ public class PacketHandler implements Runnable{
   private byte[] login(String username, byte[] password){
     System.out.println(username + " " + new String(password, 0, password.length, StandardCharsets.UTF_8));
     if( DBManager.login(username, password)){
-      System.out.println("returned true");
       return new byte[]{LOGIN, (byte)0x01};
     } else{
-      System.out.println("returned false");
       return new byte[]{LOGIN, (byte)0x00};
     }
   }
@@ -170,13 +168,16 @@ public class PacketHandler implements Runnable{
   }
 
   private void logout(int id){
-    DBManager.logout(SessionManager.getUName(id, this.packet.getSocketAddress()));
+    if(!DBManager.logout(SessionManager.getUName(id, this.packet.getSocketAddress()))){
+      System.out.println(SessionManager.getUName(id, this.packet.getSocketAddress()));
+    }
     if(SessionManager.isSession(id, this.packet.getSocketAddress()))
       SessionManager.removeUName(id);
   }
 
   private byte[] startSession(byte[] data){
     int id = SessionManager.newSession(this.packet.getSocketAddress(), data);
+    System.out.println("New Session started with session id:  " + id);
     byte[] ans = {(byte)0x06, (byte) (id >> 24), (byte) (id >> 16), (byte) (id >> 8), (byte) id };
     this.id = id;
     return ans;
@@ -185,6 +186,7 @@ public class PacketHandler implements Runnable{
   private void close(int id){
     if(SessionManager.isSession(id, this.packet.getSocketAddress())){
       SessionManager.removeSession(id);
+      System.out.println("Session has been closed by user, id: " + id);
     }
   }
 

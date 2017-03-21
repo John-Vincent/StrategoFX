@@ -245,8 +245,7 @@ public final class DBManager{
       conn1 = DBManager.getConnection();
       statement = conn1.prepareStatement(logoutQ);
       statement.setString(1, username);
-      statement.executeUpdate();
-      ans = true;
+      ans = statement.executeUpdate() != 0;
     } catch(Exception e){
       System.out.println(e.getMessage());
       ans = false;

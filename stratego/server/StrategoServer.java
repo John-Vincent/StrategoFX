@@ -18,7 +18,7 @@ public class StrategoServer implements Runnable{
 
 
 /**
-*Constructor for the SErver that sets class variables
+*Constructor for the Server that sets class variables
 * @author  Collin Vincent  collinvincent96@gmail.com
 */
   public StrategoServer() throws IOException{
