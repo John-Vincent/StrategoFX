@@ -56,6 +56,16 @@ public abstract class ModeWorker implements Runnable{
   }
 
   /**
+   * allows the Worker or any object with a reference to the worker to add a task to the workers to do list
+   * @param  task the runnable object to run
+   * @author Collin Vincent collinvincent96@gmail.com
+   * @date   2017-03-21T23:19:18+000
+   */
+  public void addTask(Runnable task){
+    this.task.add(task);
+  }
+
+  /**
    * this method is set up to run all request from the Mode as well and pass all packets from the network to the handlePacket Method, it also runs anything added to the todo list for the Worker
    * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T21:09:52+000
