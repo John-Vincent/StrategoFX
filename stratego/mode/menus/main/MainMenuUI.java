@@ -105,7 +105,7 @@ public class MainMenuUI extends Mode {
 		pane.setTop(title);
 		BorderPane.setAlignment(title, Pos.TOP_CENTER);
 
-		FriendsList friendsList = new FriendsList(5, friendModel);
+		FriendsList friendsList = new FriendsList(5, friendModel, this.getWorker());
 		pane.setRight(friendsList);
 
 	}

@@ -74,7 +74,7 @@ public class MainMenuWorker extends ModeWorker {
 				for(int i = 0; i < friends.length; i++){
 					String[] friendData = friends[i].split(":");
 					if(friendData.length == 2){
-						if(friendData[1].equals('0'))
+						if(friendData[1].equals("0"))
 							friendData[1] = "offline";
 						else
 							friendData[1] = "online";
