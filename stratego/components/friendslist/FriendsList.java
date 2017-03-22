@@ -15,6 +15,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.*;
 import javafx.scene.layout.Pane;
+import stratego.mode.ModeWorker;
 
 
 /**
@@ -27,6 +28,7 @@ public class FriendsList extends Pane implements Observer {
 	VBox mainVBox, friendVBoxes;
 	Pane pane;
 	FriendsList friendsList;
+	ModeWorker worker;
 	/**
 	 * The padding used between elements within the VBox that holds the friend
 	 * list.
@@ -40,7 +42,7 @@ public class FriendsList extends Pane implements Observer {
 	 *            The padding to be used in this unique VBox.
 	 * @author Bradley Rhein bdrhein@iastate.edu
 	 */
-	public FriendsList(double n, FriendModel friendModel) {
+	public FriendsList(double n, FriendModel friendModel, ModeWorker worker) {
 		super();
 		this.getChildren().clear();
 		/*
@@ -48,6 +50,7 @@ public class FriendsList extends Pane implements Observer {
 		 * convenience only for the .setOnAction overridden handle methods
 		 */
 		this.friendsList = this;
+		this.worker = worker;
 		friendVBoxes = new VBox();
 		
 		Text fl = new Text("Friends List");
@@ -57,7 +60,6 @@ public class FriendsList extends Pane implements Observer {
 		this.setPadding(new Insets(10, 15, 10, 10));
 		friendModel.addObserver(this);
 		this.mainVBox = new VBox(n, fl, friendVBoxes, af);
-		
 		this.mainVBox.setAlignment(Pos.CENTER);
 		this.getChildren().addAll(this.mainVBox);
 		VBox.setVgrow(fl, Priority.ALWAYS);
@@ -97,7 +99,7 @@ public class FriendsList extends Pane implements Observer {
 		addFriend.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				//addTask("addfriend", friendName.getText());
+				worker.addTask(worker.getRequest("addfriend", friendName.getText()));
 				friendsList.getChildren().clear();
 				friendsList.getChildren().addAll(mainVBox);
 			}

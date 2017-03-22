@@ -212,13 +212,7 @@ public class Networker implements Runnable{
    * @date   2017-03-14T15:53:16+000
    */
   public void sendFriendRequest(String username){
-    byte[] data = new byte[username.length()];
-
-    byte[] temp2 = username.getBytes();
-    for(int i = 0; i< temp2.length; i++){
-      data[i+5] = temp2[i];
-    }
-    Packet p = new Packet(FRIENDR, data, Networker.server);
+    Packet p = new Packet(FRIENDR, username.getBytes(), Networker.server);
     sendPacket(p);
   }
 

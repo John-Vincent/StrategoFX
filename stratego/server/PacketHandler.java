@@ -126,8 +126,8 @@ public class PacketHandler implements Runnable{
   }
 
   private byte[] login(String username, byte[] password){
-    System.out.println(username + " " + new String(password, 0, password.length, StandardCharsets.UTF_8));
     if( DBManager.login(username, password)){
+      SessionManager.addUName(id, username);
       return new byte[]{LOGIN, (byte)0x01};
     } else{
       return new byte[]{LOGIN, (byte)0x00};

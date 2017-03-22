@@ -21,11 +21,15 @@ public class SessionManager{
   }
 
   public static String getUName(int id, SocketAddress address){
-    String username = map.get(id).username;
-    SocketAddress session = map.get(id).address;
-    if(username != null && session.equals(address))
-      return map.get(id).username;
+    Session session = map.get(id);
+    String username = session.username;
+    if(username != null && session.getAddress().equals(address))
+      return username;
     return null;
+  }
+
+  public static void addUName(int id, String username){
+    map.get(id).setName(username);
   }
 
   public static void removeUName(int id){
@@ -56,6 +60,10 @@ public class SessionManager{
     public Session(SocketAddress add, byte[] r){
       this.RSAKey = r;
       this.address = add;
+    }
+
+    public void setName(String name){
+      this.username = name;
     }
 
     public String getName(){
