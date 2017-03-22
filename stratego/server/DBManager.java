@@ -11,19 +11,21 @@ import java.util.Arrays;
 public final class DBManager{
 
   private static final BasicDataSource source = new BasicDataSource();
-  private static final String signupQ = "insert into `user` (`name`, `pass`) values ( ? , ? );";
+  private static final String signupQ = "insert into `user` (`name`, `pass`, `last`, `online`) values ( ? , ? , NOW(), 0);";
   private static final String loginQ = "select `user`.`pass` from `user` where `user`.`name` = ?;";
-  private static final String getFriendsQ = "SELECT u.name, u.online "+
-                              "FROM user u "+
-                              "WHERE (u.id = (select f.sender from friend f where f.receiver =(select u1.id from user u1 where u1.name = ? ) and f.accepted != 0)) "+
-                                "or (u.id = (select f.receiver from friend f where f.sender =(select u2.id from user u2 where u2.name = ? ) and f.accepted !=0));";
+  private static final String getFriendsQ = "SELECT u2.name, u2.online from `friend` f " +
+                                            "left join `user` u1 on f.sender = u1.id " +
+                                            "left join `user` u2 on f.receiver = u2.id " +
+                                            "where u1.name = ? ;";
 
   private static final String requestFriendQ = "insert into friend(sender,receiver,accepted) "+
                                   "values((select u.id from user u where u.name= ? ),(select u2.id from user u2 where u2.name = ? ),'0');";
 
   private static final String acceptFriendRequestQ= "update `friend` set `accepted` = '1' where `friend`.`id` = ?;";
 
-  private static final String logoutQ = "update `user` set `online` = '0', `last` = NOW() where `name` = ?; ";
+  private static final String logoutQ = "update `user` set `online` = 0, `last` = NOW() where `name` = ?; ";
+
+  private static final String setLoginQ = "update `user` set `online` = 1 where `name` = ? and `pass` = ?";
 
   static{
     source.setDriverClassName("com.mysql.jdbc.Driver");
@@ -95,21 +97,19 @@ public final class DBManager{
   public static boolean login(String uname, byte[] password){
     Connection conn1 = null;
     PreparedStatement statement = null;
+    int rows = 0;
     ResultSet set = null;
 
     boolean ans=false;
 
     try{
       conn1 = DBManager.getConnection();
-      statement  = conn1.prepareStatement(loginQ);
+      statement  = conn1.prepareStatement(setLoginQ);
       statement.setString(1, uname);
-      set = statement.executeQuery();
-      byte[] passbytes;
-      while(set.next()){
-        passbytes = set.getBytes("pass");
-        if(Arrays.equals(passbytes, password)){
-          ans = true;
-        }
+      statement.setBytes(2, password);
+      rows = statement.executeUpdate();
+      if(rows == 1){
+        ans = true;
       }
 
     } catch(Exception e){
@@ -152,14 +152,12 @@ public final class DBManager{
 
     try{
       conn1 = DBManager.getConnection();
-      statement  = conn1.prepareStatement(getFriendsQ);
+      statement  = conn1.prepareStatement(temp);
       statement.setString(1, uname);
-      statement.setString(2, uname);
       set = statement.executeQuery();
       while(set.next()){
         ans += set.getString("name") + ":" + set.getInt("online")+";";
       }
-
     } catch(Exception e){
       System.out.println(e.getMessage());
       ans = null;
