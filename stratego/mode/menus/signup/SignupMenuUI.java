@@ -29,7 +29,7 @@ public class SignupMenuUI extends Mode {
 	public SignupMenuUI() {
 
 		super(new GridPane());
-		this.setWorker(new SignupMenuWorker(this.getTaskList()));
+		this.setWorker(new SignupMenuWorker());
 
 		GridPane grid = (GridPane) this.getRoot();
 		grid.setAlignment(Pos.CENTER);

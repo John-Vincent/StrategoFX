@@ -16,30 +16,33 @@ public class LoginMenuWorker extends ModeWorker {
 	* @param	q	A queue that passes requests from LoginMenuUI to LoginMenuWorker.
 	* @author Ryan McCullough rmm@iastate.edu
 	*/
-	public LoginMenuWorker(ConcurrentLinkedQueue<Runnable> q) {
-		super(q);
+	public LoginMenuWorker() {
+		super();
 	}
 
 
 	@Override
-	public Runnable getRequest(String name) {
+	public boolean addTask(String name) {
 		switch (name) {
 		case "signup":
-			return new SignUpRequest();
+			queueTask(new SignUpRequest());
+			return true;
 		default:
-			return null;
+			return false;
 		}
 	}
 
 	@Override
-	public Runnable getRequest(String name, Object... args) {
+	public boolean addTask(String name, Object... args) {
 		switch (name) {
 		case "signin":
-			return new SignInRequest((String) args[0], (String) args[1]);
+			queueTask(new SignInRequest((String) args[0], (String) args[1]));
+			return true;
 		case "signup":
-			return new SignUpRequest();
+			queueTask(new SignUpRequest());
+			return true;
 		default:
-			return null;
+			return false;
 		}
 	}
 

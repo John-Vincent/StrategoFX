@@ -16,27 +16,29 @@ public class SignupMenuWorker extends ModeWorker {
 	*	Calls it's superconstructor {@link stratego.mode.ModeWorker#ModeWorker(ConcurrentLinkedQueue<Runnable> q) ModeWorker}.
 	* @author 	Bradley Rhein  bdrhein@iastate.edu
 	*/
-	public SignupMenuWorker(ConcurrentLinkedQueue<Runnable> q) {
-		super(q);
+	public SignupMenuWorker() {
+		super();
 	}
 
 	@Override
-	public Runnable getRequest(String name) {
+	public boolean addTask(String name) {
 		switch (name) {
 		case "login":
-			return new SubmitRequest();
+			queueTask(new SubmitRequest());
+			return true;
 		default:
-			return null;
+			return false;
 		}
 	}
 
 	@Override
-	public Runnable getRequest(String name, Object... args) {
+	public boolean addTask(String name, Object... args) {
 		switch (name) {
 		case "signup":
-			return new SubmitRequest((String) args[0], (String) args[1]);
+			queueTask(new SubmitRequest((String) args[0], (String) args[1]));
+			return true;
 		default:
-			return null;
+			return false;
 		}
 	}
 

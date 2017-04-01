@@ -15,17 +15,18 @@ public class SingleplayerWorker extends ModeWorker{
 	*sets the tasklist that communicates tasks between the UI and the worker.
 	*@param	q	The queue that SinglePlayerUI uses to pass request to the SinglePlayerWorker.
 	*/
-  public SingleplayerWorker(ConcurrentLinkedQueue<Runnable> q){
-    super(q);
+  public SingleplayerWorker(){
+    super();
   }
 
   @Override
-  public Runnable getRequest(String name){
+  public boolean addTask(String name){
     switch(name){
       case "back":
-    	  return new MenuOptions();
+    	  queueTask(new MenuOptions());
+        return true;
       default:
-        return null;
+        return false;
     }
   }
 

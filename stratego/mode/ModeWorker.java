@@ -28,9 +28,9 @@ public abstract class ModeWorker implements Runnable{
    * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T20:29:46+000
    */
-  public ModeWorker(ConcurrentLinkedQueue<Runnable> q){
+  public ModeWorker(){
     this.net = Background.getNetworker();
-    this.task = q;
+    this.task = new ConcurrentLinkedQueue<Runnable>();
   }
 
   /**
@@ -41,7 +41,7 @@ public abstract class ModeWorker implements Runnable{
    * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T20:32:46+000
    */
-  abstract public Runnable getRequest(String name);
+  abstract public boolean addTask(String name);
 
   /**
    * a Method that any subclass must override. This returns a runnable that requires parameters to the Mode.
@@ -51,8 +51,8 @@ public abstract class ModeWorker implements Runnable{
    * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T20:32:46+000
    */
-  public Runnable getRequest(String name, Object...arg){
-	  return null;
+  public boolean addTask(String name, Object...arg){
+	  return false;
   }
 
   /**
@@ -61,7 +61,7 @@ public abstract class ModeWorker implements Runnable{
    * @author Collin Vincent collinvincent96@gmail.com
    * @date   2017-03-21T23:19:18+000
    */
-  public void addTask(Runnable task){
+  protected void queueTask(Runnable task){
     this.task.add(task);
   }
 

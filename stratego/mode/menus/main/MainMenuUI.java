@@ -34,13 +34,13 @@ public class MainMenuUI extends Mode {
 
 	/**
 	 * Constructor. Uses the BorderPane format to create the main menu.
-	 * 
+	 *
 	 * @author Bradley Rhein bdrhein@iastate.edu
 	 */
 	public MainMenuUI() {
 		super(new BorderPane());
 		FriendModel friendModel = new FriendModel();
-		this.setWorker(new MainMenuWorker(this.getTaskList(), friendModel));
+		this.setWorker(new MainMenuWorker(friendModel));
 
 		this.pane = (BorderPane) this.getRoot();
 		this.pane.setPadding(new Insets(0, 30, 20, 30));
