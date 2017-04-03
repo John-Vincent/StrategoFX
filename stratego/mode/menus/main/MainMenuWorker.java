@@ -83,6 +83,7 @@ public class MainMenuWorker extends ModeWorker {
 				}
         break;
 			case Networker.FRIENDR:
+			System.out.println(data[0]);
 				if(data[0] == 0x00)
 					break;
 				temp = new String(data, 0, data.length);
