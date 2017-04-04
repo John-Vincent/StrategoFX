@@ -29,7 +29,7 @@ public class LoginMenuUI extends Mode {
 	public LoginMenuUI() {
 
 		super(new GridPane());
-		this.setWorker(new LoginMenuWorker(this.getTaskList()));
+		this.setWorker(new LoginMenuWorker());
 
 		GridPane grid = (GridPane) this.getRoot();
 		grid.setAlignment(Pos.CENTER);
@@ -75,7 +75,7 @@ public class LoginMenuUI extends Mode {
 				// this sets the next UI to be displayed this UI's worker stops
 				// running
 				setNextMode(new MainMenuUI());
-				getTaskList().add(getWorker().getRequest("signin", userTextField.getText(), pwBox.getText()));
+				addTask("signin", userTextField.getText(), pwBox.getText());
 			}
 		});
 
@@ -83,7 +83,7 @@ public class LoginMenuUI extends Mode {
 			@Override
 			public void handle(ActionEvent e) {
 				setNextMode(new SignupMenuUI());
-				getTaskList().add(getWorker().getRequest("signup"));
+				addTask("signup");
 			}
 		});
 	}

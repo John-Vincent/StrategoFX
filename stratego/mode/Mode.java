@@ -14,7 +14,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public abstract class Mode extends Scene{
 
   private ModeWorker worker;
-  private ConcurrentLinkedQueue<Runnable> task;
   private Mode next = null;
   private double prefWidth = Sizes.screenSize.getWidth()*Sizes.stageSize;
   private double prefHeight = Sizes.screenSize.getHeight()*Sizes.stageSize;
@@ -30,7 +29,6 @@ public abstract class Mode extends Scene{
    */
   public Mode(Parent p){
     super(p);
-    this.task = new ConcurrentLinkedQueue<Runnable>();
   }
 
   /**
@@ -53,10 +51,6 @@ public abstract class Mode extends Scene{
     return this.worker;
   }
 
-  protected ConcurrentLinkedQueue<Runnable> getTaskList(){
-    return this.task;
-  }
-
   /**
    * request a task to be run by the ModeWorker, this task must be defined in the ModeWorker class
    * @param  task           the name of that task to be run
@@ -64,7 +58,7 @@ public abstract class Mode extends Scene{
    * @date   2017-03-08T19:21:51+000
    */
   protected void addTask(String task){
-    this.task.add(worker.getRequest(task));
+    worker.addTask(task);
   }
 
   /**
@@ -75,7 +69,7 @@ public abstract class Mode extends Scene{
    * @date   2017-03-08T19:22:41+000
    */
   protected void addTask(String name, Object... args){
-    this.task.add(worker.getRequest(name, args));
+    worker.addTask(name, args);
   }
 
   /**

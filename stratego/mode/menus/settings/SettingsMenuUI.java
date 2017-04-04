@@ -29,7 +29,7 @@ public class SettingsMenuUI extends Mode{
   */
   public SettingsMenuUI(){
     super(new BorderPane());
-    this.setWorker(new SettingsMenuWorker(this.getTaskList()));
+    this.setWorker(new SettingsMenuWorker());
 
 
     Button back = new Button("Back");

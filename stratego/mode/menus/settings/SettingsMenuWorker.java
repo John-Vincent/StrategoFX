@@ -14,17 +14,18 @@ public class SettingsMenuWorker extends ModeWorker{
 	*@param	q	The queue that SettingsMenuUI uses to pass request to the SettingsMenuWorkerWorker.
 	*
 	*/
-  public SettingsMenuWorker(ConcurrentLinkedQueue<Runnable> q){
-    super(q);
+  public SettingsMenuWorker(){
+    super();
   }
 
   @Override
-  public Runnable getRequest(String name){
+  public boolean addTask(String name){
     switch(name){
       case "back":
-    	  return new BackRequest();
+    	  queueTask(new BackRequest());
+        return true;
       default:
-        return null;
+        return false;
     }
   }
 

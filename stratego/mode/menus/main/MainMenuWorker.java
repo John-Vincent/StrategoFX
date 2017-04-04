@@ -22,36 +22,41 @@ public class MainMenuWorker extends ModeWorker {
 	*	@param	fm	This users FriendModel provided by MainMenuUI.
 	* @author  Bradley Rhein	 bdrhein@iastate.edu
 	*/
-	public MainMenuWorker(ConcurrentLinkedQueue<Runnable> q, FriendModel fm) {
-		super(q);
+	public MainMenuWorker(FriendModel fm) {
+		super();
 		friendModel = fm;
 		super.setTodo(new Runnable[]{new FriendUpdater()});
 	}
 
 
 	@Override
-	public Runnable getRequest(String name) {
+	public boolean addTask(String name) {
 		switch (name) {
 		case "ping":
-			return getPingRequest();
+			queueTask(getPingRequest());
+			return true;
 		case "logout":
-			return new LogoutOption();
+			queueTask(new LogoutOption());
+			return true;
 		case "singleplayer":
-			return new MenuOptions();
+			queueTask(new MenuOptions());
+			return true;
 		case "settings":
-			return new MenuOptions();
+			queueTask(new MenuOptions());
+			return true;
 		default:
-			return null;
+			return false;
 		}
 	}
 
 	@Override
-	public Runnable getRequest(String name, Object... args) {
+	public boolean addTask(String name, Object... args) {
 		switch (name) {
 		case "addfriend":
-			return new FriendRequest((String) args[0]);
+			queueTask(new FriendRequest((String) args[0]));
+			return true;
 		default:
-			return null;
+			return false;
 		}
 
 	}

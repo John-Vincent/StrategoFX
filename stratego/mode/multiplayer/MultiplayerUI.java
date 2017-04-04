@@ -10,14 +10,14 @@ import stratego.application.Background;
 *This UI shows the game screen as well as many additional multiplayer features
 */
 public class MultiplayerUI extends Mode{
-	
+
 	/**
 	*Constructor
 	*Makes the Multiplayer UI
 	*/
   public MultiplayerUI(Parent p){
     super(p);
-    this.setWorker(new MultiplayerWorker(this.getTaskList()));
+    this.setWorker(new MultiplayerWorker());
 
   }
 

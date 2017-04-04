@@ -40,7 +40,7 @@ public class SingleplayerUI extends Mode{
 
     ((Pane)this.getRoot()).getChildren().add(back);
 
-    this.setWorker(new SingleplayerWorker(this.getTaskList()));
+    this.setWorker(new SingleplayerWorker());
     this.getRoot().requestFocus();
     this.setMinSize(760, 800 + GameScene.startY);
     this.setPrefWidth(760);
