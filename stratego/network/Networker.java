@@ -48,6 +48,9 @@ public class Networker implements Runnable{
   public static final byte LOGOUT =(byte)0x05;
   public static final byte SECURE = (byte)0x06;
   public static final byte CLOSE = (byte)0x07;
+  private static final byte OPENSERV = (byte)0x08;
+  private static final byte CONSERV = (byte)0x09;
+  private static final byte SESSERROR = (byte)0x0A;
   public static final byte CHAT = (byte)0xFE;
 
 
