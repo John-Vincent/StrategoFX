@@ -12,13 +12,24 @@ public final class DBManager{
 
   private static final BasicDataSource source = new BasicDataSource();
   private static final String signupQ = "insert into `user` (`name`, `pass`, `last`, `online`) values ( ? , ? , NOW(), 0);";
-  private static final String getFriendsQ = "SELECT u2.name, u2.online from `friend` f " +
-                                            "left join `user` u1 on f.sender = u1.id " +
-                                            "left join `user` u2 on f.receiver = u2.id " +
-                                            "where u1.name = ? ;";
+  
+  //changed to fit new data table
+  private static final String getFriendsQ = "SELECT u.name, u.online from `user` u " +
+                                            "inner join `friends` f on u.id = f.friendid " +
+                                            "where f.userid = (select u2.id from 'user' u2 where u2.name =?);";
+  
+//added string for finding your sent friend requests
+  private static final String getSentFriendRequestsQ = "SELECT u.name, u.online from `user` u " +
+                                            "inner join `friendrequests` f on u.id = f.receiverid " +
+                                            "where f.senderid = (select u2.id from 'user' u2 where u2.name =?);";
+//added string for finding friend requests sent to you
+  private static final String getSentFriendRequestsQ = "SELECT u.name, u.online from `user` u " +
+                                            "inner join `friendrequests` f on u.id = f.senderid " +
+                                            "where f.receiver = (select u2.id from 'user' u2 where u2.name =?);";
 
-  private static final String requestFriendQ = "insert into friend(sender,receiver,accepted) "+
-                                  "values((select u.id from user u where u.name= ? ),(select u2.id from user u2 where u2.name = ? ),'0');";
+											//changed friend requests to fit new table
+  private static final String requestFriendQ = "insert into friendrequests(senderid,receiverid) "+
+                                  "values((select u.id from user u where u.name= ? ),(select u2.id from user u2 where u2.name = ? ));";
 
   private static final String acceptFriendRequestQ= "update `friend` set `accepted` = '1' where `friend`.`id` = ?;";
 
