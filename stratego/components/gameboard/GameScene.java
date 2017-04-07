@@ -66,6 +66,8 @@ public class GameScene extends Pane {
 	 * Vertical resolution at which board starts displaying
 	 */
 	public static final int startY = 50;
+	private static int kX=0;
+	private static int kY=0;
 
 	/**
 	 * Constructor that initializes game scene
@@ -76,6 +78,9 @@ public class GameScene extends Pane {
 		kursor.setFill(Color.TRANSPARENT);
 		kursor.setStrokeWidth(5);
 		kursor.setStroke(Color.RED);
+		Text t = new Text("Cursor Position: "+kX+", "+kY);
+		t.setY(20);
+		t.setX(590);
 
 		p1Arr = new BoardPiece[40];
 		int x = 8;
@@ -174,19 +179,23 @@ public class GameScene extends Pane {
 			Rectangle temp = null;
 			if (key.getCode() == KeyCode.RIGHT) {
 				if (kursor.getX() < 650) {
+					kX++;
 					kursor.setX(kursor.getX() + 72);
 				}
 
 			} else if (key.getCode() == KeyCode.LEFT) {
 				if (kursor.getX() >= 8) {
+					kX--;
 					kursor.setX(kursor.getX() - 72);
 				}
 			} else if (key.getCode() == KeyCode.UP) {
 				if (kursor.getY() > startY) {
+					kY++;
 					kursor.setY(kursor.getY() - 72);
 				}
 			} else if (key.getCode() == KeyCode.DOWN) {
 				if (kursor.getY() <= 650 - 24 + startY) {
+					kY--;
 					kursor.setY(kursor.getY() + 72);
 				}
 			} else if (key.getCode() == KeyCode.ENTER) {
@@ -371,11 +380,11 @@ public class GameScene extends Pane {
 				}
 			}
 			
-			
+			t.setText("Cursor Position: "+kX+", "+kY);
 
 		});
 
-		this.getChildren().addAll(kursor);
+		this.getChildren().addAll(kursor,t);
 	}
 
 }

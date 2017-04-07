@@ -42,8 +42,8 @@ public class SingleplayerUI extends Mode{
 
     this.setWorker(new SingleplayerWorker());
     this.getRoot().requestFocus();
-    this.setMinSize(760, 800 + GameScene.startY);
-    this.setPrefWidth(760);
+    this.setMinSize(1000, 800 + GameScene.startY);
+    this.setPrefWidth(1000);
     this.setPrefHeight(800 + GameScene.startY);
     this.setResizable(false);
   }
