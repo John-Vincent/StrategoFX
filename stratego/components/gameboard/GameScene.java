@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import stratego.application.*;
+import stratego.mode.singleplayer.*;
 
 /**
  * Class for javafx scene that runs game
@@ -53,6 +54,7 @@ public class GameScene extends Pane {
 	public static void setCheat(boolean c) {
 		cheat = c;
 	}
+	
 
 	/**
 	 * Accesor method to get value of cheat setting
@@ -248,7 +250,7 @@ public class GameScene extends Pane {
 
 					}
 				} else {
-
+					//System.out.println(Logic.isEmpty((int) (kursor.getX() + 1), (int) (kursor.getY() + 1)));
 					if (Logic.isEmpty((int) (kursor.getX() + 1), (int) (kursor.getY() + 1))) {
 						if (!(p2Arr[m].getId() == '2')) {
 							if (((((Math.abs((kursor.getX() + 1) - p2Arr[m].getRec().getX()) >= (72 * wFactor) - 2))
@@ -412,11 +414,14 @@ public class GameScene extends Pane {
 			t.setText("Cursor Position: " + kX + ", " + kY);
 			p1X[40] = kursor.getX();
 			p1Y[40] = kursor.getY();
-			/*
-			 * for (int i = 0; i < 40; i++) { p1X[i] = p1Arr[i].getRec().getX();
-			 * p2X[i] = p2Arr[i].getRec().getX(); p1Y[i] =
-			 * p1Arr[i].getRec().getY(); p2Y[i] = p2Arr[i].getRec().getY(); }
-			 */
+			
+			  /*for (int i = 0; i < 40; i++) { 
+			  p1X[i] = p1Arr[i].getRec().getX();
+			  p2X[i] = p2Arr[i].getRec().getX();
+			  p1Y[i] =  p1Arr[i].getRec().getY(); 
+			  p2Y[i] = p2Arr[i].getRec().getY(); 
+			  }*/
+			 
 			
 		});
 

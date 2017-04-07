@@ -17,7 +17,7 @@ import stratego.application.Background;
  * Single Player UI Displays the gameboard for the user.
  */
 public class SingleplayerUI extends Mode {
-
+	
 	/**
 	 * Constructor creates the gameboard.
 	 */
@@ -30,13 +30,14 @@ public class SingleplayerUI extends Mode {
 			@Override
 			public void handle(ActionEvent event) {
 				// System.out.println("Test");
-				setNextMode(new MainMenuUI());
+				//setNextMode(new MainMenuUI());
+				System.exit(0);
 				addTask("back");
 				GameScene.kX = 0;
 				GameScene.kY = 0;
 			}
 		});
-
+		
 		((Pane) this.getRoot()).getChildren().add(back);
 
 		this.setWorker(new SingleplayerWorker());

@@ -964,12 +964,9 @@ public class Logic {
 							break;
 						}
 						move = rand.nextInt(4);
-						System.out.println(
-								search(GameScene.p1Arr[n].getRec().getX(), GameScene.p1Arr[n].getRec().getY()));
 						if (move == 0) {
 							if (search(GameScene.p1Arr[n].getRec().getX() - 72 * GameScene.wFactor,
 									GameScene.p1Arr[n].getRec().getY()) == -1 && GameScene.p1Arr[n].getX() - 1 > -1) {
-								System.out.println(GameScene.p1Arr[n].getX());
 								GameScene.p1Arr[n].getRec()
 										.setX(GameScene.p1Arr[n].getRec().getX() - 72 * GameScene.wFactor);
 								found = true;
@@ -1060,8 +1057,9 @@ public class Logic {
 	static boolean isEmpty(int x, int y) {
 		boolean empty = true;
 		for (int i = 0; i < 40; i++) {
-			if ((int) Math.floor(GameScene.p2Arr[i].getRec().getY()) == y
-					&& (int) Math.floor(GameScene.p2Arr[i].getRec().getX()) == x) {
+			if (((GameScene.p2Arr[i].getRec().getY() >= (y-3))&&(GameScene.p2Arr[i].getRec().getY()<= (y+3)))
+					&& ((GameScene.p2Arr[i].getRec().getX() >= (x-3))&&(GameScene.p2Arr[i].getRec().getX() <= (x+3)))) {
+				System.out.println("asd");
 				empty = false;
 				break;
 			}
