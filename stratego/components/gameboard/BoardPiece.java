@@ -6,7 +6,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 /**
- * Creates an instance of a piece on the board
+ * Creates an instance of a boardpiece
  * 
  * @author manthan
  *
