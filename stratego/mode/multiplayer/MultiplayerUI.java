@@ -5,15 +5,23 @@ import stratego.mode.menus.main.MainMenuUI;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.TextFlow;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import stratego.network.Networker;
 import stratego.application.Background;
+import stratego.components.gameboard.GameScene;
 import stratego.mode.multiplayer.ConnectionMenu;
 
 /**
@@ -36,7 +44,7 @@ public class MultiplayerUI extends Mode {
 		this.setMinSize(500, 400);
 		pane.setPadding(new Insets(10, 10, 10, 10));
 		setConstraints();
-		pane.setGridLinesVisible(true);
+		//pane.setGridLinesVisible(true);
 		
 		EventHandler<ActionEvent> createHandler = new EventHandler<ActionEvent>() {
 			@Override
@@ -44,7 +52,8 @@ public class MultiplayerUI extends Mode {
 				//TODO connect
 				serverName = connect.getConnectionServer();
 				password = connect.getConnectionPassword();
-				pane.getChildren().clear();
+				//pane.getChildren().clear();
+				pane.getChildren().remove(connect);
 				gameUI();
 				//go to actual ui
 			}
@@ -93,13 +102,43 @@ public class MultiplayerUI extends Mode {
 		//setConstraints();
 		//pane.setGridLinesVisible(true);
 		
-		TextArea chatLog = new TextArea();
-		pane.add(chatLog, 0, 0, 2, 4);
-		chatLog.appendText("lol");
-		pane.setGridLinesVisible(true);
-		Button test = new Button();
-		pane.add(test, 1, 0);
-		//VBox chatUI = new VBox(5, chatLog, chatButtons, disconnect);
+		TextArea chatWindow = new TextArea();
+		pane.add(chatWindow, 0, 0, 2, 7);
+		
+		TextField message = new TextField();
+		Button disconnect = new Button("Disconnect");
+		
+		Button showFriendList = new Button("Friend List");
+		Button sendMessage = new Button("Send Message");
+		HBox chatButtons = new HBox(5, showFriendList, sendMessage);
+		chatButtons.setAlignment(Pos.CENTER);
+		HBox.setHgrow(showFriendList, Priority.ALWAYS);
+		HBox.setHgrow(sendMessage, Priority.ALWAYS);
+		showFriendList.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		sendMessage.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		
+		VBox chatElements = new VBox(5, message, chatButtons, disconnect);
+		chatElements.setAlignment(Pos.CENTER);
+		VBox.setVgrow(message, Priority.ALWAYS);
+		VBox.setVgrow(disconnect, Priority.ALWAYS);
+		VBox.setVgrow(chatButtons, Priority.ALWAYS);
+		message.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		disconnect.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		chatButtons.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		pane.add(chatElements, 0, 7, 2, 3);
+		
+		GameScene game = new GameScene();
+		game.autosize();
+		pane.add(game, 2, 0, 8, 10);
+		game.setOnMouseClicked(new EventHandler<MouseEvent>(){
+			@Override
+			public void handle(MouseEvent event){
+				game.requestFocus();
+			}
+		});
+		
+		//HBox chatButtons = new HBox()
+		//VBox buttons = new VBox(5, chatButtons, disconnect);
 		
 	}
 }
