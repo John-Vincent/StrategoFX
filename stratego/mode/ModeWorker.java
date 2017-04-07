@@ -142,8 +142,6 @@ public abstract class ModeWorker implements Runnable{
    * @date   2017-03-08T21:23:56+000
    */
   protected boolean handlePacket(Packet p){
-    if(p == null)
-      return false;
     byte[] data = p.getData();
     if(p.getType() == 0x00){
       System.out.println("ping received from " + p.getSocketAddress());

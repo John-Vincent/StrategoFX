@@ -9,6 +9,7 @@ import stratego.mode.Mode;
 import stratego.mode.ModeWorker;
 import stratego.mode.menus.login.LoginMenuUI;
 import stratego.mode.menus.settings.SettingsMenuUI;
+import stratego.mode.multiplayer.MultiplayerUI;
 import javafx.scene.*;
 import stratego.network.Networker;
 import javafx.scene.layout.*;
@@ -58,7 +59,8 @@ public class MainMenuUI extends Mode {
 		pl.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				// TODO
+				setNextMode(new MultiplayerUI());
+				addTask("multiplayer");
 			}
 		});
 		Button st = new Button("Settings");
