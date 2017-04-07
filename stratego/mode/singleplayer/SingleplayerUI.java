@@ -1,6 +1,5 @@
 package stratego.mode.singleplayer;
 
-
 import stratego.mode.Mode;
 import stratego.mode.menus.main.MainMenuUI;
 import stratego.mode.menus.signup.SignupMenuWorker;
@@ -15,40 +14,37 @@ import stratego.network.Networker;
 import stratego.application.Background;
 
 /**
-*Single Player UI
-*Displays the gameboard for the user.
-*/
-public class SingleplayerUI extends Mode{
+ * Single Player UI Displays the gameboard for the user.
+ */
+public class SingleplayerUI extends Mode {
 
 	/**
-	*Constructor
-	*creates the gameboard.
-	*/
-  public SingleplayerUI(){
-    super(new GameScene());
-    Button back = new Button("Back");
-    back.setLayoutX(8);
-    back.setLayoutY(8);
-    back.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override
-		    public void handle(ActionEvent event) {
-			      // System.out.println("Test");
-			      setNextMode(new MainMenuUI());
-			      addTask("back");
-		    }
-	  });
+	 * Constructor creates the gameboard.
+	 */
+	public SingleplayerUI() {
+		super(new GameScene());
+		Button back = new Button("Exit");
+		back.setLayoutX(8);
+		back.setLayoutY(8);
+		back.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				// System.out.println("Test");
+				setNextMode(new MainMenuUI());
+				addTask("back");
+				GameScene.kX = 0;
+				GameScene.kY = 0;
+			}
+		});
 
-    ((Pane)this.getRoot()).getChildren().add(back);
+		((Pane) this.getRoot()).getChildren().add(back);
 
-    this.setWorker(new SingleplayerWorker());
-    this.getRoot().requestFocus();
-    this.setMinSize(1000, 800 + GameScene.startY);
-    this.setPrefWidth(1000);
-    this.setPrefHeight(800 + GameScene.startY);
-    this.setResizable(false);
-  }
-
-
-
+		this.setWorker(new SingleplayerWorker());
+		this.getRoot().requestFocus();
+		this.setMinSize(375, 400 + GameScene.startY);
+		this.setPrefWidth(750);
+		this.setPrefHeight(800 + GameScene.startY);
+		this.setResizable(true);
+	}
 
 }
