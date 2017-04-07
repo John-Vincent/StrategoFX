@@ -15,18 +15,18 @@ import javafx.stage.Stage;
  */
 public class Logic {
 
-	private final static  char flag = 'F';
-	private final static  char bomb = 'B';
-	private final static  char spy = 'S';
-	private final static  char scout = '2';
-	private final static  char miner = '3';
-	private final static  char sergant = '4';
-	private final static  char lieutenant = '5';
-	private final static  char captain = '6';
-	private final static  char major = '7';
-	private final static  char colonel = '8';
-	private final static  char general = '9';
-	private final static  char marshall = 'T';
+	private final static char flag = 'F';
+	private final static char bomb = 'B';
+	private final static char spy = 'S';
+	private final static char scout = '2';
+	private final static char miner = '3';
+	private final static char sergant = '4';
+	private final static char lieutenant = '5';
+	private final static char captain = '6';
+	private final static char major = '7';
+	private final static char colonel = '8';
+	private final static char general = '9';
+	private final static char marshall = 'T';
 
 	static char board[][] = new char[10][10];
 	static char actualBoard[][] = new char[10][10];
@@ -373,7 +373,6 @@ public class Logic {
 		cpucolonelCount = 0;
 		cpugeneralCount = 0;
 		cpumarshallCount = 0;
-
 
 		arrangeRandomly();
 		arrangeCpu();
@@ -937,17 +936,17 @@ public class Logic {
 	/**
 	 * Computes the move to be made by player 2, in this case cpu
 	 *
-	 * @return n An integer with value either 0,1,2 or 3. 0 equals left, 1 equals
-	 *          right, 2 equals up, 3 equals down
+	 * @return n An integer with value either 0,1,2 or 3. 0 equals left, 1
+	 *         equals right, 2 equals up, 3 equals down
 	 * @throws InterruptedException
 	 */
-	static int cpuMove() throws InterruptedException {
-
+	static int cpuMove() {
 		Random rand = new Random();
 		int n = rand.nextInt(40);
 		int move = -1;
 		boolean found = false;
 		while (!found) {
+
 			n = rand.nextInt(40);
 			if (GameScene.p1Arr[n].getId() == 'F' || GameScene.p1Arr[n].getId() == 'B') {
 				n = rand.nextInt(40);
@@ -966,9 +965,10 @@ public class Logic {
 						}
 						move = rand.nextInt(4);
 						if (move == 0) {
-							if (search(GameScene.p1Arr[n].getX() - 1, GameScene.p1Arr[n].getY()) == -1
-									&& GameScene.p1Arr[n].getX() - 1 != -1) {
-								GameScene.p1Arr[n].getRec().setX(GameScene.p1Arr[n].getRec().getX() - 72);
+							if (search(GameScene.p1Arr[n].getRec().getX() - 72 * GameScene.wFactor,
+									GameScene.p1Arr[n].getRec().getY()) == -1 && GameScene.p1Arr[n].getX() - 1 > -1) {
+								GameScene.p1Arr[n].getRec()
+										.setX(GameScene.p1Arr[n].getRec().getX() - 72 * GameScene.wFactor);
 								found = true;
 								break;
 							} else {
@@ -976,9 +976,11 @@ public class Logic {
 								continue;
 							}
 						} else if (move == 1) {
-							if (search(GameScene.p1Arr[n].getX() + 1, GameScene.p1Arr[n].getY()) == -1
-									&& GameScene.p1Arr[n].getX() + 1 != 10) {
-								GameScene.p1Arr[n].getRec().setX(GameScene.p1Arr[n].getRec().getX() + 72);
+							if (search(GameScene.p1Arr[n].getRec().getX() + 72 * GameScene.wFactor,
+									GameScene.p1Arr[n].getRec().getY()) == -1
+									&& GameScene.p1Arr[n].getRec().getX() < 10) {
+								GameScene.p1Arr[n].getRec()
+										.setX(GameScene.p1Arr[n].getRec().getX() + 72 * GameScene.wFactor);
 								found = true;
 								break;
 							} else {
@@ -986,9 +988,12 @@ public class Logic {
 								continue;
 							}
 						} else if (move == 2) {
-							if (search(GameScene.p1Arr[n].getX(), GameScene.p1Arr[n].getY() - 1) == -1
-									&& GameScene.p1Arr[n].getY() - 1 != -1) {
-								GameScene.p1Arr[n].getRec().setY(GameScene.p1Arr[n].getRec().getY() - 72);
+							if (search(GameScene.p1Arr[n].getRec().getX(),
+									GameScene.p1Arr[n].getRec().getY() - 72 * GameScene.hFactor) == -1
+									&& GameScene.p1Arr[n].getY() - 1 > -1) {
+
+								GameScene.p1Arr[n].getRec()
+										.setY(GameScene.p1Arr[n].getRec().getY() - 72 * GameScene.hFactor);
 								found = true;
 								break;
 							} else {
@@ -996,9 +1001,11 @@ public class Logic {
 								continue;
 							}
 						} else if (move == 3) {
-							if (search(GameScene.p1Arr[n].getX(), GameScene.p1Arr[n].getY() + 1) == -1
-									&& GameScene.p1Arr[n].getY() + 1 != 10) {
-								GameScene.p1Arr[n].getRec().setY(GameScene.p1Arr[n].getRec().getY() + 72);
+							if (search(GameScene.p1Arr[n].getRec().getX(),
+									GameScene.p1Arr[n].getRec().getY() + 72 * GameScene.hFactor) == -1
+									&& GameScene.p1Arr[n].getY() + 1 < 10) {
+								GameScene.p1Arr[n].getRec()
+										.setY(GameScene.p1Arr[n].getRec().getY() + 72 * GameScene.hFactor);
 								found = true;
 								break;
 							} else {
@@ -1026,10 +1033,12 @@ public class Logic {
 	 * @return Returns the index of the piece that is present at the spot else
 	 *         if no piece is present return -1
 	 */
-	static int search(int x, int y) {
+	static int search(double x, double y) {
 		int n = -1;
 		for (int i = 0; i < 40; i++) {
-			if (GameScene.p1Arr[i].getX() == x && GameScene.p1Arr[i].getY() == y) {
+			if (((GameScene.p1Arr[i].getRec().getX() >= x - 1) && (GameScene.p1Arr[i].getRec().getX() <= x + 1))
+					&& ((GameScene.p1Arr[i].getRec().getY() >= y - 1)
+							&& (GameScene.p1Arr[i].getRec().getY() <= y + 1))) {
 				n = i;
 			}
 		}
@@ -1046,11 +1055,11 @@ public class Logic {
 	 * @return True if spot is empty and move can be else returns false
 	 */
 	static boolean isEmpty(int x, int y) {
-		x = ((x - 8) / 72);
-		y = ((y - 24) / 72);
 		boolean empty = true;
 		for (int i = 0; i < 40; i++) {
-			if (GameScene.p2Arr[i].getY() == y && GameScene.p2Arr[i].getX() == x) {
+			if (((GameScene.p2Arr[i].getRec().getY() >= (y-3))&&(GameScene.p2Arr[i].getRec().getY()<= (y+3)))
+					&& ((GameScene.p2Arr[i].getRec().getX() >= (x-3))&&(GameScene.p2Arr[i].getRec().getX() <= (x+3)))) {
+				System.out.println("asd");
 				empty = false;
 				break;
 			}
