@@ -2,6 +2,7 @@ package stratego.server;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.SocketAddress;
 import java.sql.*;
 import java.io.IOException;
 import java.util.Arrays;
@@ -27,6 +28,9 @@ public class PacketHandler implements Runnable{
   private static final byte LOGOUT =(byte)0x05;
   private static final byte SECURE = (byte)0x06;
   private static final byte CLOSE = (byte)0x07;
+  private static final byte OPENSERV = (byte)0x08;
+  private static final byte CONSERV = (byte)0x09;
+  private static final byte SESSERROR = (byte)0x0A;
 
 
 	/**
@@ -91,6 +95,16 @@ public class PacketHandler implements Runnable{
       case SECURE:
         newdata = startSession(data);
         System.out.println("got SECURE");
+        break;
+      case OPENSERV:
+        temp = new String(data, 0, data.length-32, StandardCharsets.UTF_8);
+        newdata = openServer(id, temp, Arrays.copyOfRange(data, data.length-32, data.length));
+        System.out.println("made Server: " + temp);
+        break;
+      case CONSERV:
+        temp = new String(data, 0, data.length-32, StandardCharsets.UTF_8);
+        newdata = connectServer(id, temp, Arrays.copyOfRange(data, data.length-32, data.length));
+        System.out.println("got request for Server:" + temp);
         break;
       case CLOSE:
         close(id);
@@ -188,6 +202,52 @@ public class PacketHandler implements Runnable{
       SessionManager.removeSession(id);
       System.out.println("Session has been closed by user, id: " + id);
     }
+  }
+
+  private byte[] openServer(int id, String name, byte[] password){
+    byte[] ans;
+
+    if(SessionManager.isSession(id, this.packet.getSocketAddress())){
+      ans = new byte[2];
+      ans[0] = OPENSERV;
+      if(DBManager.setServer(name, password)){
+        ans[1] = (byte) 0x01;
+      } else{
+        ans[1] = (byte) 0x01;
+      }
+    } else{
+      ans = new byte[1];
+      ans[0] = SESSERROR;
+    }
+    return ans;
+  }
+
+  private byte[] connectServer(int id, String name, byte[] password){
+    byte[] ans;
+    byte[] key;
+    byte[] temp;
+    SocketAddress add;
+    int session;
+
+    if(SessionManager.isSession(id, this.packet.getSocketAddress())){
+      session = DBManager.getServer(name, password);
+      add = SessionManager.getAddress(session);
+      key = SessionManager.getRSA(session);
+      temp = add.toString().getBytes();
+      ans = new byte[key.length + temp.length + 1];
+      ans[0] = CONSERV;
+      for(int i = 0; i < key.length; i++){
+        ans[i+1] = key[i];
+      }
+      for(int i = 0; i < temp.length; i++){
+        ans[i + 1 + key.length] = temp[i];
+      }
+
+    } else{
+      ans = new byte[1];
+      ans[0] = SESSERROR;
+    }
+    return ans;
   }
 
 }

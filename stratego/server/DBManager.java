@@ -12,7 +12,6 @@ public final class DBManager{
 
   private static final BasicDataSource source = new BasicDataSource();
   private static final String signupQ = "insert into `user` (`name`, `pass`, `last`, `online`) values ( ? , ? , NOW(), 0);";
-  private static final String loginQ = "select `user`.`pass` from `user` where `user`.`name` = ?;";
   private static final String getFriendsQ = "SELECT u2.name, u2.online from `friend` f " +
                                             "left join `user` u1 on f.sender = u1.id " +
                                             "left join `user` u2 on f.receiver = u2.id " +
@@ -263,6 +262,13 @@ public final class DBManager{
     return ans;
   }
 
+  public static boolean setServer(String name, byte[] password){
+    return false;
+  }
+
+  public static int getServer(String name, byte[] password){
+    return 0;
+  }
 
 
 }

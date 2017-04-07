@@ -20,7 +20,7 @@ public class MainMenuWorker extends ModeWorker {
 	/**
 	 * Sets the FriendModel object and the tasklist that is used to get tasks
 	 * from MainMenuUI.
-	 * 
+	 *
 	 * @param q
 	 *            The queue that MainMenuUI uses to pass request to the
 	 *            MainMenuWorker.
@@ -51,6 +51,7 @@ public class MainMenuWorker extends ModeWorker {
 			return true;
 		case "multiplayer":
 			queueTask(new MenuOptions());
+			return true;
 			// TODO may need to do more work here
 		default:
 			return false;
@@ -122,7 +123,7 @@ public class MainMenuWorker extends ModeWorker {
 		/**
 		 * Constructor. Creates a friend request for the user with the provided
 		 * name, if the user exists.
-		 * 
+		 *
 		 * @param name
 		 *            The name of the requested user.
 		 * @author Bradley Rhein bdrhein@iastate.edu
@@ -157,5 +158,5 @@ public class MainMenuWorker extends ModeWorker {
 		}
 
 	}
-	
+
 }
