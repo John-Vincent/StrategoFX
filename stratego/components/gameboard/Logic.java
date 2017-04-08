@@ -1059,7 +1059,6 @@ public class Logic {
 		for (int i = 0; i < 40; i++) {
 			if (((GameScene.p2Arr[i].getRec().getY() >= (y-3))&&(GameScene.p2Arr[i].getRec().getY()<= (y+3)))
 					&& ((GameScene.p2Arr[i].getRec().getX() >= (x-3))&&(GameScene.p2Arr[i].getRec().getX() <= (x+3)))) {
-				System.out.println("asd");
 				empty = false;
 				break;
 			}

@@ -411,14 +411,14 @@ public class GameScene extends Pane {
 					kursor.setFill(Color.TRANSPARENT);
 					kursor.setStroke(Color.RED);
 				}
-			}else if (key.getCode() == KeyCode.T) {
-						for (int i = 0; i < 40; i++) {
-							p2Arr[i].refreshImg();
-							if(p2Arr[i].getY()==6){
-								System.out.println(p2Arr[i].getY());
-							}
-						}
-			} 
+			} else if (key.getCode() == KeyCode.T) {
+				for (int i = 0; i < 40; i++) {
+					p2Arr[i].refreshImg();
+					if (p2Arr[i].getY() == 6) {
+						System.out.println(p2Arr[i].getY());
+					}
+				}
+			}
 
 			t.setText("Cursor Position: " + kX + ", " + kY);
 
@@ -440,6 +440,7 @@ public class GameScene extends Pane {
 		this.widthProperty().addListener((obs) -> {
 
 			wFactor = this.getWidth() / 750;
+
 			for (int i = 0; i < p1Arr.length; i++) {
 				p1Arr[i].getRec().setWidth(70 * wFactor);
 				p2Arr[i].getRec().setWidth(70 * wFactor);
