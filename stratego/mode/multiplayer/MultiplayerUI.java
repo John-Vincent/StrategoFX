@@ -103,14 +103,18 @@ public class MultiplayerUI extends Mode {
 		//pane.setGridLinesVisible(true);
 		
 		TextArea chatWindow = new TextArea();
+		chatWindow.setFocusTraversable(false);
 		pane.add(chatWindow, 0, 0, 2, 7);
 		
 		TextField message = new TextField();
+		message.setFocusTraversable(false);
 		Button disconnect = new Button("Disconnect");
 		
 		Button showFriendList = new Button("Friend List");
 		Button sendMessage = new Button("Send Message");
 		HBox chatButtons = new HBox(5, showFriendList, sendMessage);
+		showFriendList.setFocusTraversable(false);
+		sendMessage.setFocusTraversable(false);
 		chatButtons.setAlignment(Pos.CENTER);
 		HBox.setHgrow(showFriendList, Priority.ALWAYS);
 		HBox.setHgrow(sendMessage, Priority.ALWAYS);
@@ -118,6 +122,8 @@ public class MultiplayerUI extends Mode {
 		sendMessage.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		
 		VBox chatElements = new VBox(5, message, chatButtons, disconnect);
+		
+		disconnect.setFocusTraversable(false);
 		chatElements.setAlignment(Pos.CENTER);
 		VBox.setVgrow(message, Priority.ALWAYS);
 		VBox.setVgrow(disconnect, Priority.ALWAYS);
@@ -130,6 +136,7 @@ public class MultiplayerUI extends Mode {
 		GameScene game = new GameScene();
 		game.autosize();
 		pane.add(game, 2, 0, 8, 10);
+		game.requestFocus();
 		game.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent event){
