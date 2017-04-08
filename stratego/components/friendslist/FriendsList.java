@@ -65,6 +65,7 @@ public class FriendsList extends Pane implements Observer {
 		VBox.setVgrow(fl, Priority.ALWAYS);
 		VBox.setVgrow(af, Priority.ALWAYS);
 		af.setMaxSize(Double.MAX_VALUE, 50);
+		af.setFocusTraversable(false);
 
 		af.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
