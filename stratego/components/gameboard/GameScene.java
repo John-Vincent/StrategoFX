@@ -54,7 +54,6 @@ public class GameScene extends Pane {
 	public static void setCheat(boolean c) {
 		cheat = c;
 	}
-	
 
 	/**
 	 * Accesor method to get value of cheat setting
@@ -81,18 +80,20 @@ public class GameScene extends Pane {
 	 */
 	public GameScene() {
 		Logic.arrange();
+		Logic.printBoard();
 		Rectangle kursor = new Rectangle(7, 647 + startY, 72, 72);
 		kursor.setFill(Color.TRANSPARENT);
 		kursor.setStrokeWidth(5);
 		kursor.setStroke(Color.RED);
 		Text t = new Text("Cursor Position: " + kX + ", " + kY);
 		t.setY(25 * hFactor);
-		t.setX(200 * wFactor);
+		t.setX(750 * wFactor - 200);
 
 		double[] p1X = new double[41];
 		double[] p1Y = new double[41];
 		double[] p2X = new double[40];
 		double[] p2Y = new double[40];
+
 		p1X[40] = kursor.getX();
 		p1Y[40] = kursor.getY();
 
@@ -241,7 +242,7 @@ public class GameScene extends Pane {
 										}
 									}
 									p2Arr[i].getRec().setStroke(Color.BLUE);
-									p2Arr[i].getRec().setStrokeWidth(5 * wFactor);
+									p2Arr[i].getRec().setStrokeWidth(5);
 									break;
 								}
 							}
@@ -250,21 +251,22 @@ public class GameScene extends Pane {
 
 					}
 				} else {
-					//System.out.println(Logic.isEmpty((int) (kursor.getX() + 1), (int) (kursor.getY() + 1)));
+					// System.out.println(Logic.isEmpty((int) (kursor.getX() +
+					// 1), (int) (kursor.getY() + 1)));
 					if (Logic.isEmpty((int) (kursor.getX() + 1), (int) (kursor.getY() + 1))) {
 						if (!(p2Arr[m].getId() == '2')) {
-							if (((((Math.abs((kursor.getX() + 1) - p2Arr[m].getRec().getX()) >= (72 * wFactor) - 2))
+							if (((((Math.abs((kursor.getX() + 1) - p2Arr[m].getRec().getX()) >= (72 * wFactor) - 3))
 									&& ((Math.abs((kursor.getX() + 1) - p2Arr[m].getRec().getX()) <= (72 * wFactor)
-											+ 2)))
+											+ 3)))
 									&& (((Math.abs((kursor.getY() + 1) - p2Arr[m].getRec().getY()) >= -2))
 											&& ((Math.abs((kursor.getY() + 1) - p2Arr[m].getRec().getY()) <= 2))))
 									|| ((((Math.abs((kursor.getX() + 1) - p2Arr[m].getRec().getX()) >= -2))
 											&& ((Math.abs((kursor.getX() + 1) - p2Arr[m].getRec().getX()) <= 2)))
 											&& (((Math.abs(
 													(kursor.getY() + 1) - p2Arr[m].getRec().getY()) >= (72 * hFactor)
-															- 2))
+															- 3))
 													&& ((Math.abs((kursor.getY() + 1)
-															- p2Arr[m].getRec().getY()) <= (72 * hFactor) + 2))))) {
+															- p2Arr[m].getRec().getY()) <= (72 * hFactor) + 3))))) {
 
 								p2Arr[m].getRec().setX(kursor.getX() + 1);
 								p2Arr[m].getRec().setY(kursor.getY() + 1);
@@ -344,13 +346,13 @@ public class GameScene extends Pane {
 							}
 
 							if (between == false) {
-								if (((Math.abs((kursor.getX() + 1) - p2Arr[m].getRec().getX()) >= (72 * wFactor) - 2)
+								if (((Math.abs((kursor.getX() + 1) - p2Arr[m].getRec().getX()) >= (72 * wFactor) - 3)
 										&& (((Math.abs((kursor.getY() + 1) - p2Arr[m].getRec().getY()) >= -2))
 												&& ((Math.abs((kursor.getY() + 1) - p2Arr[m].getRec().getY()) <= 2))))
 										|| ((((Math.abs((kursor.getX() + 1) - p2Arr[m].getRec().getX()) >= -2))
 												&& ((Math.abs((kursor.getX() + 1) - p2Arr[m].getRec().getX()) <= 2)))
 												&& (Math.abs((kursor.getY() + 1)
-														- p2Arr[m].getRec().getY()) >= (72 * hFactor) - 2))) {
+														- p2Arr[m].getRec().getY()) >= (72 * hFactor) - 3))) {
 
 									p2Arr[m].getRec().setX(kursor.getX() + 1);
 									p2Arr[m].getRec().setY(kursor.getY() + 1);
@@ -373,10 +375,10 @@ public class GameScene extends Pane {
 
 						}
 
-					} else if (((kursor.getX() + 1 >= p2Arr[m].getRec().getX() - 2)
-							&& (kursor.getX() + 1 <= p2Arr[m].getRec().getX() + 2))
-							&& ((kursor.getY() + 1 >= p2Arr[m].getRec().getY() - 2)
-									&& (kursor.getY() + 1 <= p2Arr[m].getRec().getY() + 2))) {
+					} else if (((kursor.getX() + 1 >= p2Arr[m].getRec().getX() - 3)
+							&& (kursor.getX() + 1 <= p2Arr[m].getRec().getX() + 3))
+							&& ((kursor.getY() + 1 >= p2Arr[m].getRec().getY() - 3)
+									&& (kursor.getY() + 1 <= p2Arr[m].getRec().getY() + 3))) {
 
 						p2Arr[m].getRec().setStroke(Color.BLACK);
 						p2Arr[m].getRec().setStrokeWidth(1);
@@ -409,25 +411,34 @@ public class GameScene extends Pane {
 					kursor.setFill(Color.TRANSPARENT);
 					kursor.setStroke(Color.RED);
 				}
-			}
+			}else if (key.getCode() == KeyCode.T) {
+						for (int i = 0; i < 40; i++) {
+							p2Arr[i].refreshImg();
+							if(p2Arr[i].getY()==6){
+								System.out.println(p2Arr[i].getY());
+							}
+						}
+			} 
 
 			t.setText("Cursor Position: " + kX + ", " + kY);
-			p1X[40] = kursor.getX();
-			p1Y[40] = kursor.getY();
-			
-			  /*for (int i = 0; i < 40; i++) { 
-			  p1X[i] = p1Arr[i].getRec().getX();
-			  p2X[i] = p2Arr[i].getRec().getX();
-			  p1Y[i] =  p1Arr[i].getRec().getY(); 
-			  p2Y[i] = p2Arr[i].getRec().getY(); 
-			  }*/
-			 
-			
+
+			p1X[40] = kursor.getX() / wFactor;
+			p1Y[40] = kursor.getY() / hFactor;
+
+			for (int i = 0; i < 40; i++) {
+				p1X[i] = p1Arr[i].getRec().getX() / wFactor;
+				p2X[i] = p2Arr[i].getRec().getX() / wFactor;
+				p1Y[i] = p1Arr[i].getRec().getY() / hFactor;
+				p2Y[i] = p2Arr[i].getRec().getY() / hFactor;
+
+			}
+
 		});
 
 		this.getChildren().addAll(kursor, t);
 
 		this.widthProperty().addListener((obs) -> {
+
 			wFactor = this.getWidth() / 750;
 			for (int i = 0; i < p1Arr.length; i++) {
 				p1Arr[i].getRec().setWidth(70 * wFactor);
@@ -437,7 +448,7 @@ public class GameScene extends Pane {
 			}
 			kursor.setWidth(72 * wFactor);
 			kursor.setX(p1X[40] * wFactor);
-			t.setX(200 * wFactor);
+			t.setX(750 * wFactor - 200);
 
 		});
 
@@ -455,5 +466,5 @@ public class GameScene extends Pane {
 		});
 
 	}
-	
+
 }

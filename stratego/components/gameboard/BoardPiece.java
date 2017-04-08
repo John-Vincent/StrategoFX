@@ -107,6 +107,7 @@ public class BoardPiece {
 		if (getY() < 10 && getX() < 10) {
 
 			id = Logic.actualBoard[getY()][getX()];
+
 		}
 		this.id = id;
 
