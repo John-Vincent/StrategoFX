@@ -200,6 +200,10 @@ public class MultiplayerUI extends Mode {
 			public void handle(ActionEvent e){
 				setNextMode(new MainMenuUI());
 				addTask("main");
+				GameScene.hFactor = 1;
+				GameScene.wFactor = 1;
+				GameScene.kX = 0;
+				GameScene.kY = 0;
 			}
 		});
 		
