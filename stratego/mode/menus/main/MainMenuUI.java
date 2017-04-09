@@ -13,8 +13,6 @@ import stratego.mode.multiplayer.MultiplayerUI;
 import javafx.scene.*;
 import stratego.network.Networker;
 import javafx.scene.layout.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.text.*;
@@ -23,8 +21,6 @@ import javafx.stage.Screen;
 import javafx.geometry.*;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
-
-import java.io.File;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -44,7 +40,6 @@ public class MainMenuUI extends Mode {
 	 */
 	public MainMenuUI() {
 		super(new BorderPane());
-		
 		FriendModel friendModel = new FriendModel();
 		this.setWorker(new MainMenuWorker(friendModel));
 
@@ -114,7 +109,6 @@ public class MainMenuUI extends Mode {
 
 		FriendsList friendsList = new FriendsList(5, friendModel, this.getWorker());
 		pane.setRight(friendsList);
-		
-		stratego.application.StrategoFX.soundPlayer.play();
+
 	}
 }

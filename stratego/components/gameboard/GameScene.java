@@ -70,11 +70,16 @@ public class GameScene extends Pane {
 	public static final int startY = 50;
 	public static int kX = 0;
 	public static int kY = 0;
-	protected static double wFactor = 1;
-	protected static double hFactor = 1;
+	public static double wFactor = 1;
+	public static double hFactor = 1;
 	protected static boolean wChange = false;
 	protected static boolean hChange = false;
+	double[] p1X = new double[41];
+	double[] p1Y = new double[41];
+	double[] p2X = new double[40];
+	double[] p2Y = new double[40];
 
+	
 	/**
 	 * Constructor that initializes game scene
 	 */
@@ -89,10 +94,7 @@ public class GameScene extends Pane {
 		t.setY(25 * hFactor);
 		t.setX(750 * wFactor - 200);
 
-		double[] p1X = new double[41];
-		double[] p1Y = new double[41];
-		double[] p2X = new double[40];
-		double[] p2Y = new double[40];
+		
 
 		p1X[40] = kursor.getX();
 		p1Y[40] = kursor.getY();
@@ -465,7 +467,7 @@ public class GameScene extends Pane {
 			kursor.setY(p1Y[40] * hFactor);
 			t.setY(25 * hFactor);
 		});
-
+		
 	}
 
 }

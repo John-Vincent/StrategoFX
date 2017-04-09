@@ -29,9 +29,10 @@ public class SingleplayerUI extends Mode {
 		back.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				//setNextMode(new MainMenuUI());
-				System.exit(0);
+				setNextMode(new MainMenuUI());
 				addTask("back");
+				GameScene.hFactor = 1;
+				GameScene.wFactor = 1;
 				GameScene.kX = 0;
 				GameScene.kY = 0;
 			}
