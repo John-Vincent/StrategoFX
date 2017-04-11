@@ -13,7 +13,7 @@ public class MultiplayerWorker extends ModeWorker {
 
 	/**
 	 * Sets the tasklist that communicates tasks from the UI to the worker.
-	 * @param friendModel 
+	 * @param friendModel
 	 *
 	 * @param q
 	 *            The queue that MultiplayerUI uses to pass request to the
@@ -43,14 +43,14 @@ public class MultiplayerWorker extends ModeWorker {
 			case Networker.PING:
 				System.out.println("Ping from: " + p.getSocketAddress());
 				break;
-			case: Networker.OPENSERV:
+			case Networker.OPENSERV:
 				if(data.length == 1 && data[0] == 0x01){
 					System.out.println("Server opened");
 				} else{
 					System.out.println("Server failed to open");
 				}
 				break;
-			case: Networker.CONSERV:
+			case Networker.CONSERV:
 				if(data.length != 1){
 					//todo data should contain private key and then String for of socketaddress for host
 				} else{
