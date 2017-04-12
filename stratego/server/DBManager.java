@@ -16,20 +16,16 @@ public final class DBManager{
   //changed to fit new data table
   private static final String getFriendsQ = "SELECT u.name, u.online from `user` u " +
                                             "inner join `friends` f on u.id = f.friendid " +
-                                            "where f.userid = (select u2.id from 'user' u2 where u2.name =?);";
+                                            "where f.userid = (select u2.id from `user` u2 where u2.name =?);";
 
 //added string for finding your sent friend requests
   private static final String getSentFriendRequestsQ = "SELECT u.name, u.online from `user` u " +
                                             "inner join `friendrequests` f on u.id = f.receiverid " +
-                                            "where f.senderid = (select u2.id from 'user' u2 where u2.name =?);";
-//added string for finding friend requests sent to you
-  private static final String getSentFriendRequestsQ = "SELECT u.name, u.online from `user` u " +
-                                            "inner join `friendrequests` f on u.id = f.senderid " +
-                                            "where f.receiver = (select u2.id from 'user' u2 where u2.name =?);";
+                                            "where f.senderid = (select u2.id from `user` u2 where u2.name =?);";
 
 											//changed friend requests to fit new table
   private static final String requestFriendQ = "insert into friendrequests(senderid,receiverid) "+
-                                  "values((select u.id from user u where u.name= ? ),(select u2.id from user u2 where u2.name = ? ));";
+                                  "values((select u.id from `user` u where u.name= ? ),(select u2.id from `user` u2 where u2.name = ? ));";
 
   private static final String acceptFriendRequestQ= "update `friend` set `accepted` = '1' where `friend`.`id` = ?;";
 
@@ -37,13 +33,13 @@ public final class DBManager{
 
   private static final String setLoginQ = "update `user` set `online` = 1 where `name` = ? and `pass` = ?";
 
-  //query to set the active value of a server to 1/true, and the publicKey value to a given 162 byte array based on the servers name and password
+  //query to set the active value of a server to 1/true, and the sessionID to a given int, base on the given name and password
   private static final String activateServer = "";
 
-  //query to add a server into the database with a given server name, password(32 bytes), ip(as string), and publicKey(162 bytes)
+  //query to add a server into the database with a given server name, password(32 bytes), and sessionID(int)
   private static final String makeServer = "";
 
-  //query to return the servers ip
+  //query to return the server sessionID(int)
   private static final String findServer = "";
 
   static{
@@ -290,7 +286,7 @@ public final class DBManager{
    * @author Collin Vincent collinvincent96@gmail.com
    * @date   2017-04-12T00:04:08+000
    */
-  public static boolean setServer(String name, byte[] password, byte[] publicKey){
+  public static boolean setServer(String name, byte[] password, int sessionID){
     Connection conn1 = null;
     PreparedStatement statement = null;
     boolean ans = false;
@@ -302,13 +298,13 @@ public final class DBManager{
       statement = conn1.prepareStatement(activateServer);
       statement.setString(1, name);
       statement.setBytes(2, password);
-      statement.setBytes(3, publicKey);
+      statement.setInt(3, sessionID);
       ans = statement.executeUpdate() != 0;
       if(!ans){
         statement = conn1.prepareStatement(makeServer);
         statement.setString(1, name);
         statement.setBytes(2, password);
-        statement.setBytes(3, publicKey);
+        statement.setInt(3, sessionID);
         ans = statement.executeUpdate() != 0;
       }
     } catch(Exception e){
@@ -345,23 +341,21 @@ public final class DBManager{
     PreparedStatement statement = null;
     ResultSet set = null;
 
-    int length;
-    String temp;
-    byte[] temp2;
-    byte[] ans;
+    int ans = -1;
 
     try{
+
       conn1 = DBManager.getConnection();
       statement  = conn1.prepareStatement(findServer);
-      statement.setString(1, uname);
+      statement.setString(1, name);
       statement.setBytes(2, password);
       set = statement.executeQuery();
       set.next();
-      temp = set.getString("ip");
-      temp2 = set.getBytes("key");
+      ans = set.getInt("session");
+
     } catch(Exception e){
       System.out.println(e.getMessage());
-      ans = null;
+      ans = -1;
     } finally{
 
       if( set != null){
@@ -379,16 +373,6 @@ public final class DBManager{
           statement.close();
         } catch(Exception e) { }
       }
-    }
-
-    ans = new byte[temp2.length + temp.length()];
-    length = temp2.length;
-    for(int i = 0; i < length; i++){
-      ans[i] = temp2[i];
-    }
-    temp2 = temp.getBytes();
-    for(int i = 0; i < temp2.length; i++){
-      ans[i + length] = temp2[i];
     }
 
     return ans;

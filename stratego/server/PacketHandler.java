@@ -54,6 +54,8 @@ public class PacketHandler implements Runnable{
     String temp;
     String[] temp2;
 
+    System.out.println("got a packet");
+
     byte[] data = SecurityManager.decrypt(Arrays.copyOfRange(this.packet.getData(), this.packet.getOffset(), this.packet.getLength()));
 
     id = data[0] << 24 | data[1] << 16 | data[2] << 8 | data[3];
@@ -110,6 +112,7 @@ public class PacketHandler implements Runnable{
         close(id);
         break;
       default:
+        System.out.println("invalid packet type");
         return;
     }
 
@@ -210,7 +213,7 @@ public class PacketHandler implements Runnable{
     if(SessionManager.isSession(id, this.packet.getSocketAddress())){
       ans = new byte[2];
       ans[0] = OPENSERV;
-      if(DBManager.setServer(name, password)){
+      if(DBManager.setServer(name, password, id)){
         ans[1] = (byte) 0x01;
       } else{
         ans[1] = (byte) 0x01;
@@ -231,6 +234,11 @@ public class PacketHandler implements Runnable{
 
     if(SessionManager.isSession(id, this.packet.getSocketAddress())){
       session = DBManager.getServer(name, password);
+      if(session == -1){
+        ans = new byte[2];
+        ans[0] = SESSERROR;
+        ans[1] = (byte) 0x02;
+      }
       add = SessionManager.getAddress(session);
       key = SessionManager.getRSA(session);
       temp = add.toString().getBytes();

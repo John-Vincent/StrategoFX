@@ -83,4 +83,34 @@ public class Packet{
     return this.data;
   }
 
+  public String getTypeString(){
+    switch(this.type){
+      case Networker.PING:
+        return "PING";
+      case Networker.SIGNUP:
+        return "SIGNUP";
+      case Networker.LOGIN:
+        return "LOGIN";
+      case Networker.FRIENDQ:
+        return "FRIENDQ";
+      case Networker.FRIENDR:
+        return "FRIENDR";
+      case Networker.LOGOUT:
+        return "LOGOUT";
+      case Networker.SECURE:
+        return "SECURE";
+      case Networker.CLOSE:
+        return "CLOSE";
+      case Networker.OPENSERV:
+        return "OPENSERV";
+      case Networker.CONSERV:
+        return "CONSERV";
+      case Networker.SESSERROR:
+        return "SESSERROR";
+      case Networker.CHAT:
+        return "CHAT";
+    }
+      return "UNKNOWN";
+  }
+
 }

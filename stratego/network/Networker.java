@@ -70,6 +70,8 @@ public class Networker implements Runnable{
 
     if(!online){
       System.out.println("Could not connect to server");
+    }else{
+      System.out.println("connected to server");
     }
 
     p = new DatagramPacket(new byte[packetSize], packetSize);
@@ -96,7 +98,7 @@ public class Networker implements Runnable{
   public Boolean sendPacket(Packet p){
     try{
       this.socket.send(p.getPacket());
-      System.out.println("Packet sent to " + p.getSocketAddress());
+      System.out.println(p.getTypeString() + " Packet sent to " + p.getSocketAddress());
     } catch(IOException e){
       e.printStackTrace();
       return false;
@@ -252,21 +254,25 @@ public class Networker implements Runnable{
     DatagramPacket secure;
     DatagramPacket p;
     byte[] data = SecurityManager.securePacket();
-    int i = 0;
+    int i = 1;
     boolean ans = false;
 
     secure = new DatagramPacket(data, data.length, server);
     try{
       this.socket.setSoTimeout(10000);
       p = new DatagramPacket(new byte[packetSize], packetSize);
-      while(i == 0){
-        i = 1;
+      while(i != 0 && i < 100){
         this.socket.send(secure);
+        System.out.println("attempting connection to server");
         try{
           this.socket.receive(p);
-        } catch(SocketTimeoutException e){
           i = 0;
+        } catch(SocketTimeoutException e){
+          i++;
         }
+      }
+      if(1 > 99){
+        return false;
       }
       Packet packet = new Packet(p);
       ans = SecurityManager.makeSecure(packet);
