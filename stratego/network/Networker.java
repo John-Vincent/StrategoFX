@@ -219,6 +219,14 @@ public class Networker implements Runnable{
     sendPacket(p);
   }
 
+  public void setPrivateServer(String name, String password){
+
+  }
+
+  public void connectPrivateServer(String name, String password){
+
+  }
+
   /**
    * sets the session id for the current client, this will be used by the server to identify the clients messages for the remaineder of the time the client is logged in
    * @param  id           the id of the currently logged in client

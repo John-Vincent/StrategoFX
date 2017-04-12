@@ -36,6 +36,20 @@ public class MultiplayerWorker extends ModeWorker {
 	}
 
 	@Override
+	public boolean addTask(String name, Object...arg){
+		switch (name) {
+			case "setServer":
+				queueTask(new setServerOption((String) arg[0], (String) arg[1]));
+				return true;
+			case "connectServer":
+				queueTask(new connectServerOption((String) arg[0], (String) arg[1]));
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	@Override
 	protected boolean handlePacket(Packet p){
     byte[] data = p.getData();
     byte t = p.getType();
@@ -67,5 +81,35 @@ public class MultiplayerWorker extends ModeWorker {
 			setRunning(false);
 		}
 
+	}
+
+	private class setServerOption implements Runnable {
+		String name;
+		String password;
+
+		public setServerOption(String name, String password){
+			this.name = name;
+			this.password = password;
+		}
+
+		@Override
+		public void run(){
+			net.setPrivateServer(this.name, this.password);
+		}
+	}
+
+	private class connectServerOption implements Runnable{
+		String name;
+		String password;
+
+		public connectServerOption(String name, String password){
+			this.name = name;
+			this.password = password;
+		}
+
+		@Override
+		public void run(){
+			net.connectPrivateServer(this.name, this.password);
+		}
 	}
 }
