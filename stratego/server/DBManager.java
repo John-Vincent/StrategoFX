@@ -31,7 +31,11 @@ public final class DBManager{
   private static final String requestFriendQ = "insert into friendrequests(senderid,receiverid) "+
                                   "values((select u.id from user u where u.name= ? ),(select u2.id from user u2 where u2.name = ? ));";
 
-  private static final String acceptFriendRequestQ= "update `friend` set `accepted` = '1' where `friend`.`id` = ?;";
+								  //accepting friend requests requires a pair of insertions to friends and a deletion from friendrequests
+  private static final String acceptFriendRequestQ= "insert into `friends` ('userid','friendid') values ( ? , ?);";
+  
+  private static final String friendRequestAcceptedQ= "delete from 'friendrequests' where senderid = ? and receiverid = ?"
+  
 
   private static final String logoutQ = "update `user` set `online` = 0, `last` = NOW() where `name` = ?; ";
 
