@@ -29,9 +29,9 @@ public final class DBManager{
 
 								  //accepting friend requests requires a pair of insertions to friends and a deletion from friendrequests
   private static final String acceptFriendRequestQ= "insert into `friends` ('userid','friendid') values ( ? , ?);";
-  
+
   private static final String friendRequestAcceptedQ= "delete from 'friendrequests' where senderid = ? and receiverid = ?"
-  
+
 
   private static final String logoutQ = "update `user` set `online` = 0, `last` = NOW() where `name` = ?; ";
 
@@ -45,6 +45,9 @@ public final class DBManager{
 
   //query to return the server sessionID(int)
   private static final String findServer = "";
+
+  //query to set the "active" value of the server to 0/false
+  private static final String deactivateServer;
 
   static{
     source.setDriverClassName("com.mysql.jdbc.Driver");

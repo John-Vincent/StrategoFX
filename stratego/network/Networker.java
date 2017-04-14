@@ -221,12 +221,56 @@ public class Networker implements Runnable{
     sendPacket(p);
   }
 
+  /**
+   * activates a server with a given name as long as the name is not taken by another user, or the server name has already been claimed by this user
+   * @param  name         Name of the server
+   * @param  password     Password for other users to be able to connect to the server
+   * @author Collin Vincent collinvincent96@gmail.com
+   * @date   2017-04-13T10:24:53+000
+   */
   public void setPrivateServer(String name, String password){
+    byte[] data;
+    byte[] pass;
+    byte[] n;
+    pass = SecurityManager.hashBytes(password.getBytes(StandardCharsets.UTF_8));
+    n = name.getBytes();
+    data = new byte[n.length + pass.length];
 
+    for(int i = 0; i < n.length; i++){
+      data[i] = n[i];
+    }
+
+    for(int i  = 0; i < pass.length; i++){
+      data[i + n.length] = pass[i];
+    }
+
+    sendPacket(new Packet(OPENSERV, data, Networker.server));
   }
 
+  /**
+   * atemps to connect to a server with the given Server name and password
+   * @param  name           name of the server to connect to
+   * @param  password       password to user for the connection attempt
+   * @author Collin Vincent collinvincent96@gmail.com
+   * @date   2017-04-13T10:27:23+000
+   */
   public void connectPrivateServer(String name, String password){
+    byte[] data;
+    byte[] pass;
+    byte[] n;
+    pass = SecurityManager.hashBytes(password.getBytes(StandardCharsets.UTF_8));
+    n = name.getBytes();
+    data = new byte[n.length + pass.length];
 
+    for(int i = 0; i < n.length; i++){
+      data[i] = n[i];
+    }
+
+    for(int i  = 0; i < pass.length; i++){
+      data[i + n.length] = pass[i];
+    }
+
+    sendPacket(new Packet(CONSERV, data, Networker.server));
   }
 
   /**
