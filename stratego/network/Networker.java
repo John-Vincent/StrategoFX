@@ -4,6 +4,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.net.*;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 
 public class Networker implements Runnable{
@@ -245,6 +246,27 @@ public class Networker implements Runnable{
     }
 
     sendPacket(new Packet(OPENSERV, data, Networker.server));
+  }
+
+  /**
+   * sets up the host for a game session
+   * @param  ip        the SocketAddress of the host to attempt to connect to
+   * @param  publicKey byte[] containing the contents of the public rsa key used by the host to encrypt messages
+   * @return
+   * @author Collin Vincent collinvincent96@gmail.com
+   * @date   2017-04-15T00:54:44+000
+   */
+  public boolean connectToHost(byte[] data){
+    byte[] key = Arrays.copyOfRange(data, 0, SecurityManager.X509SIZE);
+    byte[] SAdd = Arrays.copyOfRange(data, SecurityManager.X509SIZE, data.length);
+    String address = new String(SAdd, StandardCharsets.UTF_8);
+    String[] split = address.split(":");
+
+    this.host = new InetSocketAddress(split[0], Integer.parseInt(split[1]));
+    if(SecurityManager.addHostKey(key)){
+      return !this.host.isUnresolved();
+    }
+    return false;
   }
 
   /**
