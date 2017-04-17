@@ -58,27 +58,22 @@ public class MultiplayerUI extends Mode {
 		EventHandler<ActionEvent> createHandler = new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				//TODO connect
 				serverName = connect.getConnectionServer();
 				password = connect.getConnectionPassword();
-				//pane.getChildren().clear();
 				pane.getChildren().remove(connect);
-				gameUI();
 				addTask("setServer", serverName, password);
-				//go to actual ui
+				gameUI();
 			}
 		};
 
 		EventHandler<ActionEvent> joinHandler = new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				//TODO connect
 				serverName = connect.getConnectionServer();
 				password = connect.getConnectionPassword();
 				pane.getChildren().remove(connect);
+				addTask("connectServer", serverName, password);
 				gameUI();
-				addTask("connectSever", serverName, password);
-				//go to actual ui
 			}
 		};
 
@@ -166,16 +161,16 @@ public class MultiplayerUI extends Mode {
 			@Override
 			public void handle(ActionEvent e){
 				chatWindow.appendText("You: " + message.getText() + "\n");
-				//TODO send message to server
+				addTask("message", message.getText());
 				message.clear();
 			}
 		});
-
+		
 		message.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent e){
 				chatWindow.appendText("You: " + message.getText() + "\n");
-				//TODO send message to server
+				addTask("message", message.getText());
 				message.clear();
 			}
 		});

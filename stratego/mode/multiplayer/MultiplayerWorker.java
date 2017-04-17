@@ -46,6 +46,9 @@ public class MultiplayerWorker extends ModeWorker {
 			case "connectServer":
 				queueTask(new connectServerOption((String) arg[0], (String) arg[1]));
 				return true;
+			case "message":
+				//TODO
+				return true;
 			default:
 				return false;
 		}
