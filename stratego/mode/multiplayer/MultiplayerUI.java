@@ -51,22 +51,24 @@ public class MultiplayerUI extends Mode {
 		pane.setPadding(new Insets(10, 10, 10, 10));
 		setConstraints();
 		//pane.setGridLinesVisible(true);
-	
+
 		friendsList = new FriendsList(5, friendModel, this.getWorker());
-	
-		
+
+
 		EventHandler<ActionEvent> createHandler = new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 				//TODO connect
 				serverName = connect.getConnectionServer();
 				password = connect.getConnectionPassword();
+				//pane.getChildren().clear();
 				pane.getChildren().remove(connect);
-				addTask("setServer", serverName, password);
 				gameUI();
+				addTask("setServer", serverName, password);
+				//go to actual ui
 			}
 		};
-		
+
 		EventHandler<ActionEvent> joinHandler = new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -74,11 +76,12 @@ public class MultiplayerUI extends Mode {
 				serverName = connect.getConnectionServer();
 				password = connect.getConnectionPassword();
 				pane.getChildren().remove(connect);
-				addTask("connectServer", serverName, password);
 				gameUI();
+				addTask("connectSever", serverName, password);
+				//go to actual ui
 			}
 		};
-		
+
 		EventHandler<ActionEvent> backHandler = new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -86,7 +89,7 @@ public class MultiplayerUI extends Mode {
 				addTask("main");
 			}
 		};
-		
+
 		connect = new ConnectionMenu(createHandler, joinHandler, backHandler);
 		pane.add(connect, 3, 3, 4, 4);
 	}
@@ -105,26 +108,26 @@ public class MultiplayerUI extends Mode {
 			pane.getRowConstraints().add(rowConst);
 		}
 	}
-	
+
 	public void gameUI(){
 		//setConstraints();
 		//pane.setGridLinesVisible(true);
 		flShowing = false;
-		
+
 		VBox flVBox = new VBox(friendsList);
 		flVBox.setFocusTraversable(false);
 		VBox.setVgrow(friendsList, Priority.ALWAYS);
 		friendsList.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-		
+
 		TextArea chatWindow = new TextArea();
 		chatWindow.setFocusTraversable(false);
 		chatWindow.setEditable(false);
 		pane.add(chatWindow, 0, 0, 2, 7);
-		
+
 		TextField message = new TextField();
 		message.setFocusTraversable(false);
 		Button disconnect = new Button("Disconnect");
-		
+
 		Button showFriendList = new Button("Friend List");
 		Button sendMessage = new Button("Send Message");
 		HBox chatButtons = new HBox(5, showFriendList, sendMessage);
@@ -135,9 +138,9 @@ public class MultiplayerUI extends Mode {
 		HBox.setHgrow(sendMessage, Priority.ALWAYS);
 		showFriendList.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		sendMessage.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-		
+
 		VBox chatElements = new VBox(5, message, chatButtons, disconnect);
-		
+
 		disconnect.setFocusTraversable(false);
 		chatElements.setAlignment(Pos.CENTER);
 		VBox.setVgrow(message, Priority.ALWAYS);
@@ -147,7 +150,7 @@ public class MultiplayerUI extends Mode {
 		disconnect.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		chatButtons.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		pane.add(chatElements, 0, 7, 2, 3);
-		
+
 		GameScene game = new GameScene();
 		game.autosize();
 		pane.add(game, 2, 0, 8, 10);
@@ -158,25 +161,25 @@ public class MultiplayerUI extends Mode {
 				game.requestFocus();
 			}
 		});
-		
+
 		sendMessage.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent e){
 				chatWindow.appendText("You: " + message.getText() + "\n");
-				addTask("message", message.getText());
+				//TODO send message to server
 				message.clear();
 			}
 		});
-		
+
 		message.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent e){
 				chatWindow.appendText("You: " + message.getText() + "\n");
-				addTask("message", message.getText());
+				//TODO send message to server
 				message.clear();
 			}
 		});
-		
+
 		showFriendList.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent e){
@@ -193,7 +196,7 @@ public class MultiplayerUI extends Mode {
 				}
 			}
 		});
-		
+
 		disconnect.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent e){
@@ -205,6 +208,6 @@ public class MultiplayerUI extends Mode {
 				GameScene.kY = 0;
 			}
 		});
-		
+
 	}
 }

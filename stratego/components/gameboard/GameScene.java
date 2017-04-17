@@ -90,7 +90,7 @@ public class GameScene extends Pane {
 		kursor.setFill(Color.TRANSPARENT);
 		kursor.setStrokeWidth(5);
 		kursor.setStroke(Color.RED);
-		Text t = new Text("Cursor Position: " + kX + ", " + kY);
+		Text t = new Text("Cursor Position: " + kX + ": " + kY);
 		t.setY(25 * hFactor);
 		t.setX(750 * wFactor - 200);
 

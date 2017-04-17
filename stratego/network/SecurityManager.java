@@ -20,12 +20,13 @@ import javax.crypto.KeyGenerator;
 
 public class SecurityManager{
 
-  private static final int X509SIZE = 162;
+  public static final int X509SIZE = 162;
   private static final int RSAKeySize = 128;
   private static final int AESKeySize = 16;
   private static PrivateKey rsaDecrypt = null;
   private static PublicKey rsaEncrypt = null;
   private static PublicKey pubKey = null;
+  private static PublicKey hostKey = null;
 
   private static MessageDigest hash;
 
@@ -176,6 +177,18 @@ public class SecurityManager{
     }
     return ans;
 
+  }
+
+  public static boolean addHostKey(byte[] key){
+    try{
+      X509EncodedKeySpec keySpec = new X509EncodedKeySpec(key);
+      KeyFactory factory = KeyFactory.getInstance("RSA");
+      hostKey = factory.generatePublic(keySpec);
+      return true;
+    } catch(Exception e){
+      e.printStackTrace();
+    }
+    return false;
   }
 
 }

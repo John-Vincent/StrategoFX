@@ -109,7 +109,6 @@ public class MainMenuUI extends Mode {
 
 		FriendsList friendsList = new FriendsList(5, friendModel, this.getWorker());
 		pane.setRight(friendsList);
-		stratego.application.StrategoFX.soundPlayer.play();
 
 	}
 }
