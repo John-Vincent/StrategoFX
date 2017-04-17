@@ -24,14 +24,14 @@ public final class DBManager{
                                             "where f.senderid = (select u2.id from `user` u2 where u2.name =?);";
 
 											//changed friend requests to fit new table
-  private static final String requestFriendQ = "insert into 'friendrequests'('senderid','receiverid') "+
+  private static final String requestFriendQ = "insert into friendrequests(senderid,receiverid) "+
                                   "values((select u.id from `user` u where u.name= ? ),(select u2.id from `user` u2 where u2.name = ? ));";
 
 								  //accepting friend requests requires a pair of insertions to friends and a deletion from friendrequests
   private static final String acceptFriendRequestQ= "insert into `friends` ('userid','friendid') values ( ? , ?);";
-
+  
   private static final String friendRequestAcceptedQ= "delete from 'friendrequests' where senderid = ? and receiverid = ?"
-
+  
 
   private static final String logoutQ = "update `user` set `online` = 0, `last` = NOW() where `name` = ?; ";
 
@@ -41,13 +41,10 @@ public final class DBManager{
   private static final String activateServer = "";
 
   //query to add a server into the database with a given server name, password(32 bytes), and sessionID(int)
-  private static final String makeServer = "insert into 'server'('name','password','sessionid') values ( ? , ?, ?);";
+  private static final String makeServer = "";
 
   //query to return the server sessionID(int)
-  private static final String findServer = "select s.sessionid from 'server' s where s.name = ?;";
-
-  //query to set the "active" value of the server to 0/false
-  private static final String deactivateServer = "update 'server' s set 'active' = '0' where s.name = ?;";
+  private static final String findServer = "";
 
   static{
     source.setDriverClassName("com.mysql.jdbc.Driver");

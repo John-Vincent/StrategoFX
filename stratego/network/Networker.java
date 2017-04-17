@@ -4,7 +4,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.net.*;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 
 public class Networker implements Runnable{
@@ -222,77 +221,12 @@ public class Networker implements Runnable{
     sendPacket(p);
   }
 
-  /**
-   * activates a server with a given name as long as the name is not taken by another user, or the server name has already been claimed by this user
-   * @param  name         Name of the server
-   * @param  password     Password for other users to be able to connect to the server
-   * @author Collin Vincent collinvincent96@gmail.com
-   * @date   2017-04-13T10:24:53+000
-   */
   public void setPrivateServer(String name, String password){
-    byte[] data;
-    byte[] pass;
-    byte[] n;
-    pass = SecurityManager.hashBytes(password.getBytes(StandardCharsets.UTF_8));
-    n = name.getBytes();
-    data = new byte[n.length + pass.length];
 
-    for(int i = 0; i < n.length; i++){
-      data[i] = n[i];
-    }
-
-    for(int i  = 0; i < pass.length; i++){
-      data[i + n.length] = pass[i];
-    }
-
-    sendPacket(new Packet(OPENSERV, data, Networker.server));
   }
 
-  /**
-   * sets up the host for a game session
-   * @param  ip        the SocketAddress of the host to attempt to connect to
-   * @param  publicKey byte[] containing the contents of the public rsa key used by the host to encrypt messages
-   * @return
-   * @author Collin Vincent collinvincent96@gmail.com
-   * @date   2017-04-15T00:54:44+000
-   */
-  public boolean connectToHost(byte[] data){
-    byte[] key = Arrays.copyOfRange(data, 0, SecurityManager.X509SIZE);
-    byte[] SAdd = Arrays.copyOfRange(data, SecurityManager.X509SIZE, data.length);
-    String address = new String(SAdd, StandardCharsets.UTF_8);
-    String[] split = address.split(":");
-
-    this.host = new InetSocketAddress(split[0], Integer.parseInt(split[1]));
-    if(SecurityManager.addHostKey(key)){
-      return !this.host.isUnresolved();
-    }
-    return false;
-  }
-
-  /**
-   * atemps to connect to a server with the given Server name and password
-   * @param  name           name of the server to connect to
-   * @param  password       password to user for the connection attempt
-   * @author Collin Vincent collinvincent96@gmail.com
-   * @date   2017-04-13T10:27:23+000
-   */
   public void connectPrivateServer(String name, String password){
-    byte[] data;
-    byte[] pass;
-    byte[] n;
-    pass = SecurityManager.hashBytes(password.getBytes(StandardCharsets.UTF_8));
-    n = name.getBytes();
-    data = new byte[n.length + pass.length];
 
-    for(int i = 0; i < n.length; i++){
-      data[i] = n[i];
-    }
-
-    for(int i  = 0; i < pass.length; i++){
-      data[i + n.length] = pass[i];
-    }
-
-    sendPacket(new Packet(CONSERV, data, Networker.server));
   }
 
   /**

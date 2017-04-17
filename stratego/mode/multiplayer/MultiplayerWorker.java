@@ -1,12 +1,10 @@
 package stratego.mode.multiplayer;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
-
 import stratego.network.Networker;
 import stratego.network.Packet;
 import stratego.components.friendslist.FriendModel;
 import stratego.mode.ModeWorker;
-
 
 /*
 *Class that helps the multiplayer screen and the network communicate.
@@ -46,6 +44,9 @@ public class MultiplayerWorker extends ModeWorker {
 			case "connectServer":
 				queueTask(new connectServerOption((String) arg[0], (String) arg[1]));
 				return true;
+			case "message":
+				//TODO
+				return true;
 			default:
 				return false;
 		}
@@ -69,7 +70,6 @@ public class MultiplayerWorker extends ModeWorker {
 			case Networker.CONSERV:
 				if(data.length != 1){
 					//todo data should contain private key and then String for of socketaddress for host
-					net.connectToHost(data);
 				} else{
 					System.out.println("Failed to connect");
 				}
