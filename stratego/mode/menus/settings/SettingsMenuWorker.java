@@ -1,5 +1,8 @@
 package stratego.mode.menus.settings;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import stratego.network.Networker;
 import stratego.network.Packet;
@@ -24,11 +27,29 @@ public class SettingsMenuWorker extends ModeWorker{
       case "back":
     	  queueTask(new BackRequest());
         return true;
+      case "update":
+    	  updateSettingsFile();
+    	return true;
       default:
         return false;
     }
   }
 
+  public void updateSettingsFile(){
+	  File oldFile = new File("SFXsettings.brad");
+	  oldFile.delete();
+	  try{
+		  PrintWriter writer = new PrintWriter(new File("SFXsettings.brad"));
+		  writer.println(SettingsMenuUI.cheats);
+		  writer.println(SettingsMenuUI.music);
+		  writer.println(SettingsMenuUI.musicVol);
+		  writer.close();
+	  }catch(IOException e){
+		  e.printStackTrace();
+	  }
+	  
+  }
+  
   private class BackRequest implements Runnable{
 
 		@Override

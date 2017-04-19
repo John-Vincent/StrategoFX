@@ -4,6 +4,7 @@ import stratego.application.StrategoFX;
 import stratego.mode.singleplayer.*;
 import stratego.components.friendslist.FriendModel;
 import stratego.components.friendslist.FriendsList;
+import stratego.components.gameboard.GameScene;
 import stratego.components.Sizes;
 import stratego.mode.Mode;
 import stratego.mode.ModeWorker;
@@ -13,6 +14,9 @@ import stratego.mode.multiplayer.MultiplayerUI;
 import javafx.scene.*;
 import stratego.network.Networker;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.text.*;
@@ -21,6 +25,10 @@ import javafx.stage.Screen;
 import javafx.geometry.*;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -31,6 +39,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class MainMenuUI extends Mode {
 	BorderPane pane;
+	Scanner scanner;
 	public final static double buttonWidth = 200;
 
 	/**
@@ -78,6 +87,7 @@ public class MainMenuUI extends Mode {
 				System.out.println("logout requested");
 				setNextMode(new LoginMenuUI());
 				addTask("logout");
+				stratego.application.StrategoFX.musicPlayer.stop();
 			}
 		});
 
@@ -109,6 +119,32 @@ public class MainMenuUI extends Mode {
 
 		FriendsList friendsList = new FriendsList(5, friendModel, this.getWorker());
 		pane.setRight(friendsList);
-		stratego.application.StrategoFX.soundPlayer.play();
+		
+		if (!(stratego.application.StrategoFX.musicPlayer.getStatus().equals(Status.PLAYING))) {
+			try {
+				scanner = new Scanner(new File("SFXsettings.brad"));
+				int cheat = scanner.nextInt();
+				if(cheat == 1)
+					GameScene.setCheat(true);	//Defaults to false
+				int music = scanner.nextInt();
+				stratego.application.StrategoFX.musicPlayer = new MediaPlayer(
+						new Media(new File(getMusicName(music)).toURI().toString()));
+				stratego.application.StrategoFX.musicPlayer.setVolume(scanner.nextDouble()/100);
+				stratego.application.StrategoFX.musicPlayer.play();
+				scanner.close();
+			} catch (FileNotFoundException e) {
+				// Do nothing. Sound is muted if no settings are present.
+			}
+		}
+	}
+
+	public String getMusicName(int musicID) {
+		if (musicID == 0)
+			return "HSH.mp3";
+		else if (musicID == 1)
+			return "csgo.mp3";
+		else if (musicID == 2)
+			return "MUTE";
+		return "MUTE";
 	}
 }
