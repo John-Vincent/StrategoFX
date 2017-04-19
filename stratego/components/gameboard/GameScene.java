@@ -190,7 +190,8 @@ public class GameScene extends Pane {
 			}
 
 		}
-
+		
+		//initialize arrays that keep track of board piece positions
 		for (int i = 0; i < 40; i++) {
 			p1X[i] = p1Arr[i].getRec().getX();
 			p2X[i] = p2Arr[i].getRec().getX();
@@ -253,8 +254,7 @@ public class GameScene extends Pane {
 
 					}
 				} else {
-					// System.out.println(Logic.isEmpty((int) (kursor.getX() +
-					// 1), (int) (kursor.getY() + 1)));
+					//decides how the move is interpreted
 					if (Logic.isEmpty((int) (kursor.getX() + 1), (int) (kursor.getY() + 1))) {
 						if (!(p2Arr[m].getId() == '2')) {
 							if (((((Math.abs((kursor.getX() + 1) - p2Arr[m].getRec().getX()) >= (72 * wFactor) - 3))
@@ -282,6 +282,7 @@ public class GameScene extends Pane {
 								Logic.computeCpu(Logic.cpuMove(), this);
 
 								m = -1;
+								//changes the display of the kursor
 
 								kursor.setFill(Color.TRANSPARENT);
 								kursor.setStroke(Color.RED);
