@@ -78,7 +78,7 @@ public class GameScene extends Pane {
 	double[] p1Y = new double[41];
 	double[] p2X = new double[40];
 	double[] p2Y = new double[40];
-
+	int freeForm = 0;
 	
 	/**
 	 * Constructor that initializes game scene
@@ -441,8 +441,15 @@ public class GameScene extends Pane {
 		this.getChildren().addAll(kursor, t);
 
 		this.widthProperty().addListener((obs) -> {
-
-			wFactor = this.getWidth() / 750;
+			
+			if(freeForm==0){
+				wFactor = this.getWidth() / 750;
+			}else{
+				if(this.getWidth()<this.getHeight()){
+					wFactor = this.getWidth() / 750;
+				}
+			}
+		
 
 			for (int i = 0; i < p1Arr.length; i++) {
 				p1Arr[i].getRec().setWidth(70 * wFactor);
@@ -457,7 +464,22 @@ public class GameScene extends Pane {
 		});
 
 		this.heightProperty().addListener((obs, oldVal, newVal) -> {
+			
 			hFactor = this.getHeight() / 800;
+			if(freeForm==1){
+				wFactor = hFactor;
+				
+				for (int i = 0; i < p1Arr.length; i++) {
+					p1Arr[i].getRec().setWidth(70 * wFactor);
+					p2Arr[i].getRec().setWidth(70 * wFactor);
+					p1Arr[i].getRec().setX(p1X[i] * wFactor);
+					p2Arr[i].getRec().setX(p2X[i] * wFactor);
+				}
+				kursor.setWidth(72 * wFactor);
+				kursor.setX(p1X[40] * wFactor);
+				t.setX(750 * wFactor - 200);
+			}
+			
 			for (int i = 0; i < p1Arr.length; i++) {
 				p1Arr[i].getRec().setHeight(70 * hFactor);
 				p2Arr[i].getRec().setHeight(70 * hFactor);
