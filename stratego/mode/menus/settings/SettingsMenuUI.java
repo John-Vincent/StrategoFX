@@ -271,7 +271,7 @@ public class SettingsMenuUI extends Mode {
 					GameScene.freeForm = 0;
 					freeformBtn.setText("Disabled");
 					freeForm = 0;
-				} else if (cheatBtn.getText().equals("Disabled")) {
+				} else if (freeformBtn.getText().equals("Disabled")) {
 					GameScene.freeForm = 1;
 					freeformBtn.setText("Enabled");
 					freeForm = 1;
