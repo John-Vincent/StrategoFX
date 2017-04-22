@@ -40,7 +40,7 @@ public class SettingsMenuUI extends Mode {
 	BorderPane pane;
 	Scanner scanner;
 	boolean existingSettings, changedFromFile;
-	public static int cheats, music;
+	public static int cheats, music, freeForm;
 	public static double musicVol;
 	private final static double buttonWidth = 200;
 
@@ -58,8 +58,17 @@ public class SettingsMenuUI extends Mode {
 		try {
 			scanner = new Scanner(new File("SFXsettings.brad"));
 			existingSettings = true;
+			cheats = scanner.nextInt();
+			music = scanner.nextInt();
+			musicVol = scanner.nextDouble();
+			freeForm = scanner.nextInt();
+			scanner.close();
 		} catch (FileNotFoundException e) {
 			existingSettings = false;
+			cheats = 0;
+			music = 2;
+			musicVol = 100;
+			freeForm = 0;
 		}
 
 		Button back = new Button("Back");
@@ -80,19 +89,16 @@ public class SettingsMenuUI extends Mode {
 
 		Button cheatBtn = new Button();
 		if (existingSettings) {
-			if (scanner.nextInt() == 1) {
+			if (cheats == 1) {
 				cheatBtn.setText("Enabled");
 				GameScene.setCheat(true);
-				cheats = 1;
 			} else {
 				cheatBtn.setText("Disabled");
 				GameScene.setCheat(false);
-				cheats = 0;
 			}
 		} else {
 			cheatBtn.setText("Disabled");
 			GameScene.setCheat(false);
-			cheats = 0;
 		}
 		cheatBtn.setMinWidth(buttonWidth);
 		cheatBtn.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -136,8 +142,8 @@ public class SettingsMenuUI extends Mode {
 						changedFromFile = false;
 					} else {
 						stratego.application.StrategoFX.musicPlayer.stop();
-						stratego.application.StrategoFX.musicPlayer = new MediaPlayer(
-								new Media(new File("HSH.mp3").toURI().toString()));
+						stratego.application.StrategoFX.musicPlayer = new MediaPlayer(new Media(new File("HSH.mp3").toURI().toString()));
+						stratego.application.StrategoFX.musicPlayer.setVolume(musicVol/100);
 						stratego.application.StrategoFX.musicPlayer.play();
 						music = 0;
 					}
@@ -157,8 +163,8 @@ public class SettingsMenuUI extends Mode {
 						changedFromFile = false;
 					} else {
 						stratego.application.StrategoFX.musicPlayer.stop();
-						stratego.application.StrategoFX.musicPlayer = new MediaPlayer(
-								new Media(new File("csgo.mp3").toURI().toString()));
+						stratego.application.StrategoFX.musicPlayer = new MediaPlayer(new Media(new File("csgo.mp3").toURI().toString()));
+						stratego.application.StrategoFX.musicPlayer.setVolume(musicVol/100);
 						stratego.application.StrategoFX.musicPlayer.play();
 						music = 1;
 					}
@@ -201,22 +207,16 @@ public class SettingsMenuUI extends Mode {
 		});
 		if (existingSettings) {
 			changedFromFile = true;
-			int musicInt = scanner.nextInt();
-			if (musicInt == 0) {
-				music = 0;
+			if (music == 0) {
 				musicGroup.selectToggle(music0);
-			} else if (musicInt == 1) {
-				music = 1;
+			} else if (music == 1) {
 				musicGroup.selectToggle(music1);
-			} else if (musicInt == 2) {
-				music = 2;
+			} else if (music == 2) {
 				musicGroup.selectToggle(music2);
 			}
-			double musicVol = scanner.nextDouble();
-			musicSlider.setValue(musicVol);
+			musicSlider.setValue(musicVol*100);
 
 		} else {
-			music = 2;
 			musicGroup.selectToggle(music2);
 		}
 
@@ -243,7 +243,51 @@ public class SettingsMenuUI extends Mode {
 		VBox.setVgrow(effectTxt, Priority.ALWAYS);
 		VBox.setVgrow(effectSlider, Priority.ALWAYS);
 
-		VBox buttons = new VBox(50, cheatBox, musicBox, effectBox, back);
+
+		Text freeformTxt = new Text("Freeform Game Graphics:");
+		freeformTxt.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+		freeformTxt.autosize();
+
+		Button freeformBtn = new Button();
+		if (existingSettings) {
+			if (freeForm == 1) {
+				freeformBtn.setText("Enabled");
+				GameScene.freeForm = 1;
+			} else {
+				freeformBtn.setText("Disabled");
+				GameScene.freeForm = 0;
+			}
+		} else {
+			freeformBtn.setText("Disabled");
+			GameScene.freeForm = 0;
+		}
+		freeformBtn.setMinWidth(buttonWidth);
+		freeformBtn.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		freeformBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				setNextMode(new MainMenuUI());
+				if (freeformBtn.getText().equals("Enabled")) {
+					GameScene.freeForm = 0;
+					freeformBtn.setText("Disabled");
+					freeForm = 0;
+				} else if (cheatBtn.getText().equals("Disabled")) {
+					GameScene.freeForm = 1;
+					freeformBtn.setText("Enabled");
+					freeForm = 1;
+				}
+			}
+		});
+		
+		VBox freeformBox = new VBox(5, freeformTxt, freeformBtn);
+		freeformBox.setFillWidth(true);
+		freeformBox.setAlignment(Pos.CENTER);
+		VBox.setVgrow(freeformTxt, Priority.ALWAYS);
+		VBox.setVgrow(freeformBtn, Priority.ALWAYS);
+		
+		
+
+		VBox buttons = new VBox(50, cheatBox, musicBox, effectBox, freeformBox, back);
 		VBox.setVgrow(cheatBox, Priority.ALWAYS);
 		VBox.setVgrow(musicBox, Priority.ALWAYS);
 		VBox.setVgrow(musicSlider, Priority.ALWAYS);
@@ -255,3 +299,4 @@ public class SettingsMenuUI extends Mode {
 		//scanner.close();
 	}
 }
+

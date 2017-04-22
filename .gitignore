@@ -1,5 +1,5 @@
 *.class
-
+*.brad
 # BlueJ files
 *.ctxt
 #Collin specific ignores

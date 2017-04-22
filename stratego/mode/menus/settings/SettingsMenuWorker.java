@@ -43,6 +43,7 @@ public class SettingsMenuWorker extends ModeWorker{
 		  writer.println(SettingsMenuUI.cheats);
 		  writer.println(SettingsMenuUI.music);
 		  writer.println(SettingsMenuUI.musicVol);
+		  writer.println(SettingsMenuUI.freeForm);
 		  writer.close();
 	  }catch(IOException e){
 		  e.printStackTrace();

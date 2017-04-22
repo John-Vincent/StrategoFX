@@ -78,7 +78,7 @@ public class GameScene extends Pane {
 	double[] p1Y = new double[41];
 	double[] p2X = new double[40];
 	double[] p2Y = new double[40];
-	int freeForm = 0;
+	public static int freeForm = 0;
 	
 	/**
 	 * Constructor that initializes game scene

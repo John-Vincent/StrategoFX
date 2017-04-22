@@ -127,12 +127,11 @@ public class MainMenuUI extends Mode {
 				if(cheat == 1)
 					GameScene.setCheat(true);	//Defaults to false
 				int music = scanner.nextInt();
-				stratego.application.StrategoFX.musicPlayer = new MediaPlayer(
-						new Media(new File(getMusicName(music)).toURI().toString()));
+				stratego.application.StrategoFX.musicPlayer = new MediaPlayer(new Media(new File(getMusicName(music)).toURI().toString()));
 				stratego.application.StrategoFX.musicPlayer.setVolume(scanner.nextDouble()/100);
 				stratego.application.StrategoFX.musicPlayer.play();
 				scanner.close();
-			} catch (FileNotFoundException e) {
+			} catch (Exception e) {
 				// Do nothing. Sound is muted if no settings are present.
 			}
 		}
