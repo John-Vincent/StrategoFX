@@ -411,7 +411,7 @@ public class Logic {
 			if (GameScene.p1Arr[n].getId() == 'F') {
 
 				System.out.print("Player Wins");
-				System.exit(0);
+				GameScene.win.setVisible(true);
 				// wg.setText("Player Wins");
 				// primaryStage.setScene(win);
 			}
@@ -685,7 +685,7 @@ public class Logic {
 			if (GameScene.p2Arr[n].getId() == 'F') {
 
 				System.out.println("CPU Wins");
-				System.exit(0);
+				GameScene.win2.setVisible(true);
 			}
 			if (GameScene.p1Arr[m].getId() != 'S') {
 				if (GameScene.p2Arr[n].getId() == 'B') {

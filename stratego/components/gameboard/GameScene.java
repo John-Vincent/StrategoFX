@@ -79,7 +79,8 @@ public class GameScene extends Pane {
 	double[] p2X = new double[40];
 	double[] p2Y = new double[40];
 	public static int freeForm = 0;
-	
+	public static Text win = new Text("Player 1 Wins");
+	public static Text win2 = new Text("Player 2 Wins");
 	/**
 	 * Constructor that initializes game scene
 	 */
@@ -94,6 +95,28 @@ public class GameScene extends Pane {
 		t.setY(25 * hFactor);
 		t.setX(750 * wFactor - 200);
 
+		
+		win.setY(400*hFactor);
+		win.setX(400*wFactor);
+		win.setScaleX(6);
+		win.setScaleY(6);
+		win.setStroke(Color.BLUE);
+		win.setStrokeWidth(1);
+		win.setFill(Color.WHITE);
+		this.getChildren().add(win);
+		win.setVisible(false);
+		
+		
+		win2.setY(400*hFactor);
+		win2.setX(400*wFactor);
+		win2.setScaleX(6);
+		win2.setScaleY(6);
+		win2.setStroke(Color.BLUE);
+		win2.setStrokeWidth(1);
+		win2.setFill(Color.WHITE);
+		this.getChildren().add(win2);
+		win2.setVisible(false);
+		
 		
 
 		p1X[40] = kursor.getX();
@@ -190,7 +213,7 @@ public class GameScene extends Pane {
 			}
 
 		}
-		
+		win.toFront();
 		//initialize arrays that keep track of board piece positions
 		for (int i = 0; i < 40; i++) {
 			p1X[i] = p1Arr[i].getRec().getX();
