@@ -458,7 +458,6 @@ public class GameScene extends Pane {
 				p2Y[i] = p2Arr[i].getRec().getY() / hFactor;
 
 			}
-
 		});
 
 		this.getChildren().addAll(kursor, t);
@@ -483,7 +482,10 @@ public class GameScene extends Pane {
 			kursor.setWidth(72 * wFactor);
 			kursor.setX(p1X[40] * wFactor);
 			t.setX(750 * wFactor - 200);
-
+			win.setY(400*hFactor);
+			win.setX(400*wFactor);
+			win2.setY(400*hFactor);
+			win2.setX(400*wFactor);
 		});
 
 		this.heightProperty().addListener((obs, oldVal, newVal) -> {
@@ -512,6 +514,10 @@ public class GameScene extends Pane {
 			kursor.setHeight(72 * hFactor);
 			kursor.setY(p1Y[40] * hFactor);
 			t.setY(25 * hFactor);
+			win.setY(400*hFactor);
+			win.setX(400*wFactor);
+			win2.setY(400*hFactor);
+			win2.setX(400*wFactor);
 		});
 		
 	}

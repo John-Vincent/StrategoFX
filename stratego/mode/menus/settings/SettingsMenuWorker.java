@@ -3,6 +3,8 @@ package stratego.mode.menus.settings;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import stratego.components.MusicPlayer;
 import stratego.mode.ModeWorker;
 /**
 *Class that helps the Settings Menu and the network communicate
@@ -37,9 +39,10 @@ public class SettingsMenuWorker extends ModeWorker{
 	  oldFile.delete();
 	  try{
 		  PrintWriter writer = new PrintWriter(new File("SFXsettings.brad"));
+		  //TODO CHANGE ME! VVVVVVV
 		  writer.println(SettingsMenuUI.cheats);
-		  writer.println(SettingsMenuUI.music);
-		  writer.println(SettingsMenuUI.musicVol);
+		  writer.println(MusicPlayer.getCurrentSongID());
+		  writer.println(MusicPlayer.getCurrentVolume());
 		  writer.println(SettingsMenuUI.freeForm);
 		  writer.close();
 	  }catch(IOException e){
