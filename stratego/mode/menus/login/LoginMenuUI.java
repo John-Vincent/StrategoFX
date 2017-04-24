@@ -1,10 +1,6 @@
 package stratego.mode.menus.login;
 
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import stratego.mode.Mode;
-import javafx.scene.*;
-import stratego.network.Networker;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.text.*;

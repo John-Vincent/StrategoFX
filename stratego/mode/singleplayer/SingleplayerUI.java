@@ -2,16 +2,11 @@ package stratego.mode.singleplayer;
 
 import stratego.mode.Mode;
 import stratego.mode.menus.main.MainMenuUI;
-import stratego.mode.menus.signup.SignupMenuWorker;
 import stratego.components.gameboard.GameScene;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.*;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import stratego.network.Networker;
-import stratego.application.Background;
 
 /**
  * Single Player UI Displays the gameboard for the user.

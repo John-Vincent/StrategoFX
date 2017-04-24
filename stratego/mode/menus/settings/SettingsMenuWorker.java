@@ -3,9 +3,6 @@ package stratego.mode.menus.settings;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import stratego.network.Networker;
-import stratego.network.Packet;
 import stratego.mode.ModeWorker;
 /**
 *Class that helps the Settings Menu and the network communicate
