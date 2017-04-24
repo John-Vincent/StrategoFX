@@ -52,7 +52,10 @@ public class Networker implements Runnable{
   public static final byte OPENSERV = (byte)0x08;
   public static final byte CONSERV = (byte)0x09;
   public static final byte SESSERROR = (byte)0x0A;
-  public static final byte CHAT = (byte)0xFE;
+  public static final byte CHAT = (byte)0xF0;
+  public static final byte JOINSERV = (byte)0xF1;
+  public static final byte LEAVESERV = (byte)0xF2;
+  public static final byte GAMEDATA = (byte)0xF3;
 
 
   private static int id;
@@ -249,7 +252,7 @@ public class Networker implements Runnable{
   }
 
   /**
-   * sets up the host for a game session
+   * connects to the host for a game session
    * @param  ip        the SocketAddress of the host to attempt to connect to
    * @param  publicKey byte[] containing the contents of the public rsa key used by the host to encrypt messages
    * @return
@@ -264,7 +267,11 @@ public class Networker implements Runnable{
 
     Networker.host = new InetSocketAddress(split[0], Integer.parseInt(split[1]));
     if(SecurityManager.addHostKey(key)){
-      return !Networker.host.isUnresolved();
+      if(!Networker.host.isUnresolved()){
+        byte[] memes = {(byte)0x04, (byte)0x14, (byte)0x45};
+        Networker.sendPacket(new Packet( Networker.JOINSERV, memes, Networker.host));
+        return true;
+      }
     }
     return false;
   }

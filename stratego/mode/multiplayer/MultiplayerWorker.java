@@ -13,6 +13,8 @@ import stratego.mode.ModeWorker;
 */
 public class MultiplayerWorker extends ModeWorker {
 
+	HostManager HManager;
+
 	/**
 	 * Sets the tasklist that communicates tasks from the UI to the worker.
 	 * @param friendModel
@@ -47,7 +49,10 @@ public class MultiplayerWorker extends ModeWorker {
 				queueTask(new connectServerOption((String) arg[0], (String) arg[1]));
 				return true;
 			case "message":
-				//TODO
+				queueTask(new sendChatOption((String) arg[0]));
+				return true;
+			case "game":
+				queueTask(new sendGameOption());
 				return true;
 			default:
 				return false;
@@ -65,6 +70,7 @@ public class MultiplayerWorker extends ModeWorker {
 			case Networker.OPENSERV:
 				if(data.length == 1 && data[0] == 0x01){
 					System.out.println("Server opened");
+					HManager = new HostManager();
 				} else{
 					System.out.println("Server failed to open");
 				}
@@ -76,6 +82,29 @@ public class MultiplayerWorker extends ModeWorker {
 				} else{
 					System.out.println("Failed to connect");
 				}
+				break;
+			case Networker.JOINSERV:
+				if(HManager != null && data.length == 3 && data[0] == (byte)0x04 && data[1] == (byte)0x14 && data[2] == (byte)0x45){
+					HManager.add(p.getAddress());
+				}
+				break;
+			case Networker.CHAT:
+				if(HManager != null){
+					HManager.sendPacket(p);
+				}
+				//display message;
+				break;
+			case Networker.GAMEDATA:
+				if(HManager != null){
+					HManager.sendPacket(p);
+				}
+				//display move
+				break;
+			case Networker.LEAVESERV:
+				if(HManager != null){
+					HManager.remove(p.getAddress());
+				}
+				break;
 		}
     return true;
   }
@@ -116,6 +145,30 @@ public class MultiplayerWorker extends ModeWorker {
 		@Override
 		public void run(){
 			net.connectPrivateServer(this.name, this.password);
+		}
+	}
+
+	private class sendChatOption implements Runnable{
+		String chat;
+		public sendChatOption(String message){
+			this.chat = message;
+		}
+
+		@Override
+		public void run(){
+			Networker.sendPacket(new Packet(Networker.CHAT, chat.getBytes(), Networker.host));
+		}
+	}
+
+	private class sendGameOption implements Runnable{
+
+		public sendGameOption(){
+			//todo
+		}
+
+		@Override
+		public void run(){
+			//todo
 		}
 	}
 }

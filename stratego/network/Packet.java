@@ -80,6 +80,10 @@ public class Packet{
     return this.address.toString();
   }
 
+  public SocketAddress getAddress(){
+    return this.address;
+  }
+
   public byte getType(){
     return this.type;
   }

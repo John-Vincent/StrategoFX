@@ -38,16 +38,16 @@ public final class DBManager{
   private static final String setLoginQ = "update `user` set `online` = 1 where `name` = ? and `pass` = ?";
 
   //query to set the active value of a server to 1/true, and the sessionID to a given int, base on the given name and password
-  private static final String activateServer = "";
+  private static final String activateServer = "update `server` s set `active` = 1 where s.name = ?;";
 
   //query to add a server into the database with a given server name, password(32 bytes), and sessionID(int)
-  private static final String makeServer = "insert into 'server'('name','password','sessionid') values ( ? , ?, ?);";
+  private static final String makeServer = "insert into `server`(`name`,`password`,`sessionid`) values ( ? , ?, ?);";
 
   //query to return the server sessionID(int)
-  private static final String findServer = "select s.sessionid from 'server' s where s.name = ?;";
+  private static final String findServer = "select s.sessionid from `server` s where s.name = ?;";
 
   //query to set the "active" value of the server to 0/false
-  private static final String deactivateServer = "update 'server' s set 'active' = '0' where s.name = ?;";
+  private static final String deactivateServer = "update `server` s set `active` = 0 where s.name = ?;";
 
   static{
     source.setDriverClassName("com.mysql.jdbc.Driver");

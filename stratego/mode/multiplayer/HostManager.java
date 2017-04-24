@@ -4,10 +4,12 @@ import stratego.network.Networker;
 import stratego.network.Packet;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 
-public class HostManager implements Runnable{
+public class HostManager{
 
   private ArrayList<SocketAddress> users;
 
@@ -15,13 +17,11 @@ public class HostManager implements Runnable{
     users = new ArrayList<SocketAddress>();
   }
 
-  public void addUser(String ip){
-    String[] s = ip.split(":");
-    InetSocketAddress newUser = new InetSocketAddress(s[0], Integer.parseInt(s[1]));
-    users.add(newUser);
+  public void add(SocketAddress address){
+    users.add(address);
   }
 
-  public void removeUser(String ip){
+  public void remove(SocketAddress address){
     Iterator<SocketAddress> it;
     SocketAddress temp;
 
@@ -29,7 +29,7 @@ public class HostManager implements Runnable{
 
     while(it.hasNext()){
       temp = it.next();
-      if(ip.equals(temp.toString())){
+      if(address.equals(temp)){
         it.remove();
       }
     }
@@ -38,13 +38,16 @@ public class HostManager implements Runnable{
   public void sendPacket(Packet p){
     Iterator<SocketAddress> it;
     SocketAddress temp;
+    SocketAddress source = p.getAddress();
 
     it = users.iterator();
 
     while(it.hasNext()){
       temp = it.next();
-      if(!Networker.sendPacket(p)){
-        it.remove();
+      if(!source.equals(temp)){
+        if(!Networker.sendPacket(p)){
+          it.remove();
+        }
       }
     }
   }

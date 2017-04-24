@@ -4,6 +4,8 @@ import java.io.InputStream;
 
 import java.util.Arrays;
 
+import java.net.SocketAddress;
+
 import java.security.MessageDigest;
 import java.security.spec.X509EncodedKeySpec;
 import java.security.KeyPairGenerator;
@@ -139,7 +141,7 @@ public class SecurityManager{
 
       cipher = Cipher.getInstance("RSA");
       if(address.equals(Networker.host)){
-        cipher.init(Cipher.ENCRYPT_MODE, hostkey);
+        cipher.init(Cipher.ENCRYPT_MODE, hostKey);
       }else{
         cipher.init(Cipher.ENCRYPT_MODE, rsaEncrypt);
       }
@@ -168,7 +170,7 @@ public class SecurityManager{
     try{
       Cipher cipher = Cipher.getInstance("RSA");
       if(address.equals(Networker.host)){
-        cipher.init(Cipher.DECRYPT_MODE, hostkey);
+        cipher.init(Cipher.DECRYPT_MODE, hostKey);
       }else{
         cipher.init(Cipher.DECRYPT_MODE, rsaDecrypt);
       }
