@@ -1,10 +1,13 @@
 package stratego.components.gameboard;
 
+import java.io.File;
 import java.util.Random;
 import java.util.Scanner;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
@@ -412,6 +415,12 @@ public class Logic {
 
 				System.out.print("Player Wins");
 				GameScene.win.setVisible(true);
+				double volume = stratego.application.StrategoFX.musicPlayer.getVolume();
+				stratego.application.StrategoFX.musicPlayer.stop();
+				stratego.application.StrategoFX.musicPlayer = new MediaPlayer(new Media(new File("ffvi-fanfare.mp3").toURI().toString()));
+				stratego.application.StrategoFX.musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+				stratego.application.StrategoFX.musicPlayer.setVolume(volume);
+				stratego.application.StrategoFX.musicPlayer.play();
 				// wg.setText("Player Wins");
 				// primaryStage.setScene(win);
 			}

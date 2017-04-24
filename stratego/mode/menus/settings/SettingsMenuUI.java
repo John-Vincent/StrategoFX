@@ -15,21 +15,15 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
-import stratego.network.Networker;
-import stratego.application.Background;
 import stratego.components.gameboard.*;
 
 /**
@@ -38,7 +32,7 @@ import stratego.components.gameboard.*;
  */
 public class SettingsMenuUI extends Mode {
 	BorderPane pane;
-	Scanner scanner;
+	static Scanner scanner;
 	boolean existingSettings, changedFromFile;
 	public static int cheats, music, freeForm;
 	public static double musicVol;
@@ -141,10 +135,7 @@ public class SettingsMenuUI extends Mode {
 					if (changedFromFile) {
 						changedFromFile = false;
 					} else {
-						stratego.application.StrategoFX.musicPlayer.stop();
-						stratego.application.StrategoFX.musicPlayer = new MediaPlayer(new Media(new File("HSH.mp3").toURI().toString()));
-						stratego.application.StrategoFX.musicPlayer.setVolume(musicVol/100);
-						stratego.application.StrategoFX.musicPlayer.play();
+						stratego.components.MusicPlayer.changeMusic("HSH.mp3", musicVol);
 						music = 0;
 					}
 				}
@@ -162,10 +153,7 @@ public class SettingsMenuUI extends Mode {
 					if (changedFromFile) {
 						changedFromFile = false;
 					} else {
-						stratego.application.StrategoFX.musicPlayer.stop();
-						stratego.application.StrategoFX.musicPlayer = new MediaPlayer(new Media(new File("csgo.mp3").toURI().toString()));
-						stratego.application.StrategoFX.musicPlayer.setVolume(musicVol/100);
-						stratego.application.StrategoFX.musicPlayer.play();
+						stratego.components.MusicPlayer.changeMusic("csgo.mp3", musicVol);
 						music = 1;
 					}
 				}
@@ -180,8 +168,7 @@ public class SettingsMenuUI extends Mode {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> ov, Boolean prevSelected, Boolean currSelected) {
 				if (currSelected) {
-					//does not matter if mediaplayer "restarts" because all this does is stop it
-					stratego.application.StrategoFX.musicPlayer.stop();
+					stratego.components.MusicPlayer.changeMusic("MUTE.mp3", musicVol);
 					music = 2;
 				}
 			}
@@ -201,7 +188,7 @@ public class SettingsMenuUI extends Mode {
 			@Override
 			public void changed(ObservableValue<? extends Number> ov, Number oldVal, Number newVal) {
 				musicVol = newVal.doubleValue();
-				stratego.application.StrategoFX.musicPlayer.setVolume(musicVol / 100);
+				stratego.components.MusicPlayer.setMusicVolume(musicVol / 100);
 			}
 
 		});
@@ -214,10 +201,11 @@ public class SettingsMenuUI extends Mode {
 			} else if (music == 2) {
 				musicGroup.selectToggle(music2);
 			}
-			musicSlider.setValue(musicVol*100);
+			musicSlider.setValue(musicVol);
 
 		} else {
 			musicGroup.selectToggle(music2);
+			musicSlider.setValue(50);
 		}
 
 		VBox musicBox = new VBox(5, musicTxt, musicSelect, musicSlider);
@@ -296,7 +284,19 @@ public class SettingsMenuUI extends Mode {
 		buttons.setAlignment(Pos.CENTER);
 		pane.setCenter(buttons);
 		pane.setMinSize(400, 250);
-		//scanner.close();
 	}
+	
+	public static boolean getCheatSetting(){
+		try{
+			scanner = new Scanner(new File("SFXsettings.brad"));
+			int cheat = scanner.nextInt();
+			scanner.close();
+			return cheat == 1;
+		}catch(Exception e){
+			return false;
+		}
+	}
+	
+	
 }
 

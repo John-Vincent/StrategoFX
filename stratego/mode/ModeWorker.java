@@ -176,7 +176,6 @@ public abstract class ModeWorker implements Runnable{
     return new PingRequest();
   }
 
-
   private class PingRequest implements Runnable{
 
      @Override

@@ -1,8 +1,5 @@
 package stratego.mode.singleplayer;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
-import stratego.network.Networker;
-import stratego.network.Packet;
 import stratego.mode.ModeWorker;
 
 /**
