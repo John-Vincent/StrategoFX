@@ -19,6 +19,8 @@ public abstract class ModeWorker implements Runnable{
 
   private Runnable[] todo = null;
 
+  private Runnable[] startUp = null;
+
   private ConcurrentLinkedQueue<Runnable> task;
 
   /**
@@ -66,12 +68,25 @@ public abstract class ModeWorker implements Runnable{
   }
 
   /**
+   * adds some task to execute on the start of this mode
+   * @param  task         the list of task to run
+   * @author Collin Vincent collinvincent96@gmail.com
+   * @date   2017-04-24T16:46:20+000
+   */
+  protected void addStartUp(Runnable...task){
+    this.startUp = task;
+  }
+
+  /**
    * this method is set up to run all request from the Mode as well and pass all packets from the network to the handlePacket Method, it also runs anything added to the todo list for the Worker
    * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-03-08T21:09:52+000
    */
   public void run(){
     this.running = true;
+    for(Runnable r: this.startUp){
+      r.run();
+    }
     while(!Thread.currentThread().isInterrupted() && this.running){
       try{
         Thread.sleep(100);

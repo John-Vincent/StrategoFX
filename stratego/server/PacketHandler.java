@@ -65,6 +65,7 @@ public class PacketHandler implements Runnable{
     data = Arrays.copyOfRange(data, 5, data.length);
     byte[] newdata = null;
 
+    boolean test = false;
 
     switch(type){
       case PING:
@@ -84,6 +85,7 @@ public class PacketHandler implements Runnable{
       case FRIENDQ:
         newdata = friendq(id);
         System.out.println("got FRIENDQ");
+        test = true;
         break;
       case FRIENDR:
         temp = new String(data, 0, data.length, StandardCharsets.UTF_8);
@@ -127,7 +129,7 @@ public class PacketHandler implements Runnable{
         }
 
       }
-    } catch(IOException e){
+    } catch(Exception e){
       e.printStackTrace();
     }
 

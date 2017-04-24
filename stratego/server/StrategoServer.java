@@ -50,6 +50,7 @@ public class StrategoServer implements Runnable{
   public static void main(String[] args){
     try{
       SecurityManager.load();
+      ConnectionRequestManager.load();
       StrategoServer s = new StrategoServer();
       s.run();
     } catch(Exception e){

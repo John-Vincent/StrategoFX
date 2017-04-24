@@ -37,6 +37,11 @@ public class Packet{
     this.address = destination;
   }
 
+
+  public void setAddress(SocketAddress s){
+    this.address = s;
+  }
+
   /**
    * returns an encrypted datagram packet from the info stored in this packet object
    * @return
