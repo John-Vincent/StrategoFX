@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class Networker implements Runnable{
 
   public static final InetSocketAddress server = new InetSocketAddress("proj-309-sg-1.cs.iastate.edu", 8092);
-  public static InetSocketAddress host;
+  public InetSocketAddress host;
 
   private ConcurrentLinkedQueue<DatagramPacket> received;
   private static DatagramSocket socket;
@@ -265,13 +265,17 @@ public class Networker implements Runnable{
     String address = new String(SAdd, StandardCharsets.UTF_8);
     String[] split = address.split(":");
 
-    Networker.host = new InetSocketAddress(split[0], Integer.parseInt(split[1]));
+    this.host = new InetSocketAddress(split[0], Integer.parseInt(split[1]));
     if(SecurityManager.addHostKey(key)){
+<<<<<<< HEAD
       if(!Networker.host.isUnresolved()){
         byte[] memes = {(byte)0x04, (byte)0x14, (byte)0x45};
         Networker.sendPacket(new Packet( Networker.JOINSERV, memes, Networker.host));
         return true;
       }
+=======
+      return !this.host.isUnresolved();
+>>>>>>> 280f986a803dda035c435162cd09d507c68260f0
     }
     return false;
   }
