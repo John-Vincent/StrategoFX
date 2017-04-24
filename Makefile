@@ -38,6 +38,8 @@ default: makebin $(SOURCES) $(RESOURCES)
 	@$(ECHO) "  "
 	@$(ECHO) "Compilation complete"
 
+test: bin/stratego/network/test.class
+
 server: CP = -cp .:bin/:commons-logging-1.2.jar:mysql-connector-java-5.1.20-bin.jar:commons-dbcp2-2.1.1.jar
 server: makebin $(SERVER) $(SRESOURCES)
 	@$(ECHO) "  "
