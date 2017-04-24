@@ -17,10 +17,10 @@ public class Packet{
    * @date   2017-03-19T13:31:28+000
    */
   public Packet(DatagramPacket p){
-    byte[] data = SecurityManager.decrypt(Arrays.copyOfRange(p.getData(), p.getOffset(), p.getLength()));
+    this.address = p.getSocketAddress();
+    byte[] data = SecurityManager.decrypt(Arrays.copyOfRange(p.getData(), p.getOffset(), p.getLength()), this.address);
     this.type = data[0];
     this.data = Arrays.copyOfRange(data, 1, data.length);
-    this.address = p.getSocketAddress();
   }
 
   /**
@@ -70,7 +70,7 @@ public class Packet{
       }
     }
 
-    packet = SecurityManager.encrypt(packet);
+    packet = SecurityManager.encrypt(packet, this.address);
     p = new DatagramPacket(packet, packet.length, address);
 
     return p;

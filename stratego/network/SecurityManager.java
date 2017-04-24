@@ -126,7 +126,7 @@ public class SecurityManager{
     return null;
   }
 
-  public static byte[] encrypt(byte[] data){
+  public static byte[] encrypt(byte[] data, SocketAddress address){
     SecretKey aesKey = getAESKey();
     byte[] ans = null;
     try{
@@ -138,7 +138,11 @@ public class SecurityManager{
       temp = cipher.doFinal(data, 0, data.length);
 
       cipher = Cipher.getInstance("RSA");
-      cipher.init(Cipher.ENCRYPT_MODE, rsaEncrypt);
+      if(address.equals(Networker.host)){
+        cipher.init(Cipher.ENCRYPT_MODE, hostkey);
+      }else{
+        cipher.init(Cipher.ENCRYPT_MODE, rsaEncrypt);
+      }
       aesCrypt = aesKey.getEncoded();
       aesCrypt = cipher.doFinal(aesCrypt, 0, aesCrypt.length);
 
@@ -157,13 +161,17 @@ public class SecurityManager{
     return ans;
   }
 
-  public static byte[] decrypt(byte[] data){
+  public static byte[] decrypt(byte[] data, SocketAddress address){
     byte[] ans = null;
     byte[] AES = null;
 
     try{
       Cipher cipher = Cipher.getInstance("RSA");
-      cipher.init(Cipher.DECRYPT_MODE, rsaDecrypt);
+      if(address.equals(Networker.host)){
+        cipher.init(Cipher.DECRYPT_MODE, hostkey);
+      }else{
+        cipher.init(Cipher.DECRYPT_MODE, rsaDecrypt);
+      }
       AES = cipher.doFinal(data, 0, RSAKeySize);
 
       SecretKey AESKey = new SecretKeySpec(AES, 0, AES.length, "AES");
