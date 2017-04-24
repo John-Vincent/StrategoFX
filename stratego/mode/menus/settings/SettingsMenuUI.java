@@ -163,7 +163,6 @@ public class SettingsMenuUI extends Mode {
 						changedFromFile = false;
 					}else{
 					stratego.components.MusicPlayer.changeMusic("MUTE.mp3", stratego.components.MusicPlayer.getCurrentVolume());
-
 					}
 				}
 			}
