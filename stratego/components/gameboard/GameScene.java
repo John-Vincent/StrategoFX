@@ -81,6 +81,7 @@ public class GameScene extends Pane {
 	public static int freeForm = 0;
 	public static Text win = new Text("Player 1 Wins");
 	public static Text win2 = new Text("Player 2 Wins");
+	public static int vsP = 0;
 	/**
 	 * Constructor that initializes game scene
 	 */
@@ -95,6 +96,9 @@ public class GameScene extends Pane {
 		t.setY(25 * hFactor);
 		t.setX(750 * wFactor - 200);
 
+		if(vsP==1){
+			cheat = false;
+		}
 		
 		win.setY(400*hFactor);
 		win.setX(400*wFactor);
