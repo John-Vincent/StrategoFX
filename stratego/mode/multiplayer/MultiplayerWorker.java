@@ -175,6 +175,8 @@ public class MultiplayerWorker extends ModeWorker {
 
 		@Override
 		public void run() {
+			serverName = name;
+			serverPassword = password;
 			net.setPrivateServer(this.name, this.password);
 		}
 	}
