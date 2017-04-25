@@ -24,13 +24,13 @@ public final class DBManager{
                                             "where f.senderid = (select u2.id from `user` u2 where u2.name =?);";
 
 											//changed friend requests to fit new table
-  private static final String requestFriendQ = "insert into 'friendrequests'('senderid','receiverid') "+
+  private static final String requestFriendQ = "insert into `friendrequests`(`senderid`,`receiverid`) "+
                                   "values((select u.id from `user` u where u.name= ? ),(select u2.id from `user` u2 where u2.name = ? ));";
 
 								  //accepting friend requests requires a pair of insertions to friends and a deletion from friendrequests
   private static final String acceptFriendRequestQ= "insert into `friends` ('userid','friendid') values ( ? , ?);";
 
-  private static final String friendRequestAcceptedQ= "delete from 'friendrequests' where senderid = ? and receiverid = ?";
+  private static final String friendRequestAcceptedQ= "delete from `friendrequests` where senderid = ? and receiverid = ?";
 
 
   private static final String logoutQ = "update `user` set `online` = 0, `last` = NOW() where `name` = ?; ";
@@ -38,16 +38,16 @@ public final class DBManager{
   private static final String setLoginQ = "update `user` set `online` = 1 where `name` = ? and `pass` = ?";
 
   //query to set the active value of a server to 1/true, and the sessionID to a given int, base on the given name and password
-  private static final String activateServer = "update `server` s set `active` = 1 where s.name = ?;";
+  private static final String activateServer = "update `server` s set `active` = 1, `sessid` = ? where s.name = ? and s.password = ?;";
 
   //query to add a server into the database with a given server name, password(32 bytes), and sessionID(int)
-  private static final String makeServer = "insert into `server`(`name`,`password`,`sessionid`) values ( ? , ?, ?);";
+  private static final String makeServer = "insert into `server`(`name`,`password`,`sessid`, `active`) values ( ? , ?, ?, 1);";
 
   //query to return the server sessionID(int)
-  private static final String findServer = "select s.sessionid from `server` s where s.name = ?;";
+  private static final String findServer = "select s.sessionid from `server` s where s.name = ? and s.password = ? and s.active = 1;";
 
   //query to set the "active" value of the server to 0/false
-  private static final String deactivateServer = "update `server` s set `active` = 0 where s.name = ?;";
+  private static final String deactivateServer = "update `server` s set `active` = 0 where s.name = ? and password = ?;";
 
   static{
     source.setDriverClassName("com.mysql.jdbc.Driver");
@@ -303,9 +303,9 @@ public final class DBManager{
     try{
       conn1 = DBManager.getConnection();
       statement = conn1.prepareStatement(activateServer);
+      statement.setInt(3, sessionID);
       statement.setString(1, name);
       statement.setBytes(2, password);
-      statement.setInt(3, sessionID);
       ans = statement.executeUpdate() != 0;
       if(!ans){
         statement = conn1.prepareStatement(makeServer);
@@ -383,6 +383,34 @@ public final class DBManager{
     }
 
     return ans;
+  }
+
+  public static void closeServer(String name, byte[] password){
+    Connection conn1 = null;
+    PreparedStatement statement = null;
+
+    try{
+
+      conn1 = DBManager.getConnection();
+      statement  = conn1.prepareStatement(deactivateServer);
+      statement.setString(1, name);
+      statement.setBytes(2, password);
+      statement.executeUpdate();
+    } catch(Exception e){
+      System.out.println(e.getMessage());
+    } finally{
+      if(conn1 != null){
+        try{
+          conn1.close();
+        } catch(Exception e){ }
+      }
+
+      if(statement != null){
+        try{
+          statement.close();
+        } catch(Exception e) { }
+      }
+    }
   }
 
 

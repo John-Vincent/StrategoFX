@@ -38,7 +38,7 @@ public class MultiplayerUI extends Mode {
 	public MultiplayerUI() {
 		super(new GridPane());
 		FriendModel friendModel = new FriendModel();
-		this.setWorker(new MultiplayerWorker(friendModel)); // may want to add friend model
+		this.setWorker(new MultiplayerWorker(friendModel, this)); // may want to add friend model
 		pane = (GridPane) this.getRoot();
 		this.setMinSize(500, 400);
 		pane.setPadding(new Insets(10, 10, 10, 10));
@@ -55,7 +55,6 @@ public class MultiplayerUI extends Mode {
 				password = connect.getConnectionPassword();
 				pane.getChildren().remove(connect);
 				addTask("setServer", serverName, password);
-				gameUI();
 			}
 		};
 
@@ -66,7 +65,6 @@ public class MultiplayerUI extends Mode {
 				password = connect.getConnectionPassword();
 				pane.getChildren().remove(connect);
 				addTask("connectServer", serverName, password);
-				gameUI();
 			}
 		};
 
@@ -158,7 +156,7 @@ public class MultiplayerUI extends Mode {
 				message.clear();
 			}
 		});
-		
+
 		message.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent e){

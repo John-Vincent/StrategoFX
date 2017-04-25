@@ -52,6 +52,7 @@ public class Networker implements Runnable{
   public static final byte OPENSERV = (byte)0x08;
   public static final byte CONSERV = (byte)0x09;
   public static final byte SESSERROR = (byte)0x0A;
+  public static final byte CLOSERV = (byte)0x0B;
   public static final byte CHAT = (byte)0xF0;
   public static final byte JOINSERV = (byte)0xF1;
   public static final byte LEAVESERV = (byte)0xF2;
@@ -300,6 +301,30 @@ public class Networker implements Runnable{
     }
 
     sendPacket(new Packet(CONSERV, data, Networker.server));
+  }
+
+  public void closeServer(String name, String password){
+    byte[] data;
+    byte[] pass;
+    byte[] n;
+    pass = SecurityManager.hashBytes(password.getBytes(StandardCharsets.UTF_8));
+    n = name.getBytes();
+    data = new byte[n.length + pass.length];
+
+    for(int i = 0; i < n.length; i++){
+      data[i] = n[i];
+    }
+
+    for(int i  = 0; i < pass.length; i++){
+      data[i + n.length] = pass[i];
+    }
+
+    sendPacket(new Packet(CLOSERV, data, Networker.server));
+  }
+
+  public void clearHost(){
+    Networker.host = null;
+    SecurityManager.removeHostKey();
   }
 
   /**

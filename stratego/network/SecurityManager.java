@@ -201,4 +201,8 @@ public class SecurityManager{
     return false;
   }
 
+  protected static void removeHostKey(){
+    hostKey = null;
+  }
+
 }

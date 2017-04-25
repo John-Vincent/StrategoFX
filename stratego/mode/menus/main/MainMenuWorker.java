@@ -147,7 +147,7 @@ public class MainMenuWorker extends ModeWorker {
 
 		@Override
 		public void run() {
-			if (time + 300000 < System.currentTimeMillis()) {
+			if (time + 30000 < System.currentTimeMillis()) {
 				this.time = System.currentTimeMillis();
 				net.requestFriendsList();
 			}
@@ -169,6 +169,6 @@ public class MainMenuWorker extends ModeWorker {
 		public void run() {
 			stratego.components.MusicPlayer.changeMusic(stratego.components.MusicPlayer.getSettingMusicName(), stratego.components.MusicPlayer.getSettingMusicVolume());
 		}
-		
+
 	}
 }
