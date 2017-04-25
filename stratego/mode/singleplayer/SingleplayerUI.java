@@ -77,7 +77,6 @@ public class SingleplayerUI extends Mode {
 			}
 		});
 		
-		game.requestFocus();
 		game.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent event){
@@ -88,7 +87,7 @@ public class SingleplayerUI extends Mode {
 		pane.add(back, 0, 0, 5, 1);
 		pane.add(flButton, 5, 0, 6, 1);
 		pane.add(game, 0, 1, 11, 10);
-		
+		game.requestFocus();
 
 	}
 
