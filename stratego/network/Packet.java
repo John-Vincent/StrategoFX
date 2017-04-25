@@ -46,18 +46,22 @@ public class Packet{
   public DatagramPacket getPacket(){
     DatagramPacket p;
     byte[] packet;
+
     if(this.data == null){
       packet = new byte[5];
     } else{
       packet = new byte[this.data.length + 5];
     }
-    int id = Networker.getID();
 
-    packet[0] = (byte) (id >> 24);
-    packet[1] = (byte) (id >> 16);
-    packet[2] = (byte) (id >> 8);
-    packet[3] = (byte) (id);
-    packet[4] = type;
+    if(address == Networker.server){
+      int id = Networker.getID();
+
+      packet[0] = (byte) (id >> 24);
+      packet[1] = (byte) (id >> 16);
+      packet[2] = (byte) (id >> 8);
+      packet[3] = (byte) (id);
+      packet[4] = type;
+    }
 
     if(this.data != null){
       for(int i = 0; i<this.data.length; i++){
