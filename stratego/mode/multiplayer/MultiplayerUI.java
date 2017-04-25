@@ -1,31 +1,24 @@
 package stratego.mode.multiplayer;
 
-import stratego.mode.Mode;
-import stratego.mode.menus.main.MainMenuUI;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.TextFlow;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import stratego.network.Networker;
-import stratego.application.Background;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import stratego.components.friendslist.FriendModel;
 import stratego.components.friendslist.FriendsList;
 import stratego.components.gameboard.GameScene;
-import stratego.mode.multiplayer.ConnectionMenu;
+import stratego.mode.Mode;
+import stratego.mode.menus.main.MainMenuUI;
 
 /**
  * Multiplayer UI This UI shows the game screen as well as many additional

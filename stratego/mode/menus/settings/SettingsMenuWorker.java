@@ -39,7 +39,6 @@ public class SettingsMenuWorker extends ModeWorker{
 	  oldFile.delete();
 	  try{
 		  PrintWriter writer = new PrintWriter(new File("SFXsettings.brad"));
-		  //TODO CHANGE ME! VVVVVVV
 		  writer.println(SettingsMenuUI.cheats);
 		  writer.println(MusicPlayer.getCurrentSongID());
 		  writer.println(MusicPlayer.getCurrentVolume());

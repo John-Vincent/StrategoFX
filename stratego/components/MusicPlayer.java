@@ -67,6 +67,11 @@ public class MusicPlayer {
 		}
 	}
 
+	public static void stopMusic(){
+		musicPlayer.stop();
+		currentSong = MUTE;
+	}
+	
 	public static String getCurrentSong() {
 		return currentSong;
 	}

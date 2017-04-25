@@ -1,18 +1,20 @@
 package stratego.mode.menus.signup;
 
-import javafx.scene.paint.*;
-import javafx.stage.*;
-import stratego.mode.Mode;
-import stratego.mode.menus.login.LoginMenuUI;
-import stratego.mode.menus.main.MainMenuUI;
-import javafx.scene.*;
-import stratego.network.Networker;
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
-import javafx.scene.text.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.*;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import stratego.mode.Mode;
+import stratego.mode.menus.login.LoginMenuUI;
 
 /**
 * Signup Menu UI

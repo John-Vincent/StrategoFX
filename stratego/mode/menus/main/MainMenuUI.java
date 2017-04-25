@@ -1,6 +1,16 @@
 package stratego.mode.menus.main;
 
-import stratego.mode.singleplayer.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import stratego.components.friendslist.FriendModel;
 import stratego.components.friendslist.FriendsList;
 import stratego.components.gameboard.GameScene;
@@ -8,14 +18,7 @@ import stratego.mode.Mode;
 import stratego.mode.menus.login.LoginMenuUI;
 import stratego.mode.menus.settings.SettingsMenuUI;
 import stratego.mode.multiplayer.MultiplayerUI;
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
-import javafx.scene.text.*;
-import javafx.geometry.*;
-import javafx.event.EventHandler;
-import javafx.event.ActionEvent;
-
-import java.util.Scanner;
+import stratego.mode.singleplayer.SingleplayerUI;
 
 /**
  * Main Menu UI The main menu contains multiple buttons leading to the game
@@ -25,7 +28,6 @@ import java.util.Scanner;
  */
 public class MainMenuUI extends Mode {
 	BorderPane pane;
-	Scanner scanner;
 	public final static double buttonWidth = 200;
 
 	/**
