@@ -129,9 +129,10 @@ public class MultiplayerWorker extends ModeWorker {
 		@Override
 		public void run() {
 			setRunning(false);
-			net.clearHost();
 			if(HManager != null){
 				net.closeServer(serverName, serverPassword);
+			} else{
+				net.clearHost();
 			}
 		}
 

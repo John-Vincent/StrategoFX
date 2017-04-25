@@ -44,7 +44,7 @@ public final class DBManager{
   private static final String makeServer = "insert into `server`(`name`,`password`,`sessid`, `active`) values ( ? , ?, ?, 1);";
 
   //query to return the server sessionID(int)
-  private static final String findServer = "select s.sessionid from `server` s where s.name = ? and s.password = ? and s.active = 1;";
+  private static final String findServer = "select s.sessid from `server` s where s.name = ? and s.password = ? and s.active = 1;";
 
   //query to set the "active" value of the server to 0/false
   private static final String deactivateServer = "update `server` s set `active` = 0 where s.name = ? and password = ?;";
@@ -303,9 +303,9 @@ public final class DBManager{
     try{
       conn1 = DBManager.getConnection();
       statement = conn1.prepareStatement(activateServer);
-      statement.setInt(3, sessionID);
-      statement.setString(1, name);
-      statement.setBytes(2, password);
+      statement.setInt(1, sessionID);
+      statement.setString(2, name);
+      statement.setBytes(3, password);
       ans = statement.executeUpdate() != 0;
       if(!ans){
         statement = conn1.prepareStatement(makeServer);
@@ -358,7 +358,7 @@ public final class DBManager{
       statement.setBytes(2, password);
       set = statement.executeQuery();
       set.next();
-      ans = set.getInt("session");
+      ans = set.getInt("sessid");
 
     } catch(Exception e){
       System.out.println(e.getMessage());

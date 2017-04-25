@@ -53,7 +53,6 @@ public class MultiplayerUI extends Mode {
 			public void handle(ActionEvent e) {
 				serverName = connect.getConnectionServer();
 				password = connect.getConnectionPassword();
-				pane.getChildren().remove(connect);
 				addTask("setServer", serverName, password);
 			}
 		};
@@ -63,7 +62,6 @@ public class MultiplayerUI extends Mode {
 			public void handle(ActionEvent e) {
 				serverName = connect.getConnectionServer();
 				password = connect.getConnectionPassword();
-				pane.getChildren().remove(connect);
 				addTask("connectServer", serverName, password);
 			}
 		};
@@ -98,6 +96,7 @@ public class MultiplayerUI extends Mode {
 	public void gameUI(){
 		//setConstraints();
 		//pane.setGridLinesVisible(true);
+		pane.getChildren().remove(connect);
 		flShowing = true;
 
 		VBox flVBox = new VBox(friendsList);

@@ -17,6 +17,8 @@ public class Networker implements Runnable{
 
   private static boolean online;
 
+  byte[] memes = {(byte)0x04, (byte)0x14, (byte)0x45};
+
   private static final int HASHLENGTH = 32;
 
 
@@ -269,7 +271,6 @@ public class Networker implements Runnable{
     Networker.host = new InetSocketAddress(split[0], Integer.parseInt(split[1]));
     if(SecurityManager.addHostKey(key)){
       if(!Networker.host.isUnresolved()){
-        byte[] memes = {(byte)0x04, (byte)0x14, (byte)0x45};
         Networker.sendPacket(new Packet( Networker.JOINSERV, memes, Networker.host));
         return true;
       }
@@ -323,6 +324,9 @@ public class Networker implements Runnable{
   }
 
   public void clearHost(){
+    if(host != null){
+      sendPacket(new Packet(LEAVESERV, memes, host));
+    }
     Networker.host = null;
     SecurityManager.removeHostKey();
   }
