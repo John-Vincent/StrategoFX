@@ -212,23 +212,6 @@ public class SettingsMenuUI extends Mode {
 		VBox.setVgrow(musicSelect, Priority.ALWAYS);
 		VBox.setVgrow(musicSlider, Priority.ALWAYS);
 
-		// TODO No SFX implementation yet
-		Text effectTxt = new Text("Sound Effects Volume:");
-		effectTxt.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-		effectTxt.autosize();
-
-		Slider effectSlider = new Slider(0, 100, 100);
-		effectSlider.setShowTickLabels(true);
-		effectSlider.setShowTickMarks(true);
-		effectSlider.setMajorTickUnit(50);
-
-		VBox effectBox = new VBox(5, effectTxt, effectSlider);
-		effectBox.setFillWidth(true);
-		effectBox.setAlignment(Pos.CENTER);
-		VBox.setVgrow(effectTxt, Priority.ALWAYS);
-		VBox.setVgrow(effectSlider, Priority.ALWAYS);
-
-
 		Text freeformTxt = new Text("Freeform Game Graphics:");
 		freeformTxt.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		freeformTxt.autosize();
@@ -272,7 +255,7 @@ public class SettingsMenuUI extends Mode {
 
 
 
-		VBox buttons = new VBox(50, cheatBox, musicBox, effectBox, freeformBox, back);
+		VBox buttons = new VBox(50, cheatBox, musicBox, freeformBox, back);
 		VBox.setVgrow(cheatBox, Priority.ALWAYS);
 		VBox.setVgrow(musicBox, Priority.ALWAYS);
 		VBox.setVgrow(musicSlider, Priority.ALWAYS);

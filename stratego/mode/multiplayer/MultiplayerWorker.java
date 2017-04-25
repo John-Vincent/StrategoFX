@@ -6,8 +6,6 @@ import stratego.network.Networker;
 import stratego.network.Packet;
 import stratego.components.friendslist.FriendModel;
 import stratego.mode.ModeWorker;
-import stratego.mode.menus.main.MainMenuWorker.FriendUpdater;
-import stratego.mode.menus.main.MainMenuWorker.StartMusic;
 
 
 /*
@@ -27,7 +25,7 @@ public class MultiplayerWorker extends ModeWorker {
 	 */
 	public MultiplayerWorker(FriendModel friendModel) {
 		super();
-		friendModel = fm;
+		this.friendModel = friendModel;
 		super.setTodo(new Runnable[] { new FriendUpdater() });
 		queueTask(new StartMusic());
 	}
