@@ -83,6 +83,7 @@ public class GameScene extends Pane {
 	public static Text win2 = new Text("Player 2 Wins");
 	public static int vsP = 0;
 	private int round = 1;
+	private int mark = 0;
 
 	/**
 	 * Constructor that initializes game scene
@@ -476,6 +477,37 @@ public class GameScene extends Pane {
 					}
 					round = 0;
 				}
+			} else if (key.getCode() == KeyCode.M) {
+					for (int i = 0; i < 40; i++) {
+						if (p2Arr[i].getRec().getX() <= (kursor.getX() + 3)
+								&& p2Arr[i].getRec().getX() >= (kursor.getX() - 3) && p2Arr[i].getRec().getY() <= (kursor.getY() + 3)
+										&& p2Arr[i].getRec().getY() >= (kursor.getY() - 3)) {
+							if(p2Arr[i].getRec().getArcHeight()>0){
+								p2Arr[i].getRec().setArcHeight(0);
+								p2Arr[i].getRec().setArcWidth(0);
+							}else{
+								p2Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
+								p2Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
+							}
+							
+						}
+					}
+					
+					for (int i = 0; i < 40; i++) {
+						if (p1Arr[i].getRec().getX() <= (kursor.getX() + 3)
+								&& p1Arr[i].getRec().getX() >= (kursor.getX() - 3) && p1Arr[i].getRec().getY() <= (kursor.getY() + 3)
+										&& p1Arr[i].getRec().getY() >= (kursor.getY() - 3)) {
+							if(p1Arr[i].getRec().getArcHeight()>0){
+								p1Arr[i].getRec().setArcHeight(0);
+								p1Arr[i].getRec().setArcWidth(0);
+							}else{
+								p1Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
+								p1Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
+							}
+							
+						}
+					}
+				
 			}
 
 			t.setText("Cursor Position: " + kX + ", " + kY);
