@@ -51,7 +51,6 @@ public class StrategoFX extends Application{
     this.stage.setX((Sizes.screenSize.getWidth()-this.stage.getWidth())/2 + Sizes.screenSize.getMinX());
     this.stage.setY((Sizes.screenSize.getHeight()-this.stage.getHeight())/2 + Sizes.screenSize.getMinY());
     stratego.components.MusicPlayer.musicPlayer = new MediaPlayer(new Media(new File("MUTE.mp3").toURI().toString()));
-    stratego.components.MusicPlayer.effectPlayer = new MediaPlayer(new Media(new File("MUTE.mp3").toURI().toString()));
     GameScene.setCheat(false);
   }
 

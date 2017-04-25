@@ -3,13 +3,11 @@ package stratego.components;
 import java.io.File;
 import java.util.Scanner;
 
-import javafx.animation.Animation.Status;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 public class MusicPlayer {
 	public static MediaPlayer musicPlayer;
-	public static MediaPlayer effectPlayer;
 	public static final String HSH = "HSH.mp3";
 	public static final String CSGO = "csgo.mp3";
 	public static final String MUTE = "MUTE.mp3";
