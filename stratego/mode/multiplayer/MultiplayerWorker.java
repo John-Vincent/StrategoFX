@@ -12,8 +12,10 @@ import stratego.mode.ModeWorker;
 */
 public class MultiplayerWorker extends ModeWorker {
 
-	HostManager HManager;
+	private HostManager HManager;
 	private FriendModel friendModel;
+	private String serverName;
+	private String serverPassword;
 
 	/**
 	 * Sets the tasklist that communicates tasks from the UI to the worker.
