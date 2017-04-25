@@ -81,6 +81,7 @@ public class GameScene extends Pane {
 	public static int freeForm = 0;
 	public static Text win = new Text("Player 1 Wins");
 	public static Text win2 = new Text("Player 2 Wins");
+	public static int vsP = 0;
 	/**
 	 * Constructor that initializes game scene
 	 */
@@ -422,16 +423,18 @@ public class GameScene extends Pane {
 
 				}
 			} else if (key.getCode() == KeyCode.R) {
-				if (cheat == true) {
-					if (reveal == false) {
-						reveal = true;
-						for (int i = 0; i < 40; i++) {
-							p1Arr[i].refreshImg();
-						}
-					} else if (reveal == true) {
-						reveal = false;
-						for (int i = 0; i < 40; i++) {
-							p1Arr[i].getRec().setFill(p1Arr[i].getColor());
+				if(vsP==0){
+					if (cheat == true) {
+						if (reveal == false) {
+							reveal = true;
+							for (int i = 0; i < 40; i++) {
+								p1Arr[i].refreshImg();
+							}
+						} else if (reveal == true) {
+							reveal = false;
+							for (int i = 0; i < 40; i++) {
+								p1Arr[i].getRec().setFill(p1Arr[i].getColor());
+							}
 						}
 					}
 				}
@@ -464,6 +467,16 @@ public class GameScene extends Pane {
 				p2Y[i] = p2Arr[i].getRec().getY() / hFactor;
 
 			}
+			/*
+			if(Logic.isEmpty((int)kursor.getX(), (int)kursor.getY()) && Logic.search(kursor.getX(),kursor.getY())==-1){
+				kursor.setFill(Color.RED);
+			}else{
+				if(m==-1){
+					kursor.setFill(Color.LIGHTBLUE);
+				}else{
+					kursor.setFill(Color.TRANSPARENT);
+				}
+			}*/
 		});
 
 		this.getChildren().addAll(kursor, t);
