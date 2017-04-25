@@ -1,10 +1,12 @@
 package stratego.mode.menus.main;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
 import stratego.network.Networker;
 import stratego.network.Packet;
-import java.util.Arrays;
 import stratego.mode.ModeWorker;
+
+import java.io.File;
+import java.util.Scanner;
+
 import stratego.components.friendslist.FriendModel;
 
 /**
@@ -32,6 +34,7 @@ public class MainMenuWorker extends ModeWorker {
 		super();
 		friendModel = fm;
 		super.setTodo(new Runnable[] { new FriendUpdater() });
+		queueTask(new StartMusic());
 	}
 
 	@Override
@@ -52,7 +55,6 @@ public class MainMenuWorker extends ModeWorker {
 		case "multiplayer":
 			queueTask(new MenuOptions());
 			return true;
-			// TODO may need to do more work here
 		default:
 			return false;
 		}
@@ -161,4 +163,12 @@ public class MainMenuWorker extends ModeWorker {
 
 	}
 
+	private class StartMusic implements Runnable{
+
+		@Override
+		public void run() {
+			stratego.components.MusicPlayer.changeMusic(stratego.components.MusicPlayer.getSettingMusicName(), stratego.components.MusicPlayer.getSettingMusicVolume());
+		}
+		
+	}
 }

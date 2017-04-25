@@ -415,12 +415,6 @@ public class Logic {
 
 				System.out.print("Player Wins");
 				GameScene.win.setVisible(true);
-				double volume = stratego.application.StrategoFX.musicPlayer.getVolume();
-				stratego.application.StrategoFX.musicPlayer.stop();
-				stratego.application.StrategoFX.musicPlayer = new MediaPlayer(new Media(new File("ffvi-fanfare.mp3").toURI().toString()));
-				stratego.application.StrategoFX.musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-				stratego.application.StrategoFX.musicPlayer.setVolume(volume);
-				stratego.application.StrategoFX.musicPlayer.play();
 				// wg.setText("Player Wins");
 				// primaryStage.setScene(win);
 			}

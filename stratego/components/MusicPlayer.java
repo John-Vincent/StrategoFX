@@ -2,44 +2,43 @@ package stratego.components;
 
 import java.io.File;
 import java.util.Scanner;
+
+import javafx.animation.Animation.Status;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 public class MusicPlayer {
 	public static MediaPlayer musicPlayer;
 	public static MediaPlayer effectPlayer;
+	public static final String HSH = "HSH.mp3";
+	public static final String CSGO = "csgo.mp3";
+	public static final String MUTE = "MUTE.mp3";
 	private static Scanner scanner;
+	private static String currentSong = null;
+	
 
-	public static int getCheatSetting() {
-		try {
-			scanner = new Scanner(new File("SFXsettings.brad"));
-			int cheat = scanner.nextInt();
-			scanner.close();
-			return cheat;
-		} catch (Exception e) {
-			return 0;
-		}
-	}
-
-	public static String getMusicName() {
+	public static String getSettingMusicName() {
 		try {
 			scanner = new Scanner(new File("SFXsettings.brad"));
 			scanner.nextInt();
 			int musicID = scanner.nextInt();
 			scanner.close();
-			if (musicID == 0)
-				return "HSH.mp3";
-			else if (musicID == 1)
-				return "csgo.mp3";
-			else if (musicID == 2)
-				return "MUTE.mp3";
-			return "MUTE.mp3";
+			switch(musicID){
+			case 0:
+				return HSH;
+			case 1:
+				return CSGO;
+			case 2:
+				return MUTE;
+			default:
+				return MUTE;
+			}
 		} catch (Exception e) {
-			return "MUTE.mp3";
+			return MUTE;
 		}
 	}
 
-	public static double getMusicVolume() {
+	public static double getSettingMusicVolume() {
 		try {
 			scanner = new Scanner(new File("SFXsettings.brad"));
 			scanner.nextInt();
@@ -58,13 +57,35 @@ public class MusicPlayer {
 
 	public static void changeMusic(String filename, double musicVol) {
 		//do not start a song over if it's currently playing
-		if (!getMusicName().equals(filename)) {
+		if (!filename.equals(getCurrentSong()) || !musicPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
 			musicPlayer.stop();
 			musicPlayer = new MediaPlayer(new Media(new File(filename).toURI().toString()));
 			musicPlayer.setVolume(musicVol);
 			musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 			musicPlayer.play();
+			currentSong = filename;
 		}
+	}
+
+	public static String getCurrentSong() {
+		return currentSong;
+	}
+	
+	public static int getCurrentSongID(){
+		switch (currentSong){
+		case HSH:
+			return 0;
+		case CSGO:
+			return 1;
+		case MUTE:
+			return 2;
+		default:
+			return 2;
+		}
+	}
+	
+	public static double getCurrentVolume(){
+		return musicPlayer.getVolume();
 	}
 
 }

@@ -10,10 +10,10 @@ import java.util.Arrays;
 public class Networker implements Runnable{
 
   public static final InetSocketAddress server = new InetSocketAddress("proj-309-sg-1.cs.iastate.edu", 8092);
-  public static InetSocketAddress host;
+  public InetSocketAddress host;
 
   private ConcurrentLinkedQueue<DatagramPacket> received;
-  private static DatagramSocket socket;
+  private DatagramSocket socket;
 
   private static boolean online;
 
@@ -60,7 +60,7 @@ public class Networker implements Runnable{
 
 
   public Networker(DatagramSocket s){
-    Networker.socket = s;
+    this.socket = s;
     this.received = new ConcurrentLinkedQueue<DatagramPacket>();
   }
 
@@ -79,7 +79,7 @@ public class Networker implements Runnable{
 
     while(!Thread.currentThread().isInterrupted() && online){
       try{
-        Networker.socket.receive(p);
+        this.socket.receive(p);
       } catch(IOException e){
         break;
       }
@@ -96,9 +96,9 @@ public class Networker implements Runnable{
    * @author  Collin Vincent  collinvincent96@gmail.com
    * @date   2017-02-15T20:24:47+000
    */
-  public static Boolean sendPacket(Packet p){
+  public Boolean sendPacket(Packet p){
     try{
-      Networker.socket.send(p.getPacket());
+      this.socket.send(p.getPacket());
       System.out.println(p.getTypeString() + " Packet sent to " + p.getSocketAddress());
     } catch(IOException e){
       e.printStackTrace();
@@ -110,7 +110,7 @@ public class Networker implements Runnable{
   public Boolean sendData(byte[] data){
     try{
       DatagramPacket packet = new DatagramPacket(data, data.length, server);
-      Networker.socket.send(packet);
+      this.socket.send(packet);
       System.out.println("Packet sent to " + packet.getSocketAddress());
     } catch(IOException e){
       e.printStackTrace();
@@ -262,9 +262,9 @@ public class Networker implements Runnable{
     String address = new String(SAdd, StandardCharsets.UTF_8);
     String[] split = address.split(":");
 
-    Networker.host = new InetSocketAddress(split[0], Integer.parseInt(split[1]));
+    this.host = new InetSocketAddress(split[0], Integer.parseInt(split[1]));
     if(SecurityManager.addHostKey(key)){
-      return !Networker.host.isUnresolved();
+      return !this.host.isUnresolved();
     }
     return false;
   }
@@ -325,13 +325,13 @@ public class Networker implements Runnable{
 
     secure = new DatagramPacket(data, data.length, server);
     try{
-      Networker.socket.setSoTimeout(10000);
+      this.socket.setSoTimeout(10000);
       p = new DatagramPacket(new byte[packetSize], packetSize);
       while(i != 0 && i < 100){
-        Networker.socket.send(secure);
+        this.socket.send(secure);
         System.out.println("attempting connection to server");
         try{
-          Networker.socket.receive(p);
+          this.socket.receive(p);
           i = 0;
         } catch(SocketTimeoutException e){
           i++;
@@ -342,7 +342,7 @@ public class Networker implements Runnable{
       }
       Packet packet = new Packet(p);
       ans = SecurityManager.makeSecure(packet);
-      Networker.socket.setSoTimeout(0);
+      this.socket.setSoTimeout(0);
     } catch(Exception e){
       System.out.println(e.getMessage());
     }

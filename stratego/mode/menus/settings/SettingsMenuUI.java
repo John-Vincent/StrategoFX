@@ -34,8 +34,7 @@ public class SettingsMenuUI extends Mode {
 	BorderPane pane;
 	static Scanner scanner;
 	boolean existingSettings, changedFromFile;
-	public static int cheats, music, freeForm;
-	public static double musicVol;
+	public static int cheats, freeForm;
 	private final static double buttonWidth = 200;
 
 	/**
@@ -53,15 +52,13 @@ public class SettingsMenuUI extends Mode {
 			scanner = new Scanner(new File("SFXsettings.brad"));
 			existingSettings = true;
 			cheats = scanner.nextInt();
-			music = scanner.nextInt();
-			musicVol = scanner.nextDouble();
+			scanner.nextInt();
+			scanner.nextDouble();
 			freeForm = scanner.nextInt();
 			scanner.close();
 		} catch (FileNotFoundException e) {
 			existingSettings = false;
 			cheats = 0;
-			music = 2;
-			musicVol = 100;
 			freeForm = 0;
 		}
 
@@ -82,18 +79,14 @@ public class SettingsMenuUI extends Mode {
 		cheatTxt.autosize();
 
 		Button cheatBtn = new Button();
-		if (existingSettings) {
-			if (cheats == 1) {
-				cheatBtn.setText("Enabled");
-				GameScene.setCheat(true);
-			} else {
-				cheatBtn.setText("Disabled");
-				GameScene.setCheat(false);
-			}
+		if (getCheatSetting()) {
+			cheatBtn.setText("Enabled");
+			GameScene.setCheat(true);
 		} else {
 			cheatBtn.setText("Disabled");
 			GameScene.setCheat(false);
 		}
+
 		cheatBtn.setMinWidth(buttonWidth);
 		cheatBtn.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		cheatBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -135,8 +128,7 @@ public class SettingsMenuUI extends Mode {
 					if (changedFromFile) {
 						changedFromFile = false;
 					} else {
-						stratego.components.MusicPlayer.changeMusic("HSH.mp3", musicVol);
-						music = 0;
+						stratego.components.MusicPlayer.changeMusic(stratego.components.MusicPlayer.HSH, stratego.components.MusicPlayer.getCurrentVolume());
 					}
 				}
 			}
@@ -153,8 +145,7 @@ public class SettingsMenuUI extends Mode {
 					if (changedFromFile) {
 						changedFromFile = false;
 					} else {
-						stratego.components.MusicPlayer.changeMusic("csgo.mp3", musicVol);
-						music = 1;
+						stratego.components.MusicPlayer.changeMusic(stratego.components.MusicPlayer.CSGO, stratego.components.MusicPlayer.getCurrentVolume());
 					}
 				}
 			}
@@ -168,8 +159,12 @@ public class SettingsMenuUI extends Mode {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> ov, Boolean prevSelected, Boolean currSelected) {
 				if (currSelected) {
-					stratego.components.MusicPlayer.changeMusic("MUTE.mp3", musicVol);
-					music = 2;
+					if(changedFromFile){
+						changedFromFile = false;
+					}else{
+					stratego.components.MusicPlayer.changeMusic("MUTE.mp3", stratego.components.MusicPlayer.getCurrentVolume());
+				
+					}
 				}
 			}
 		});
@@ -187,21 +182,21 @@ public class SettingsMenuUI extends Mode {
 		musicSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> ov, Number oldVal, Number newVal) {
-				musicVol = newVal.doubleValue();
-				stratego.components.MusicPlayer.setMusicVolume(musicVol / 100);
+				stratego.components.MusicPlayer.setMusicVolume(newVal.doubleValue()/100.0);
 			}
 
 		});
 		if (existingSettings) {
 			changedFromFile = true;
-			if (music == 0) {
+			switch(stratego.components.MusicPlayer.getSettingMusicName()){
+			case stratego.components.MusicPlayer.HSH:
 				musicGroup.selectToggle(music0);
-			} else if (music == 1) {
+			case stratego.components.MusicPlayer.CSGO:
 				musicGroup.selectToggle(music1);
-			} else if (music == 2) {
+			case stratego.components.MusicPlayer.MUTE:
 				musicGroup.selectToggle(music2);
 			}
-			musicSlider.setValue(musicVol);
+			musicSlider.setValue(stratego.components.MusicPlayer.getSettingMusicVolume()*100.0);
 
 		} else {
 			musicGroup.selectToggle(music2);
