@@ -100,7 +100,7 @@ public class MultiplayerUI extends Mode {
 	public void gameUI(){
 		//setConstraints();
 		//pane.setGridLinesVisible(true);
-		flShowing = false;
+		flShowing = true;
 
 		VBox flVBox = new VBox(friendsList);
 		flVBox.setFocusTraversable(false);
@@ -138,10 +138,11 @@ public class MultiplayerUI extends Mode {
 		disconnect.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		chatButtons.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		pane.add(chatElements, 0, 7, 2, 3);
+		pane.add(flVBox, 8, 0, 2, 10);
 
 		GameScene game = new GameScene();
 		game.autosize();
-		pane.add(game, 2, 0, 8, 10);
+		pane.add(game, 2, 0, 6, 10);
 		game.requestFocus();
 		game.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
