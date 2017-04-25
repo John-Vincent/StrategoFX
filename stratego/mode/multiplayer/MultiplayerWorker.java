@@ -6,6 +6,8 @@ import stratego.network.Networker;
 import stratego.network.Packet;
 import stratego.components.friendslist.FriendModel;
 import stratego.mode.ModeWorker;
+import stratego.mode.menus.main.MainMenuWorker.FriendUpdater;
+import stratego.mode.menus.main.MainMenuWorker.StartMusic;
 
 
 /*
@@ -14,7 +16,7 @@ import stratego.mode.ModeWorker;
 public class MultiplayerWorker extends ModeWorker {
 
 	HostManager HManager;
-
+	private FriendModel friendModel;
 	/**
 	 * Sets the tasklist that communicates tasks from the UI to the worker.
 	 * @param friendModel
@@ -25,7 +27,9 @@ public class MultiplayerWorker extends ModeWorker {
 	 */
 	public MultiplayerWorker(FriendModel friendModel) {
 		super();
-		//TODO implement fm shit
+		friendModel = fm;
+		super.setTodo(new Runnable[] { new FriendUpdater() });
+		queueTask(new StartMusic());
 	}
 
 	@Override
@@ -169,6 +173,27 @@ public class MultiplayerWorker extends ModeWorker {
 		@Override
 		public void run(){
 			//todo
+		}
+	}
+	
+	private class StartMusic implements Runnable {
+
+		@Override
+		public void run() {
+			stratego.components.MusicPlayer.changeMusic(stratego.components.MusicPlayer.getGameMusic(),
+					stratego.components.MusicPlayer.getCurrentVolume());
+		}
+	}
+	
+	private class FriendUpdater implements Runnable {
+		private long time = 0;
+
+		@Override
+		public void run() {
+			if (time + 300000 < System.currentTimeMillis()) {
+				this.time = System.currentTimeMillis();
+				net.requestFriendsList();
+			}
 		}
 	}
 }

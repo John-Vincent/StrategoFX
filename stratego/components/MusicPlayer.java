@@ -16,8 +16,9 @@ public class MusicPlayer {
 	public static final String FFVI = "ffvi-fanfare.mp3";
 	public static final String CSWIN = "csgoWin.mp3";
 	public static final String CSLOSS = "csgoLoss.mp3";
-	public static final String CONTRA = "contraJungle.mp3";
 	public static final String POLOSS = "punchoutLoss.mp3";
+	public static final String CONTRA = "contraJungle.mp3";
+	public static final String LOL = "league.mp3";
 	private static Scanner scanner;
 	private static String currentSong = null;
 	
@@ -103,8 +104,7 @@ public class MusicPlayer {
 		case HSH:
 			return CONTRA;
 		case CSGO:
-			//TODO find some good in-game music for this setting
-			return CSGO;
+			return LOL;
 		case MUTE:
 			return MUTE;
 		default:
