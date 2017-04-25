@@ -262,10 +262,11 @@ public class PacketHandler implements Runnable{
       for(int i = 0; i < temp.length; i++){
         ans[i + 1 + key.length] = temp[i];
       }
-      ans[ans.length-4] = (byte)(port >> 24);
-      ans[ans.length-3] = (byte)(port >> 16);
-      ans[ans.length-2] = (byte)(port >> 8);
-      ans[ans.length-1] = (byte) port;
+      ans[key.length + temp.length + 1] = (byte)(port >> 24);
+      ans[key.length + temp.length + 2] = (byte)(port >> 16);
+      ans[key.length + temp.length + 3] = (byte)(port >> 8);
+      ans[key.length + temp.length + 4] = (byte) port;
+      System.out.println(ans[key.length + temp.length + 1] + " " + ans[key.length + temp.length + 2] + " " + ans[key.length + temp.length + 3] + " " + ans[key.length + temp.length + 4]);
 
     } else{
       ans = new byte[1];
