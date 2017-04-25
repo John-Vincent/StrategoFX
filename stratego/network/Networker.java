@@ -267,10 +267,10 @@ public class Networker implements Runnable{
   public boolean connectToHost(byte[] data){
     byte[] key = Arrays.copyOfRange(data, 0, SecurityManager.X509SIZE);
     byte[] SAdd = Arrays.copyOfRange(data, SecurityManager.X509SIZE, data.length-4);
-    int port = (data[data.length-4] << 24);
-    port = port | (data[data.length-3] << 16);
-    port = port | (data[data.length -2] << 8);
-    port = port | (data[data.length - 1]);
+    int port = ((data[data.length-4] << 24) & 0xff000000);
+    port = port | (data[data.length-3] << 16 & 0x00ff0000);
+    port = port | (data[data.length -2] << 8 & 0x0000ff00);
+    port = port | (data[data.length - 1] & 0x000000ff);
     try{
       Networker.host = new InetSocketAddress(InetAddress.getByAddress(SAdd), port);
     } catch(Exception e){

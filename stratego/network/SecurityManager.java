@@ -93,7 +93,7 @@ public class SecurityManager{
       return false;
     }
     byte[] data = p.getData();
-    int id = data[0] << 24 | data[1] << 16 | data[2] << 8 | data[3];
+    int id = (data[0] << 24 & 0xff000000) | (data[1] << 16 & 0x00ff0000) | (data[2] << 8 & 0x0000ff00) | (data[3] & 0x000000ff);
     Networker.setID(id);
     return true;
   }
