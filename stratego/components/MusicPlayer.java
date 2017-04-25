@@ -13,6 +13,11 @@ public class MusicPlayer {
 	public static final String HSH = "HSH.mp3";
 	public static final String CSGO = "csgo.mp3";
 	public static final String MUTE = "MUTE.mp3";
+	public static final String FFVI = "ffvi-fanfare.mp3";
+	public static final String CSWIN = "csgoWin.mp3";
+	public static final String CSLOSS = "csgoLoss.mp3";
+	public static final String CONTRA = "contraJungle.mp3";
+	public static final String POLOSS = "punchoutLoss.mp3";
 	private static Scanner scanner;
 	private static String currentSong = null;
 	
@@ -91,6 +96,46 @@ public class MusicPlayer {
 	
 	public static double getCurrentVolume(){
 		return musicPlayer.getVolume();
+	}
+
+	public static String getGameMusic() {
+		switch(getSettingMusicName()){
+		case HSH:
+			return CONTRA;
+		case CSGO:
+			//TODO find some good in-game music for this setting
+			return CSGO;
+		case MUTE:
+			return MUTE;
+		default:
+			return MUTE;
+		}
+	}
+
+	public static String getLossMusic() {
+		switch(getSettingMusicName()){
+		case HSH:
+			return POLOSS;
+		case CSGO:
+			return CSLOSS;
+		case MUTE:
+			return MUTE;
+		default:
+			return MUTE;
+		}
+	}
+
+	public static String getWinMusic() {
+		switch(getSettingMusicName()){
+		case HSH:
+			return FFVI;
+		case CSGO:
+			return CSWIN;
+		case MUTE:
+			return MUTE;
+		default:
+			return MUTE;
+		}
 	}
 
 }

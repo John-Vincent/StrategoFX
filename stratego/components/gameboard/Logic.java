@@ -415,13 +415,8 @@ public class Logic {
 
 				System.out.print("Player Wins");
 				GameScene.win.setVisible(true);
-
-				double volume = stratego.components.MusicPlayer.effectPlayer.getVolume();
-				stratego.components.MusicPlayer.effectPlayer.stop();
-				stratego.components.MusicPlayer.effectPlayer = new MediaPlayer(new Media(new File("ffvi-fanfare.mp3").toURI().toString()));
-				stratego.components.MusicPlayer.effectPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-				stratego.components.MusicPlayer.effectPlayer.setVolume(volume);
-				stratego.components.MusicPlayer.effectPlayer.play();
+				stratego.components.MusicPlayer.changeMusic(stratego.components.MusicPlayer.getWinMusic(),
+						stratego.components.MusicPlayer.getCurrentVolume());
 
 				// wg.setText("Player Wins");
 				// primaryStage.setScene(win);
@@ -697,6 +692,8 @@ public class Logic {
 
 				System.out.println("CPU Wins");
 				GameScene.win2.setVisible(true);
+				stratego.components.MusicPlayer.changeMusic(stratego.components.MusicPlayer.getLossMusic(),
+						stratego.components.MusicPlayer.getCurrentVolume());
 			}
 			if (GameScene.p1Arr[m].getId() != 'S') {
 				if (GameScene.p2Arr[n].getId() == 'B') {
