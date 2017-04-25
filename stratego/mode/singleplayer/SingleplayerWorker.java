@@ -26,12 +26,6 @@ public class SingleplayerWorker extends ModeWorker {
 		case "back":
 			queueTask(new MenuOptions());
 			return true;
-		case "loose":
-			queueTask(new LossMusic());
-			return true;
-		case "win":
-			queueTask(new WinMusic());
-			return true;
 		default:
 			return false;
 		}
@@ -53,26 +47,5 @@ public class SingleplayerWorker extends ModeWorker {
 			stratego.components.MusicPlayer.changeMusic(stratego.components.MusicPlayer.getGameMusic(),
 					stratego.components.MusicPlayer.getCurrentVolume());
 		}
-	}
-
-	private class LossMusic implements Runnable {
-
-		@Override
-		public void run() {
-			stratego.components.MusicPlayer.changeMusic(stratego.components.MusicPlayer.getLossMusic(),
-					stratego.components.MusicPlayer.getCurrentVolume());
-
-		}
-
-	}
-
-	private class WinMusic implements Runnable {
-
-		@Override
-		public void run() {
-			stratego.components.MusicPlayer.changeMusic(stratego.components.MusicPlayer.getWinMusic(),
-					stratego.components.MusicPlayer.getCurrentVolume());
-		}
-
 	}
 }
