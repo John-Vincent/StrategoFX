@@ -265,7 +265,7 @@ public class Networker implements Runnable{
     String address = new String(SAdd, StandardCharsets.UTF_8);
     String[] split = address.split(":");
 
-    this.host = new InetSocketAddress(split[0], Integer.parseInt(split[1]));
+    Networker.host = new InetSocketAddress(split[0], Integer.parseInt(split[1]));
     if(SecurityManager.addHostKey(key)){
       if(!Networker.host.isUnresolved()){
         byte[] memes = {(byte)0x04, (byte)0x14, (byte)0x45};
