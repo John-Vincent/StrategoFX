@@ -27,7 +27,6 @@ public class SingleplayerUI extends Mode {
 	 */
 	public SingleplayerUI() {
 		super(new GridPane());
-		GameScene.vsP = 0;
 		FriendModel friendModel = new FriendModel();
 		this.setWorker(new SingleplayerWorker(friendModel));
 		this.setMinSize(375, 400 + GameScene.startY);
@@ -40,6 +39,7 @@ public class SingleplayerUI extends Mode {
 		friendsList = new FriendsList(5, friendModel, this.getWorker());
 		friendsList.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		GameScene game = new GameScene();
+		GameScene.vsP = 0;
 		game.autosize();
 		
 		Button back = new Button("Exit");

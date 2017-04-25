@@ -19,6 +19,7 @@ public class StrategoFX extends Application{
   private Stage stage;
   private Mode mode;
   private Thread back = new Thread(new Background(this));
+  public static boolean firstLoad;
 
 
   /**
@@ -51,7 +52,7 @@ public class StrategoFX extends Application{
     this.stage.setX((Sizes.screenSize.getWidth()-this.stage.getWidth())/2 + Sizes.screenSize.getMinX());
     this.stage.setY((Sizes.screenSize.getHeight()-this.stage.getHeight())/2 + Sizes.screenSize.getMinY());
     stratego.components.MusicPlayer.musicPlayer = new MediaPlayer(new Media(new File("MUTE.mp3").toURI().toString()));
-    GameScene.setCheat(false);
+    firstLoad = true;
   }
 
   /**
