@@ -140,7 +140,7 @@ public class SecurityManager{
       temp = cipher.doFinal(data, 0, data.length);
 
       cipher = Cipher.getInstance("RSA");
-      if(address.equals(Networker.host)){
+      if(!address.equals(Networker.server)){
         cipher.init(Cipher.ENCRYPT_MODE, hostKey);
       }else{
         cipher.init(Cipher.ENCRYPT_MODE, rsaEncrypt);
@@ -169,7 +169,7 @@ public class SecurityManager{
 
     try{
       Cipher cipher = Cipher.getInstance("RSA");
-      if(address.equals(Networker.host)){
+      if(!address.equals(Networker.server)){
         cipher.init(Cipher.DECRYPT_MODE, hostKey);
       }else{
         cipher.init(Cipher.DECRYPT_MODE, rsaDecrypt);

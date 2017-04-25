@@ -102,6 +102,7 @@ public class MultiplayerWorker extends ModeWorker {
 			if (HManager != null && data.length == 3 && data[0] == (byte) 0x04 && data[1] == (byte) 0x14
 					&& data[2] == (byte) 0x45) {
 				HManager.add(p.getAddress());
+				System.out.println("someone joined the server");
 			}
 			break;
 		case Networker.CHAT:
@@ -200,7 +201,7 @@ public class MultiplayerWorker extends ModeWorker {
 		String chat;
 
 		public sendChatOption(String message) {
-			this.chat = message;
+			this.chat = Networker.username +": " +  message;
 		}
 
 		@Override

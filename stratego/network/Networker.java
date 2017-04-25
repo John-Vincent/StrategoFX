@@ -62,7 +62,7 @@ public class Networker implements Runnable{
 
 
   private static int id;
-  private static String username;
+  public static String username;
 
 
 
