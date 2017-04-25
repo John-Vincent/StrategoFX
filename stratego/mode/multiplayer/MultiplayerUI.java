@@ -31,6 +31,7 @@ public class MultiplayerUI extends Mode {
 	private ConnectionMenu connect;
 	private boolean flShowing;
 	private FriendsList friendsList;
+	private TextArea chatWindow;
 
 	/**
 	 * Constructor Makes the Multiplayer UI
@@ -39,7 +40,7 @@ public class MultiplayerUI extends Mode {
 		super(new GridPane());
 		//GameScene.vsP = 1;
 		FriendModel friendModel = new FriendModel();
-		this.setWorker(new MultiplayerWorker(friendModel)); // may want to add friend model
+		this.setWorker(new MultiplayerWorker(friendModel, this)); // may want to add friend model
 		pane = (GridPane) this.getRoot();
 		this.setMinSize(500, 400);
 		pane.setPadding(new Insets(10, 10, 10, 10));
@@ -55,7 +56,6 @@ public class MultiplayerUI extends Mode {
 				serverName = connect.getConnectionServer();
 				password = connect.getConnectionPassword();
 				addTask("setServer", serverName, password);
-				gameUI();
 			}
 		};
 
@@ -65,7 +65,6 @@ public class MultiplayerUI extends Mode {
 				serverName = connect.getConnectionServer();
 				password = connect.getConnectionPassword();
 				addTask("connectServer", serverName, password);
-				gameUI();
 			}
 		};
 
@@ -96,6 +95,12 @@ public class MultiplayerUI extends Mode {
 		}
 	}
 
+	protected void addMessage(String message){
+		if(chatWindow != null){
+			chatWindow.appendText(message);
+		}
+	}
+
 	public void gameUI(){
 		//setConstraints();
 		//pane.setGridLinesVisible(true);
@@ -107,7 +112,7 @@ public class MultiplayerUI extends Mode {
 		VBox.setVgrow(friendsList, Priority.ALWAYS);
 		friendsList.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-		TextArea chatWindow = new TextArea();
+		chatWindow = new TextArea();
 		chatWindow.setFocusTraversable(false);
 		chatWindow.setEditable(false);
 		pane.add(chatWindow, 0, 0, 2, 7);
@@ -159,7 +164,7 @@ public class MultiplayerUI extends Mode {
 				message.clear();
 			}
 		});
-		
+
 		message.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent e){

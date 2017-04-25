@@ -62,6 +62,7 @@ public class Networker implements Runnable{
 
 
   private static int id;
+  private static String username;
 
 
 
@@ -148,6 +149,7 @@ public class Networker implements Runnable{
    * @date   2017-03-14T15:40:39+000
    */
   public Boolean login(String username, String password){
+      Networker.username = username;
       byte[] data = new byte[username.length() + HASHLENGTH];
       byte[] temp = username.getBytes();
       byte[] pass = SecurityManager.hashBytes(password.getBytes(StandardCharsets.UTF_8));

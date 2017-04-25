@@ -2,6 +2,10 @@ package stratego.mode.multiplayer;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import javafx.application.Platform;
+
+import java.nio.charset.StandardCharsets;
+
 import stratego.network.Networker;
 import stratego.network.Packet;
 import stratego.components.friendslist.FriendModel;
@@ -14,6 +18,7 @@ public class MultiplayerWorker extends ModeWorker {
 
 	private HostManager HManager;
 	private FriendModel friendModel;
+	private MultiplayerUI ui;
 	private String serverName;
 	private String serverPassword;
 
@@ -26,9 +31,10 @@ public class MultiplayerWorker extends ModeWorker {
 	 *            The queue that MultiplayerUI uses to pass request to the
 	 *            MultiplayerWorker.
 	 */
-	public MultiplayerWorker(FriendModel friendModel) {
+	public MultiplayerWorker(FriendModel friendModel, MultiplayerUI ui) {
 		super();
 		this.friendModel = friendModel;
+		this.ui = ui;
 		super.setTodo(new Runnable[] { new FriendUpdater() });
 		queueTask(new StartMusic());
 	}
@@ -76,6 +82,7 @@ public class MultiplayerWorker extends ModeWorker {
 		case Networker.OPENSERV:
 			if (data.length == 1 && data[0] == 0x01) {
 				System.out.println("Server opened");
+				Platform.runLater(new MultiplayerUISwitcher());
 				HManager = new HostManager();
 			} else {
 				System.out.println("Server failed to open");
@@ -86,6 +93,7 @@ public class MultiplayerWorker extends ModeWorker {
 				// todo data should contain private key and then String for of
 				// socketaddress for host
 				net.connectToHost(data);
+				Platform.runLater(new MultiplayerUISwitcher());
 			} else {
 				System.out.println("Failed to connect");
 			}
@@ -100,7 +108,7 @@ public class MultiplayerWorker extends ModeWorker {
 			if (HManager != null) {
 				HManager.sendPacket(p);
 			}
-			// display message;
+			Platform.runLater(new addMessage(new String(data, 0, data.length, StandardCharsets.UTF_8)));
 			break;
 		case Networker.GAMEDATA:
 			if (HManager != null) {
@@ -196,6 +204,27 @@ public class MultiplayerWorker extends ModeWorker {
 		@Override
 		public void run() {
 			Networker.sendPacket(new Packet(Networker.CHAT, chat.getBytes(), Networker.host));
+		}
+	}
+
+	private class addMessage implements Runnable{
+		String chat;
+
+		public addMessage(String message) {
+			this.chat = message;
+		}
+
+		@Override
+		public void run() {
+			ui.addMessage(chat);
+		}
+	}
+
+	private class MultiplayerUISwitcher implements Runnable{
+
+		@Override
+		public void run(){
+			ui.gameUI();
 		}
 	}
 
