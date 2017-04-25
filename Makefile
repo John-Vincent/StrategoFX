@@ -14,7 +14,7 @@ APPLICATION = $(addprefix $(SRC)application/, StrategoFX Background )
 COMPONENTS = $(addprefix $(SRC)components/, Sizes friendslist/FriendModel friendslist/FriendsList gameboard/BoardPiece gameboard/GameScene gameboard/Logic )
 
 MENUS = $(addprefix menus/, main/MainMenuUI main/MainMenuWorker settings/SettingsMenuUI settings/SettingsMenuWorker login/LoginMenuUI login/LoginMenuWorker signup/SignupMenuUI signup/SignupMenuWorker )
-MULTIPLAYER = $(addprefix multiplayer/, MultiplayerUI MultiplayerWorker )
+MULTIPLAYER = $(addprefix multiplayer/, MultiplayerUI MultiplayerWorker HostManager ConnectionMenu)
 SINGLEPLAYER = $(addprefix singleplayer/, SingleplayerUI SingleplayerWorker )
 MODE = $(addprefix $(SRC)mode/, Mode ModeWorker $(MENUS) $(MULTIPLAYER) $(SINGLEPLAYER) )
 

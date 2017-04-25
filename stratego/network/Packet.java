@@ -83,6 +83,10 @@ public class Packet{
     return this.type;
   }
 
+  public void setAddress(SocketAddress add){
+    this.address = add;
+  }
+
   public byte[] getData(){
     return this.data;
   }

@@ -3,6 +3,8 @@ package stratego.server;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketAddress;
+import java.net.InetSocketAddress;
+import java.net.InetAddress;
 import java.sql.*;
 import java.io.IOException;
 import java.util.Arrays;
@@ -236,7 +238,8 @@ public class PacketHandler implements Runnable{
     byte[] ans;
     byte[] key;
     byte[] temp;
-    SocketAddress add;
+    int port;
+    InetSocketAddress add;
     int session;
 
     if(SessionManager.isSession(id, this.packet.getSocketAddress())){
@@ -247,10 +250,11 @@ public class PacketHandler implements Runnable{
         ans[1] = (byte) 0x02;
         return ans;
       }
-      add = SessionManager.getAddress(session);
+      add = (InetSocketAddress) SessionManager.getAddress(session);
       key = SessionManager.getRSA(session);
-      temp = add.toString().getBytes();
-      ans = new byte[key.length + temp.length + 1];
+      temp = add.getAddress().getAddress();
+      port = add.getPort();
+      ans = new byte[key.length + temp.length + 5];
       ans[0] = CONSERV;
       for(int i = 0; i < key.length; i++){
         ans[i+1] = key[i];
@@ -258,6 +262,10 @@ public class PacketHandler implements Runnable{
       for(int i = 0; i < temp.length; i++){
         ans[i + 1 + key.length] = temp[i];
       }
+      ans[ans.length-4] = (byte)(port >> 24);
+      ans[ans.length-3] = (byte)(port >> 16);
+      ans[ans.length-2] = (byte)(port >> 8);
+      ans[ans.length-1] = (byte) port;
 
     } else{
       ans = new byte[1];

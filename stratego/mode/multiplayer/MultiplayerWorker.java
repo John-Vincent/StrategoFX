@@ -206,7 +206,11 @@ public class MultiplayerWorker extends ModeWorker {
 
 		@Override
 		public void run() {
-			Networker.sendPacket(new Packet(Networker.CHAT, chat.getBytes(), Networker.host));
+			if(HManager == null){
+				Networker.sendPacket(new Packet(Networker.CHAT, chat.getBytes(), Networker.host));
+			}else{
+				HManager.sendPacket(new Packet(Networker.CHAT, chat.getBytes(), null));
+			}
 		}
 	}
 

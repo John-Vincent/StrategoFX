@@ -45,6 +45,7 @@ public class HostManager{
     while(it.hasNext()){
       temp = it.next();
       if(!source.equals(temp)){
+        p.setAddress(temp);
         if(!Networker.sendPacket(p)){
           it.remove();
         }

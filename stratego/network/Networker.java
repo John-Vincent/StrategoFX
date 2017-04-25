@@ -266,11 +266,13 @@ public class Networker implements Runnable{
    */
   public boolean connectToHost(byte[] data){
     byte[] key = Arrays.copyOfRange(data, 0, SecurityManager.X509SIZE);
-    byte[] SAdd = Arrays.copyOfRange(data, SecurityManager.X509SIZE, data.length);
-    String address = new String(SAdd, StandardCharsets.UTF_8);
-    String[] split = address.split(":");
-
-    Networker.host = new InetSocketAddress(split[0], Integer.parseInt(split[1]));
+    byte[] SAdd = Arrays.copyOfRange(data, SecurityManager.X509SIZE, data.length-4);
+    int port = data[data.length-4] << 24 | data[data.length-3] << 16 | data[data.length -2] << 8 | data[data.length - 1];
+    try{
+      Networker.host = new InetSocketAddress(InetAddress.getByAddress(SAdd), port);
+    } catch(Exception e){
+      e.printStackTrace();
+    }
     if(SecurityManager.addHostKey(key)){
       if(!Networker.host.isUnresolved()){
         Networker.sendPacket(new Packet( Networker.JOINSERV, memes, Networker.host));
