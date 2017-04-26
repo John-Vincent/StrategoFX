@@ -46,47 +46,33 @@ public class Packet{
   public DatagramPacket getPacket(){
     DatagramPacket p;
     byte[] packet;
+    int offset = 1;
+
+    if(address == Networker.server){
+      offset += 4;
+    }
 
     if(this.data == null){
       packet = new byte[1];
     } else{
-      packet = new byte[this.data.length];
+      packet = new byte[this.data.length + offset];
     }
 
+    packet[offset - 1] = this.type;
+
     if(address == Networker.server){
-
-      if(this.data == null){
-        packet = new byte[5];
-      } else{
-        packet = new byte[this.data.length + 5];
-      }
-
       int id = Networker.getID();
 
       packet[0] = (byte) (id >> 24);
       packet[1] = (byte) (id >> 16);
       packet[2] = (byte) (id >> 8);
       packet[3] = (byte) (id);
-      packet[4] = type;
+    }
 
-      if(this.data != null){
-        for(int i = 0; i<this.data.length; i++){
-          packet[i+5] = this.data[i];
-        }
+    if(this.data != null){
+      for(int i = 0; i<this.data.length; i++){
+        packet[i+offset] = this.data[i];
       }
-
-    }else{
-      if(this.data == null){
-        packet = new byte[1];
-      } else{
-        packet = new byte[this.data.length];
-      }
-      if(this.data != null){
-        for(int i = 0; i<this.data.length; i++){
-          packet[i] = this.data[i];
-        }
-      }
-
     }
 
     packet = SecurityManager.encrypt(packet, this.address);
