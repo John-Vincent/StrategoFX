@@ -271,6 +271,12 @@ public class Networker implements Runnable{
     port = port | (data[data.length-3] << 16 & 0x00ff0000);
     port = port | (data[data.length -2] << 8 & 0x0000ff00);
     port = port | (data[data.length - 1] & 0x000000ff);
+    byte[] freshMemes = Arrays.copyOf(memes, memes.length + username.length());
+    int j = 0;
+    for(int i = memes.length; i < freshMemes.length; i++){
+    	freshMemes[i] = (byte) username.charAt(j);
+    	j++;
+    }
     try{
       Networker.host = new InetSocketAddress(InetAddress.getByAddress(SAdd), port);
     } catch(Exception e){
@@ -278,7 +284,7 @@ public class Networker implements Runnable{
     }
     if(SecurityManager.addHostKey(key)){
       if(!Networker.host.isUnresolved()){
-        Networker.sendPacket(new Packet( Networker.JOINSERV, memes, Networker.host));
+        Networker.sendPacket(new Packet( Networker.JOINSERV, freshMemes, Networker.host));
         return true;
       }
     }

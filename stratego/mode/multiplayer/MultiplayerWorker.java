@@ -1,5 +1,6 @@
 package stratego.mode.multiplayer;
 
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javafx.application.Platform;
@@ -101,8 +102,9 @@ public class MultiplayerWorker extends ModeWorker {
 		case Networker.JOINSERV:
 			if (HManager != null && data.length == 3 && data[0] == (byte) 0x04 && data[1] == (byte) 0x14
 					&& data[2] == (byte) 0x45) {
+				byte[] name = Arrays.copyOfRange(data, 3, data.length);
 				HManager.add(p.getAddress());
-				System.out.println("someone joined the server");
+				System.out.println(new String(name) + " joined the server");
 			}
 			break;
 		case Networker.CHAT:
@@ -156,9 +158,9 @@ public class MultiplayerWorker extends ModeWorker {
 		@Override
 		public void run() {
 			setRunning(false);
-			if(HManager != null){
+			if (HManager != null) {
 				net.closeServer(serverName, serverPassword);
-			} else{
+			} else {
 				net.clearHost();
 			}
 		}
@@ -201,20 +203,20 @@ public class MultiplayerWorker extends ModeWorker {
 		String chat;
 
 		public sendChatOption(String message) {
-			this.chat = Networker.username +": " +  message;
+			this.chat = Networker.username + ": " + message;
 		}
 
 		@Override
 		public void run() {
-			if(HManager == null){
+			if (HManager == null) {
 				Networker.sendPacket(new Packet(Networker.CHAT, chat.getBytes(), Networker.host));
-			}else{
+			} else {
 				HManager.sendPacket(new Packet(Networker.CHAT, chat.getBytes(), null));
 			}
 		}
 	}
 
-	private class addMessage implements Runnable{
+	private class addMessage implements Runnable {
 		String chat;
 
 		public addMessage(String message) {
@@ -227,10 +229,10 @@ public class MultiplayerWorker extends ModeWorker {
 		}
 	}
 
-	private class MultiplayerUISwitcher implements Runnable{
+	private class MultiplayerUISwitcher implements Runnable {
 
 		@Override
-		public void run(){
+		public void run() {
 			ui.gameUI();
 		}
 	}
