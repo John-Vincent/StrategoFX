@@ -71,11 +71,15 @@ public class HostManager implements Runnable{
       temp = it.next();
       if(source == null || !source.equals(temp.add)){
         p.setAddress(temp.add);
-        if(!Networker.sendPacket(p)){
+        if(temp.add != null && !Networker.sendPacket(p)){
           it.remove();
         }
       }
     }
+  }
+
+  public void closeServer(){
+    sendPacket(new Packet(Networker.CLOSERV, null, null));
   }
 
   public void turnReceived(){

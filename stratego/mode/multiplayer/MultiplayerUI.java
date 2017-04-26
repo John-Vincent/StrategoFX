@@ -45,6 +45,7 @@ public class MultiplayerUI extends Mode {
 		pane = (GridPane) this.getRoot();
 		this.setMinSize(500, 400);
 		pane.setPadding(new Insets(10, 10, 10, 10));
+		setNextMode(new MainMenuUI());
 		setConstraints();
 		//pane.setGridLinesVisible(true);
 

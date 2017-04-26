@@ -60,6 +60,7 @@ public class Networker implements Runnable{
   public static final byte LEAVESERV = (byte)0xF2;
   public static final byte GAMEDATA = (byte)0xF3;
   public static final byte TURN = (byte)0xF4;
+  public static final byte DISCONNECT = (byte)0xF5;
 
 
   private static int id;

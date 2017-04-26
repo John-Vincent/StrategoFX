@@ -126,6 +126,9 @@ public class MultiplayerWorker extends ModeWorker {
 				HManager.remove(p.getAddress());
 			}
 			break;
+		case Networker.CLOSERV:
+			queueTask(new MenuOptions());
+			break;
 		case Networker.TURN:
 			if(HManager != null){
 				Platform.runLater(new allowTurnOption());
@@ -167,6 +170,7 @@ public class MultiplayerWorker extends ModeWorker {
 			setRunning(false);
 			if (HManager != null) {
 				net.closeServer(serverName, serverPassword);
+				HManager.closeServer();
 			} else {
 				net.clearHost();
 			}
