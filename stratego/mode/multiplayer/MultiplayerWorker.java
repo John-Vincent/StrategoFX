@@ -265,8 +265,9 @@ public class MultiplayerWorker extends ModeWorker {
 		public void run() {
 			if(HManager != null){
 				HManager.sendPacket(new Packet(Networker.GAMEDATA, data, null));
+			}else{
+				Networker.sendPacket(new Packet(Networker.GAMEDATA, data, Networker.host));
 			}
-			Networker.sendPacket(new Packet(Networker.GAMEDATA, data, Networker.host));
 		}
 	}
 
