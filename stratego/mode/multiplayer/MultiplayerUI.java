@@ -146,6 +146,7 @@ public class MultiplayerUI extends Mode {
 		pane.add(flVBox, 8, 0, 2, 10);
 
 		GameScene game = new GameScene();
+		game.setWorker(this.getWorker());
 		GameScene.vsP = 1;
 		game.autosize();
 		pane.add(game, 2, 0, 6, 10);

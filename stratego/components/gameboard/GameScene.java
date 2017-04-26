@@ -16,7 +16,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import stratego.application.*;
 import stratego.mode.singleplayer.*;
-
+import stratego.mode.ModeWorker;
 /**
  * Class for javafx scene that runs game
  *
@@ -26,7 +26,9 @@ import stratego.mode.singleplayer.*;
 public class GameScene extends Pane {
 
 
+
 	private ModeWorker worker;
+
 	/**
 	 * Board piece for player 2
 	 */
@@ -601,11 +603,29 @@ public class GameScene extends Pane {
 	}
 
 	public byte[] getPlayer1(){
-		return null;
+		byte[] p1 = new byte[80];
+		int x=0;
+		int y=1;
+		for(int i=0; i<40; i++){
+			p1[x] = (byte)p2Arr[i].getX();
+			p1[y] = (byte)p2Arr[i].getY();
+			x+=2;
+			y+=2;
+		}
+		return p1;
 	}
 
 	public byte[] getPlayer2(){
-		return null;
+		byte[] p2 = new byte[80];
+		int x=0;
+		int y=1;
+		for(int i=0; i<40; i++){
+			p2[x] = (byte)p1Arr[i].getX();
+			p2[y] = (byte)p1Arr[i].getY();
+			x+=2;
+			y+=2;
+		}
+		return p2;
 	}
 
 	public void setWorker(ModeWorker w){
