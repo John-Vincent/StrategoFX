@@ -610,27 +610,27 @@ public class GameScene extends Pane {
 			temp = temp | (player1[x++] << 8 & 0x0000ff00);
 			temp = temp | (player1[x++] & 0x000000ff);
 			//System.out.println(temp);
-			p2Arr[i].getRec().setX(temp*(72/wFactor)+(8*wFactor));
+			p1Arr[i].getRec().setX((temp*(72/wFactor))+(8*wFactor));
 			temp = player1[x++] << 24 & 0xff000000;
 			temp = temp | (player1[x++] << 16 & 0x00ff0000);
 			temp = temp | (player1[x++] << 8 & 0x0000ff00);
 			temp = temp | (player1[x++] & 0x000000ff);
 			//System.out.println(temp*(72/hFactor)+(startY*hFactor));
-			p2Arr[i].getRec().setY(temp*(72/hFactor)+(startY*hFactor));
+			p1Arr[i].getRec().setY((temp*(72/hFactor))+(startY*hFactor));
 		}
-
+		
 		x=0;
 		for(int i=0; i<40; i++){
 			temp = player2[x++] << 24 & 0xff000000;
 			temp = temp | (player2[x++] << 16 & 0x00ff0000);
 			temp = temp | (player2[x++] << 8 & 0x0000ff00);
 			temp = temp | (player2[x++] & 0x000000ff);
-			p1Arr[i].getRec().setX(temp*(72/wFactor)+(8*wFactor));
+			p2Arr[i].getRec().setX((temp*(72/wFactor))+(8*wFactor));
 			temp = player2[x++] << 24 & 0xff000000;
 			temp = temp | (player2[x++] << 16 & 0x00ff0000);
 			temp = temp | (player2[x++] << 8 & 0x0000ff00);
 			temp = temp | (player2[x++] & 0x000000ff);
-			p1Arr[i].getRec().setY(temp*(72/hFactor)+(startY*hFactor));
+			p2Arr[i].getRec().setY((temp*(72/hFactor))+(startY*hFactor));
 		}
 	}
 
@@ -640,12 +640,12 @@ public class GameScene extends Pane {
 		int y = 4;
 		int temp;
 		for (int i = 0; i < 40; i++) {
-			temp = (p2Arr[i].getX());
+			temp = (int)(p2Arr[i].getX());
 			p1[x++] = (byte) ((temp >> 24) & 0xff);
 			p1[x++] = (byte) ((temp >> 16) & 0xff);
 			p1[x++] = (byte) ((temp >> 8) & 0xff);
 			p1[x++] = (byte) temp;
-			temp = (p2Arr[i].getY());
+			temp = (int)(p2Arr[i].getY());
 			p1[y++] = (byte) ((temp >> 24) & 0xff);
 			p1[y++] = (byte) ((temp >> 16) & 0xff);
 			p1[y++] = (byte) ((temp >> 8) & 0xff);
@@ -662,12 +662,12 @@ public class GameScene extends Pane {
 		int y = 4;
 		int temp;
 		for (int i = 0; i < 40; i++) {
-			temp =(p1Arr[i].getX());
+			temp = (int)(p1Arr[i].getX());
 			p2[x++] = (byte) ((temp >> 24) & 0xff);
 			p2[x++] = (byte) ((temp >> 16) & 0xff);
 			p2[x++] = (byte) ((temp >> 8) & 0xff);
 			p2[x++] = (byte) temp;
-			temp = (p1Arr[i].getY());
+			temp = (int)(p1Arr[i].getY());
 			p2[y++] = (byte) ((temp >> 24) & 0xff);
 			p2[y++] = (byte) ((temp >> 16) & 0xff);
 			p2[y++] = (byte) ((temp >> 8) & 0xff);
