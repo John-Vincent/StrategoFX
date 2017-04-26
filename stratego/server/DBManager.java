@@ -171,14 +171,21 @@ public final class DBManager{
 
     String ans="";
     String temp = getFriendsQ;
+	String temp2 = getSentFriendRequestsQ;
 
     try{
       conn1 = DBManager.getConnection();
       statement  = conn1.prepareStatement(temp);
+	  statement2 = conn1.prepareStatement(temp2);
       statement.setString(1, uname);
+	  statement2.setString(1, uname);
       set = statement.executeQuery();
+	  set2 = statement2.executeQuery();
       while(set.next()){
         ans += set.getString("name") + ":" + set.getInt("online")+";";
+      }
+	  while(set2.next()){
+        ans += set.getString("name") + ":" + "pending;";
       }
     } catch(Exception e){
       System.out.println(e.getMessage());
@@ -187,6 +194,9 @@ public final class DBManager{
 
       if( set != null){
         try{set.close();} catch(Exception e){ }
+      }
+	  if( set2 != null){
+        try{set2.close();} catch(Exception e){ }
       }
 
       if(conn1 != null){
