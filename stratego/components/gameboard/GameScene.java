@@ -608,12 +608,29 @@ public class GameScene extends Pane {
 	public byte[] getPlayer1() {
 		byte[] p1 = new byte[80];
 		int x = 0;
-		int y = 1;
+		int y = 4;
+		long temp;
 		for (int i = 0; i < 40; i++) {
-			p1[x] = (byte) (p2Arr[i].getRec().getX()/wFactor);
-			p1[y] = (byte) (p2Arr[i].getRec().getY()/hFactor);
-			x += 2;
-			y += 2;
+			temp = Double.doubleToRawLongBits(p2Arr[i].getRec().getX()/wFactor);
+			p1[x++] = (byte) ((temp >> 56) & 0xff);
+			p1[x++] = (byte) ((temp >> 48) & 0xff);
+			p1[x++] = (byte) ((temp >> 40) & 0xff);
+			p1[x++] = (byte) ((temp >> 32) & 0xff);
+			p1[x++] = (byte) ((temp >> 24) & 0xff);
+			p1[x++] = (byte) ((temp >> 16) & 0xff);
+			p1[x++] = (byte) ((temp >> 8) & 0xff);
+			p1[x++] = (byte) temp;
+			temp = Double.doubleToRawLongBits(p2Arr[i].getRec().getY()/hFactor);
+			p1[y++] = (byte) ((temp >> 56) & 0xff);
+			p1[y++] = (byte) ((temp >> 48) & 0xff);
+			p1[y++] = (byte) ((temp >> 40) & 0xff);
+			p1[y++] = (byte) ((temp >> 32) & 0xff);
+			p1[y++] = (byte) ((temp >> 24) & 0xff);
+			p1[y++] = (byte) ((temp >> 16) & 0xff);
+			p1[y++] = (byte) ((temp >> 8) & 0xff);
+			p1[y++] = (byte) temp;
+			x += 8;
+			y += 8;
 		}
 		return p1;
 	}
@@ -621,12 +638,29 @@ public class GameScene extends Pane {
 	public byte[] getPlayer2() {
 		byte[] p2 = new byte[80];
 		int x = 0;
-		int y = 1;
+		int y = 4;
+		long temp;
 		for (int i = 0; i < 40; i++) {
-			p2[x] = (byte) (p1Arr[i].getRec().getX()/wFactor);
-			p2[y] = (byte) (p1Arr[i].getRec().getY()/hFactor);
-			x += 2;
-			y += 2;
+			temp = Double.doubleToRawLongBits(p1Arr[i].getRec().getX()/wFactor);
+			p2[x++] = (byte) ((temp >> 56) & 0xff);
+			p2[x++] = (byte) ((temp >> 48) & 0xff);
+			p2[x++] = (byte) ((temp >> 40) & 0xff);
+			p2[x++] = (byte) ((temp >> 32) & 0xff);
+			p2[x++] = (byte) ((temp >> 24) & 0xff);
+			p2[x++] = (byte) ((temp >> 16) & 0xff);
+			p2[x++] = (byte) ((temp >> 8) & 0xff);
+			p2[x++] = (byte) temp;
+			temp = Double.doubleToRawLongBits(p1Arr[i].getRec().getY()/hFactor);
+			p2[y++] = (byte) ((temp >> 56) & 0xff);
+			p2[y++] = (byte) ((temp >> 48) & 0xff);
+			p2[y++] = (byte) ((temp >> 40) & 0xff);
+			p2[y++] = (byte) ((temp >> 32) & 0xff);
+			p2[y++] = (byte) ((temp >> 24) & 0xff);
+			p2[y++] = (byte) ((temp >> 16) & 0xff);
+			p2[y++] = (byte) ((temp >> 8) & 0xff);
+			p2[y++] = (byte) temp;
+			x += 8;
+			y += 8;
 		}
 		return p2;
 	}
