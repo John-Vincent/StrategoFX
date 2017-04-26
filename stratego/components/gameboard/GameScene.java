@@ -603,16 +603,30 @@ public class GameScene extends Pane {
 
 	public void receiveGameState(byte[] player1, byte[] player2) {
 		int temp;
+		int x = 0;
 		for(int i=0; i<40; i++){
-			temp = player1[i++] << 24 & 0xff000000;
-			temp = temp | (player1[i++] << 16 & 0x00ff0000);
-			temp = temp | (player1[i++] << 8 & 0x0000ff00);
-			temp = temp | (player1[i++] & 0x000000ff);
+			temp = player1[x++] << 24 & 0xff000000;
+			temp = temp | (player1[x++] << 16 & 0x00ff0000);
+			temp = temp | (player1[x++] << 8 & 0x0000ff00);
+			temp = temp | (player1[x++] & 0x000000ff);
 			p1Arr[i].getRec().setX(temp);
-			temp = player1[i++] << 24 & 0xff000000;
-			temp = temp | (player1[i++] << 16 & 0x00ff0000);
-			temp = temp | (player1[i++] << 8 & 0x0000ff00);
-			temp = temp | (player1[i++] & 0x000000ff);
+			temp = player1[x++] << 24 & 0xff000000;
+			temp = temp | (player1[x++] << 16 & 0x00ff0000);
+			temp = temp | (player1[x++] << 8 & 0x0000ff00);
+			temp = temp | (player1[x++] & 0x000000ff);
+			p1Arr[i].getRec().setY(temp);
+		}
+		x=0;
+		for(int i=0; i<40; i++){
+			temp = player2[x++] << 24 & 0xff000000;
+			temp = temp | (player2[x++] << 16 & 0x00ff0000);
+			temp = temp | (player2[x++] << 8 & 0x0000ff00);
+			temp = temp | (player2[x++] & 0x000000ff);
+			p1Arr[i].getRec().setX(temp);
+			temp = player2[x++] << 24 & 0xff000000;
+			temp = temp | (player2[x++] << 16 & 0x00ff0000);
+			temp = temp | (player2[x++] << 8 & 0x0000ff00);
+			temp = temp | (player2[x++] & 0x000000ff);
 			p1Arr[i].getRec().setY(temp);
 		}
 	}
