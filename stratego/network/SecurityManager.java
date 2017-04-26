@@ -142,8 +142,10 @@ public class SecurityManager{
       cipher = Cipher.getInstance("RSA");
       if(address.equals(Networker.host)){
         cipher.init(Cipher.ENCRYPT_MODE, hostKey);
-      }else{
+      }else if(address.equals(Networker.server)){
         cipher.init(Cipher.ENCRYPT_MODE, rsaEncrypt);
+      }else {
+        cipher.init(Cipher.ENCRYPT_MODE, rsaDecrypt);
       }
       aesCrypt = aesKey.getEncoded();
       aesCrypt = cipher.doFinal(aesCrypt, 0, aesCrypt.length);
@@ -169,6 +171,11 @@ public class SecurityManager{
 
     try{
       Cipher cipher = Cipher.getInstance("RSA");
+
+      if(Networker.host != null){
+        System.out.println(address.toString() + " " + Networker.host.toString());
+      }
+
       if(address.equals(Networker.host)){
         cipher.init(Cipher.DECRYPT_MODE, hostKey);
       }else{
