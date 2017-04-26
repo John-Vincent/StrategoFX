@@ -81,7 +81,6 @@ public class GameScene extends Pane {
 	public static int freeForm = 0;
 	public static Text win = new Text("Player 1 Wins");
 	public static Text win2 = new Text("Player 2 Wins");
-	public static int vsP = 0;
 	/**
 	 * Constructor that initializes game scene
 	 */
@@ -92,13 +91,12 @@ public class GameScene extends Pane {
 		kursor.setFill(Color.TRANSPARENT);
 		kursor.setStrokeWidth(5);
 		kursor.setStroke(Color.RED);
+		kursor.setArcHeight(Integer.MAX_VALUE);
+		kursor.setArcWidth(Integer.MAX_VALUE);
 		Text t = new Text("Cursor Position: " + kX + ": " + kY);
 		t.setY(25 * hFactor);
 		t.setX(750 * wFactor - 200);
 
-		if(vsP==1){
-			cheat = false;
-		}
 		
 		win.setY(400*hFactor);
 		win.setX(400*wFactor);
@@ -137,6 +135,8 @@ public class GameScene extends Pane {
 		for (int i = 0; i < 40; i++) {
 
 			p1Arr[i] = new BoardPiece("Test", (i % 10 * 70) + x, y);
+			p1Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
+			p1Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
 			this.getChildren().add(p1Arr[i].getRec());
 			x += 2;
 			Random rand = new Random();
@@ -208,6 +208,8 @@ public class GameScene extends Pane {
 		for (int i = 0; i < 40; i++) {
 
 			p2Arr[i] = new BoardPiece("Test", (i % 10 * 70) + x2, y2);
+			p2Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
+			p2Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
 			this.getChildren().add(p2Arr[i].getRec());
 			x2 += 2;
 
