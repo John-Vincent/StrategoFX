@@ -602,7 +602,11 @@ public class GameScene extends Pane {
 	}
 
 	public void receiveGameState(byte[] player1, byte[] player2) {
-
+		
+		for(int i=0; i<40; i++){
+			p1Arr[i].getRec().setX(//value of each x from player one times wFactor);
+			p1Arr[i].getRec().setY(//value of each y from player one times hFactor);
+		}
 	}
 
 	public byte[] getPlayer1() {
