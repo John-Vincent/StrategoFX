@@ -73,8 +73,21 @@ public class SettingsMenuUI extends Mode {
 				addTask("back");
 			}
 		});
-
-		Text cheatTxt = new Text("Cheats: R To Activate");
+		
+		Text commands = new Text("Keypress Commands:");
+		commands.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+		commands.autosize();
+		Text commandInfo = new Text("Cheat Enable/Disable: R\tMark Gamepiece: M\tChange Gamepiece Design: O");
+		commandInfo.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+		commandInfo.autosize();
+		
+		VBox commandBox = new VBox(5, commands, commandInfo);
+		commandBox.setFillWidth(true);
+		commandBox.setAlignment(Pos.CENTER);
+		VBox.setVgrow(commands, Priority.ALWAYS);
+		VBox.setVgrow(commandInfo, Priority.ALWAYS);
+		
+		Text cheatTxt = new Text("Cheats:");
 		cheatTxt.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		cheatTxt.autosize();
 
@@ -251,12 +264,13 @@ public class SettingsMenuUI extends Mode {
 
 
 
-		VBox buttons = new VBox(50, cheatBox, musicBox, freeformBox, back);
+		VBox buttons = new VBox(50, commandBox, cheatBox, musicBox, freeformBox, back);
 		VBox.setVgrow(cheatBox, Priority.ALWAYS);
 		VBox.setVgrow(musicBox, Priority.ALWAYS);
 		VBox.setVgrow(musicSlider, Priority.ALWAYS);
+		VBox.setVgrow(freeformBox, Priority.ALWAYS);
 		VBox.setVgrow(back, Priority.ALWAYS);
-		buttons.setPadding(new Insets(100, 100, 100, 100));
+		buttons.setPadding(new Insets(5, 5, 5, 5));
 		buttons.setAlignment(Pos.CENTER);
 		pane.setCenter(buttons);
 		pane.setMinSize(400, 250);
