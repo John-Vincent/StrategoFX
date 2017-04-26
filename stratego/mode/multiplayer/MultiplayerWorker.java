@@ -84,6 +84,7 @@ public class MultiplayerWorker extends ModeWorker {
 				System.out.println("Server opened");
 				Platform.runLater(new MultiplayerUISwitcher());
 				HManager = new HostManager();
+				super.addTodo(HManager);
 			} else {
 				System.out.println("Server failed to open");
 			}
@@ -101,7 +102,7 @@ public class MultiplayerWorker extends ModeWorker {
 		case Networker.JOINSERV:
 			if (HManager != null && data.length == 3 && data[0] == (byte) 0x04 && data[1] == (byte) 0x14
 					&& data[2] == (byte) 0x45) {
-				HManager.add(p.getAddress());
+				HManager.add(p.getAddress(), " ");
 				System.out.println("someone joined the server");
 			}
 			break;
@@ -114,12 +115,18 @@ public class MultiplayerWorker extends ModeWorker {
 		case Networker.GAMEDATA:
 			if (HManager != null) {
 				HManager.sendPacket(p);
+				HManager.turnReceived();
 			}
 			// display move
 			break;
 		case Networker.LEAVESERV:
 			if (HManager != null) {
 				HManager.remove(p.getAddress());
+			}
+			break;
+		case Networker.TURN:
+			if(HManager != null){
+
 			}
 			break;
 		case Networker.FRIENDQ:

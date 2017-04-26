@@ -133,6 +133,16 @@ public abstract class ModeWorker implements Runnable{
     this.todo = todo;
   }
 
+  protected void addTodo(Runnable todo){
+    Runnable[] temp = new Runnable[this.todo.length+1];
+    int i;
+    for(i = 0; i < this.todo.length; i++){
+      temp[i] = this.todo[i];
+    }
+    temp[temp.length-1] = todo;
+    this.todo = temp;
+  }
+
   /**
    * preforms an operation based on the contents of a packet recieved from the Network. This method is set up to handle just the basic packets to make the application function, but
    * this method should be overriden by any subclass that wants to interface with the Network

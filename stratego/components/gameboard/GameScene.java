@@ -2,6 +2,8 @@ package stratego.components.gameboard;
 
 import java.util.Random;
 
+import stratego.mode.ModeWorker;
+
 import javafx.scene.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -24,7 +26,7 @@ import stratego.mode.singleplayer.*;
 public class GameScene extends Pane {
 
 
-	private ModeWoker worker;
+	private ModeWorker worker;
 	/**
 	 * Board piece for player 2
 	 */
@@ -599,11 +601,11 @@ public class GameScene extends Pane {
 	}
 
 	public byte[] getPlayer1(){
-
+		return null;
 	}
 
 	public byte[] getPlayer2(){
-
+		return null;
 	}
 
 	public void setWorker(ModeWorker w){
