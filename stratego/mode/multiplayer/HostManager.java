@@ -16,9 +16,9 @@ public class HostManager implements Runnable{
   private LinkedList<connection> play;
   private connection player1;
   private connection player2;
-  private Boolean inGame;
-  private Boolean player1Turn;
-  private Boolean turnNeeded;
+  private Boolean inGame = false;
+  private Boolean player1Turn = true;
+  private Boolean turnNeeded = true;
 
   public HostManager(){
     users = new ArrayList<connection>();
