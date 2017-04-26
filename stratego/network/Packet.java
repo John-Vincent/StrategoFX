@@ -48,12 +48,19 @@ public class Packet{
     byte[] packet;
 
     if(this.data == null){
-      packet = new byte[5];
+      packet = new byte[1];
     } else{
-      packet = new byte[this.data.length + 5];
+      packet = new byte[this.data.length];
     }
 
     if(address == Networker.server){
+
+      if(this.data == null){
+        packet = new byte[5];
+      } else{
+        packet = new byte[this.data.length + 5];
+      }
+
       int id = Networker.getID();
 
       packet[0] = (byte) (id >> 24);
@@ -61,12 +68,25 @@ public class Packet{
       packet[2] = (byte) (id >> 8);
       packet[3] = (byte) (id);
       packet[4] = type;
-    }
 
-    if(this.data != null){
-      for(int i = 0; i<this.data.length; i++){
-        packet[i+5] = this.data[i];
+      if(this.data != null){
+        for(int i = 0; i<this.data.length; i++){
+          packet[i+5] = this.data[i];
+        }
       }
+
+    }else{
+      if(this.data == null){
+        packet = new byte[1];
+      } else{
+        packet = new byte[this.data.length];
+      }
+      if(this.data != null){
+        for(int i = 0; i<this.data.length; i++){
+          packet[i] = this.data[i];
+        }
+      }
+
     }
 
     packet = SecurityManager.encrypt(packet, this.address);
