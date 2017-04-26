@@ -90,10 +90,6 @@ public class MainMenuWorker extends ModeWorker {
 			for (int i = 0; i < friends.length; i++) {
 				String[] friendData = friends[i].split(":");
 				if (friendData.length == 2) {
-					if (friendData[1].equals("0"))
-						friendData[1] = "offline";
-					else
-						friendData[1] = "online";
 					friendModel.addFriend(friendData[0], friendData[1]);
 				}
 
@@ -101,7 +97,6 @@ public class MainMenuWorker extends ModeWorker {
 			break;
 		case Networker.FRIENDR:
 			if (data[0] == 0x00)
-
 				break;
 			temp = new String(data, 0, data.length);
 			friendModel.addFriend(temp, "pending");
@@ -147,7 +142,7 @@ public class MainMenuWorker extends ModeWorker {
 
 		@Override
 		public void run() {
-			if (time + 300000 < System.currentTimeMillis()) {
+			if (time + 15000 < System.currentTimeMillis()) {
 				this.time = System.currentTimeMillis();
 				net.requestFriendsList();
 			}
@@ -169,6 +164,6 @@ public class MainMenuWorker extends ModeWorker {
 		public void run() {
 			stratego.components.MusicPlayer.changeMusic(stratego.components.MusicPlayer.getSettingMusicName(), stratego.components.MusicPlayer.getSettingMusicVolume());
 		}
-		
+
 	}
 }

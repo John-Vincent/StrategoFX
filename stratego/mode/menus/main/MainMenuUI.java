@@ -42,6 +42,7 @@ public class MainMenuUI extends Mode {
 
 		this.pane = (BorderPane) this.getRoot();
 		this.pane.setPadding(new Insets(0, 30, 20, 30));
+		this.pane.setStyle("-fx-background-color: orange;");
 		this.setMinSize(500, 400);
 
 		Button ai = new Button("Vs. AI");
@@ -52,6 +53,7 @@ public class MainMenuUI extends Mode {
 				addTask("singleplayer");
 			}
 		});
+		ai.setStyle("-fx-background-color: linear-gradient(#f0ff35, #a9ff00), radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%); -fx-background-radius: 6, 5; -fx-background-insets: 0, 1; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 ); -fx-text-fill: #395306;");
 		Button pl = new Button("Vs. Player");
 		pl.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -60,6 +62,7 @@ public class MainMenuUI extends Mode {
 				addTask("multiplayer");
 			}
 		});
+		pl.setStyle("-fx-background-color: linear-gradient(#f0ff35, #a9ff00), radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%); -fx-background-radius: 6, 5; -fx-background-insets: 0, 1; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 ); -fx-text-fill: #395306;");
 		Button st = new Button("Settings");
 		st.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -68,6 +71,7 @@ public class MainMenuUI extends Mode {
 				addTask("settings");
 			}
 		});
+		st.setStyle("-fx-background-color: linear-gradient(#f0ff35, #a9ff00), radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%); -fx-background-radius: 6, 5; -fx-background-insets: 0, 1; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 ); -fx-text-fill: #395306;");
 		Button lo = new Button("Log Out");
 		lo.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -77,6 +81,7 @@ public class MainMenuUI extends Mode {
 				addTask("logout");
 			}
 		});
+		lo.setStyle("-fx-background-color: linear-gradient(#f0ff35, #a9ff00), radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%); -fx-background-radius: 6, 5; -fx-background-insets: 0, 1; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 ); -fx-text-fill: #395306;");
 
 		VBox buttons = new VBox(50, ai, pl, st, lo);
 		buttons.setFillWidth(true);
@@ -106,11 +111,11 @@ public class MainMenuUI extends Mode {
 
 		FriendsList friendsList = new FriendsList(5, friendModel, this.getWorker());
 		pane.setRight(friendsList);
-		
+
 		if(stratego.application.StrategoFX.firstLoad){
 			GameScene.setCheat(SettingsMenuUI.getCheatSetting());
 			stratego.application.StrategoFX.firstLoad = false;
-		}		
+		}
 	}
 
 }

@@ -19,19 +19,23 @@ public final class DBManager{
                                             "where f.userid = (select u2.id from `user` u2 where u2.name =?);";
 
 //added string for finding your sent friend requests
-  private static final String getSentFriendRequestsQ = "SELECT u.name, u.online from `user` u " +
+  private static final String getSentFriendRequestsQ = "SELECT u.name from `user` u " +
                                             "inner join `friendrequests` f on u.id = f.receiverid " +
                                             "where f.senderid = (select u2.id from `user` u2 where u2.name =?);";
+
+                                            //added string for finding your sent friend requests
+  private static final String getReceivedFriendRequestsQ = "SELECT u.name from `user` u " +
+                                            "inner join `friendrequests` f on u.id = f.senderid " +
+                                            "where f.receiverid = (select u2.id from `user` u2 where u2.name =?);";
+
+  private static final String checkFriendRequestsQ = "delete from `friendrequests` where `senderid` = (select u.id from `user` u where u.name = ?) and `receiverid` = (select u.id from `user` u where u.name = ?)";
 
 											//changed friend requests to fit new table
   private static final String requestFriendQ = "insert into `friendrequests`(`senderid`,`receiverid`) "+
                                   "values((select u.id from `user` u where u.name= ? ),(select u2.id from `user` u2 where u2.name = ? ));";
 
 								  //accepting friend requests requires a pair of insertions to friends and a deletion from friendrequests
-  private static final String acceptFriendRequestQ= "insert into `friends` ('userid','friendid') values ( ? , ?);";
-
-  private static final String friendRequestAcceptedQ= "delete from `friendrequests` where senderid = ? and receiverid = ?";
-
+  private static final String acceptFriendRequestQ= "insert into `friends` (`userid`,`friendid`) values ( (select u.id from `user` u where u.name = ?), (select u.id from `user` u where u.name = ?));";
 
   private static final String logoutQ = "update `user` set `online` = 0, `last` = NOW() where `name` = ?; ";
 
@@ -179,15 +183,28 @@ public final class DBManager{
       statement.setString(1, uname);
       set = statement.executeQuery();
       while(set.next()){
-        ans += set.getString("name") + ":" + set.getInt("online")+";";
+        if(set.getInt("online") == 1){
+          ans += set.getString("name") + ":online;";
+        }else{
+          ans += set.getString("name") + ":offline;";
+        }
+      }
+
+      statement = conn1.prepareStatement(getReceivedFriendRequestsQ);
+      statement.setString(1, uname);
+      set = statement.executeQuery();
+	    while(set.next()){
+        ans += set.getString("name") + ":" + "has added you"+";";
+        System.out.println(set.getString("name") + ":" + "has added you"+";");
       }
 
       statement = conn1.prepareStatement(temp2);
       statement.setString(1, uname);
       set = statement.executeQuery();
 	    while(set.next()){
-        ans += set.getString("name") + ":" + "pending;";
+        ans += set.getString("name") + ":" + "pending"+";";
       }
+
     } catch(Exception e){
       System.out.println(e.getMessage());
       ans = null;
@@ -230,10 +247,25 @@ public final class DBManager{
 
     try{
       conn1 = DBManager.getConnection();
-      statement  = conn1.prepareStatement(requestFriendQ);
-      statement.setString(1, user);
-      statement.setString(2, friend);
+      statement = conn1.prepareStatement(checkFriendRequestsQ);
+      statement.setString(1, friend);
+      statement.setString(2, user);
       i = statement.executeUpdate();
+
+      if(i != 0){
+        statement  = conn1.prepareStatement(acceptFriendRequestQ);
+        statement.setString(1, user);
+        statement.setString(2, friend);
+        i = statement.executeUpdate();
+        statement.setString(2, user);
+        statement.setString(1, friend);
+        i = statement.executeUpdate();
+      }else{
+        statement = conn1.prepareStatement(requestFriendQ);
+        statement.setString(2, friend);
+        statement.setString(1, user);
+        i = statement.executeUpdate();
+      }
 
     } catch(Exception e){
       System.out.println(e.getMessage());
