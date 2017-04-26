@@ -128,7 +128,7 @@ public class MultiplayerWorker extends ModeWorker {
 			break;
 		case Networker.TURN:
 			if(HManager != null){
-
+				Platform.runLater(new allowTurnOption());
 			}
 			break;
 		case Networker.FRIENDQ:
@@ -274,6 +274,13 @@ public class MultiplayerWorker extends ModeWorker {
 				this.time = System.currentTimeMillis();
 				net.requestFriendsList();
 			}
+		}
+	}
+
+	private class allowTurnOption implements Runnable{
+
+		public void run(){
+			ui.setTurn();
 		}
 	}
 }

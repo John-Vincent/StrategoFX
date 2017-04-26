@@ -30,6 +30,7 @@ public class MultiplayerUI extends Mode {
 	private String password;
 	private ConnectionMenu connect;
 	private boolean flShowing;
+	private GameScene game;
 	private FriendsList friendsList;
 	private TextArea chatWindow;
 
@@ -145,7 +146,7 @@ public class MultiplayerUI extends Mode {
 		pane.add(chatElements, 0, 7, 2, 3);
 		pane.add(flVBox, 8, 0, 2, 10);
 
-		GameScene game = new GameScene();
+		this.game = new GameScene();
 		game.setWorker(this.getWorker());
 		GameScene.vsP = 1;
 		game.autosize();
@@ -205,5 +206,9 @@ public class MultiplayerUI extends Mode {
 			}
 		});
 
+	}
+
+	public void setTurn(){
+		game.allowTurn();
 	}
 }

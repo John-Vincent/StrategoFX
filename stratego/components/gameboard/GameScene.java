@@ -628,6 +628,10 @@ public class GameScene extends Pane {
 		return p2;
 	}
 
+	public void allowTurn(){
+		//allow player to take turn;
+	}
+
 	public void setWorker(ModeWorker w){
 		this.worker = w;
 	}
