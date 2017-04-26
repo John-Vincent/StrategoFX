@@ -609,9 +609,9 @@ public class GameScene extends Pane {
 			temp = temp | (player1[x++] << 16 & 0x00ff0000);
 			temp = temp | (player1[x++] << 8 & 0x0000ff00);
 			temp = temp | (player1[x++] & 0x000000ff);
-			temp = Math.abs(9-temp);
+			//temp = Math.abs(9-temp);
 			//System.out.println(temp);
-			p1Arr[i].getRec().setX((temp*(72/wFactor))+(8*wFactor));
+			p1Arr[i].getRec().setX((temp*(72*wFactor))+(8*wFactor));
 			temp = player1[x++] << 24 & 0xff000000;
 			temp = temp | (player1[x++] << 16 & 0x00ff0000);
 			temp = temp | (player1[x++] << 8 & 0x0000ff00);
@@ -627,8 +627,8 @@ public class GameScene extends Pane {
 			temp = temp | (player2[x++] << 16 & 0x00ff0000);
 			temp = temp | (player2[x++] << 8 & 0x0000ff00);
 			temp = temp | (player2[x++] & 0x000000ff);
-			temp = Math.abs(9-temp);
-			p2Arr[i].getRec().setX((temp*(72/wFactor))+(8*wFactor));
+			//temp = Math.abs(9-temp);
+			p2Arr[i].getRec().setX((temp*(72*wFactor))+(8*wFactor));
 			temp = player2[x++] << 24 & 0xff000000;
 			temp = temp | (player2[x++] << 16 & 0x00ff0000);
 			temp = temp | (player2[x++] << 8 & 0x0000ff00);
