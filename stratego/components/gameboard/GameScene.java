@@ -82,6 +82,7 @@ public class GameScene extends Pane {
 	public static Text win = new Text("Player 1 Wins");
 	public static Text win2 = new Text("Player 2 Wins");
 	public static int vsP = 0;
+	private int round = 1;
 	/**
 	 * Constructor that initializes game scene
 	 */
@@ -92,8 +93,8 @@ public class GameScene extends Pane {
 		kursor.setFill(Color.TRANSPARENT);
 		kursor.setStrokeWidth(5);
 		kursor.setStroke(Color.RED);
-		kursor.setArcHeight(Integer.MAX_VALUE);
-		kursor.setArcWidth(Integer.MAX_VALUE);
+		//kursor.setArcHeight(Integer.MAX_VALUE);
+		//kursor.setArcWidth(Integer.MAX_VALUE);
 		Text t = new Text("Cursor Position: " + kX + ": " + kY);
 		t.setY(25 * hFactor);
 		t.setX(750 * wFactor - 200);
@@ -136,8 +137,8 @@ public class GameScene extends Pane {
 		for (int i = 0; i < 40; i++) {
 
 			p1Arr[i] = new BoardPiece("Test", (i % 10 * 70) + x, y);
-			p1Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
-			p1Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
+			//p1Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
+			//p1Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
 			this.getChildren().add(p1Arr[i].getRec());
 			x += 2;
 			Random rand = new Random();
@@ -209,8 +210,8 @@ public class GameScene extends Pane {
 		for (int i = 0; i < 40; i++) {
 
 			p2Arr[i] = new BoardPiece("Test", (i % 10 * 70) + x2, y2);
-			p2Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
-			p2Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
+			//p2Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
+			//p2Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
 			this.getChildren().add(p2Arr[i].getRec());
 			x2 += 2;
 
@@ -452,6 +453,38 @@ public class GameScene extends Pane {
 					if (p2Arr[i].getY() == 6) {
 						System.out.println(p2Arr[i].getY());
 					}
+				}
+			}else if (key.getCode() == KeyCode.O){
+				if(round == 0){
+					kursor.setArcHeight(0);
+					kursor.setArcWidth(0);
+					for (int i = 0; i < 40; i++) {
+						p2Arr[i].getRec().setArcHeight(0);
+						p2Arr[i].getRec().setArcWidth(0);
+						p1Arr[i].getRec().setArcHeight(0);
+						p1Arr[i].getRec().setArcWidth(0);
+					}
+					round = 1;
+				}else if(round == 1){
+					kursor.setArcHeight(25);
+					kursor.setArcWidth(25);
+					for (int i = 0; i < 40; i++) {
+						p2Arr[i].getRec().setArcHeight(25);
+						p2Arr[i].getRec().setArcWidth(25);
+						p1Arr[i].getRec().setArcHeight(25);
+						p1Arr[i].getRec().setArcWidth(25);
+					}
+					round = 2;
+				}else{
+					kursor.setArcHeight(Integer.MAX_VALUE);
+					kursor.setArcWidth(Integer.MAX_VALUE);
+					for (int i = 0; i < 40; i++) {
+						p2Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
+						p2Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
+						p1Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
+						p1Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
+					}
+					round = 0;
 				}
 			}
 
