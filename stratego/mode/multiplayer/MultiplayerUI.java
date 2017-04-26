@@ -149,7 +149,7 @@ public class MultiplayerUI extends Mode {
 
 		this.game = new GameScene();
 		game.setWorker(this.getWorker());
-		GameScene.vsP = 1;
+		GameScene.vsP = 0;
 		game.autosize();
 		pane.add(game, 2, 0, 6, 10);
 		game.requestFocus();
