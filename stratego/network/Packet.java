@@ -53,7 +53,7 @@ public class Packet{
     }
 
     if(this.data == null){
-      packet = new byte[1];
+      packet = new byte[offset];
     } else{
       packet = new byte[this.data.length + offset];
     }
