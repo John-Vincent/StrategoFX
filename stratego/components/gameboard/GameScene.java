@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 import stratego.application.*;
 import stratego.mode.singleplayer.*;
 import stratego.mode.ModeWorker;
+
 /**
  * Class for javafx scene that runs game
  *
@@ -24,8 +25,6 @@ import stratego.mode.ModeWorker;
  *
  */
 public class GameScene extends Pane {
-
-
 
 	private ModeWorker worker;
 
@@ -425,7 +424,9 @@ public class GameScene extends Pane {
 						kursor.setStroke(Color.RED);
 
 					}
-					worker.addTask("game", getPlayer1(), getPlayer2());
+					if (vsP == 1) {
+						worker.addTask("game", getPlayer1(), getPlayer2());
+					}
 				}
 			} else if (key.getCode() == KeyCode.R) {
 				if (vsP == 0) {
@@ -484,35 +485,37 @@ public class GameScene extends Pane {
 					round = 0;
 				}
 			} else if (key.getCode() == KeyCode.M) {
-					for (int i = 0; i < 40; i++) {
-						if (p2Arr[i].getRec().getX() <= (kursor.getX() + 3)
-								&& p2Arr[i].getRec().getX() >= (kursor.getX() - 3) && p2Arr[i].getRec().getY() <= (kursor.getY() + 3)
-										&& p2Arr[i].getRec().getY() >= (kursor.getY() - 3)) {
-							if(p2Arr[i].getRec().getArcHeight()>0){
-								p2Arr[i].getRec().setArcHeight(0);
-								p2Arr[i].getRec().setArcWidth(0);
-							}else{
-								p2Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
-								p2Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
-							}
-
+				for (int i = 0; i < 40; i++) {
+					if (p2Arr[i].getRec().getX() <= (kursor.getX() + 3)
+							&& p2Arr[i].getRec().getX() >= (kursor.getX() - 3)
+							&& p2Arr[i].getRec().getY() <= (kursor.getY() + 3)
+							&& p2Arr[i].getRec().getY() >= (kursor.getY() - 3)) {
+						if (p2Arr[i].getRec().getArcHeight() > 0) {
+							p2Arr[i].getRec().setArcHeight(0);
+							p2Arr[i].getRec().setArcWidth(0);
+						} else {
+							p2Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
+							p2Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
 						}
+
 					}
+				}
 
-					for (int i = 0; i < 40; i++) {
-						if (p1Arr[i].getRec().getX() <= (kursor.getX() + 3)
-								&& p1Arr[i].getRec().getX() >= (kursor.getX() - 3) && p1Arr[i].getRec().getY() <= (kursor.getY() + 3)
-										&& p1Arr[i].getRec().getY() >= (kursor.getY() - 3)) {
-							if(p1Arr[i].getRec().getArcHeight()>0){
-								p1Arr[i].getRec().setArcHeight(0);
-								p1Arr[i].getRec().setArcWidth(0);
-							}else{
-								p1Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
-								p1Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
-							}
-
+				for (int i = 0; i < 40; i++) {
+					if (p1Arr[i].getRec().getX() <= (kursor.getX() + 3)
+							&& p1Arr[i].getRec().getX() >= (kursor.getX() - 3)
+							&& p1Arr[i].getRec().getY() <= (kursor.getY() + 3)
+							&& p1Arr[i].getRec().getY() >= (kursor.getY() - 3)) {
+						if (p1Arr[i].getRec().getArcHeight() > 0) {
+							p1Arr[i].getRec().setArcHeight(0);
+							p1Arr[i].getRec().setArcWidth(0);
+						} else {
+							p1Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
+							p1Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
 						}
+
 					}
+				}
 
 			}
 
@@ -598,41 +601,41 @@ public class GameScene extends Pane {
 
 	}
 
-	public void receiveGameState(byte[] player1, byte[] player2){
+	public void receiveGameState(byte[] player1, byte[] player2) {
 
 	}
 
-	public byte[] getPlayer1(){
+	public byte[] getPlayer1() {
 		byte[] p1 = new byte[80];
-		int x=0;
-		int y=1;
-		for(int i=0; i<40; i++){
-			p1[x] = (byte)p2Arr[i].getX();
-			p1[y] = (byte)p2Arr[i].getY();
-			x+=2;
-			y+=2;
+		int x = 0;
+		int y = 1;
+		for (int i = 0; i < 40; i++) {
+			p1[x] = (byte) p2Arr[i].getX();
+			p1[y] = (byte) p2Arr[i].getY();
+			x += 2;
+			y += 2;
 		}
 		return p1;
 	}
 
-	public byte[] getPlayer2(){
+	public byte[] getPlayer2() {
 		byte[] p2 = new byte[80];
-		int x=0;
-		int y=1;
-		for(int i=0; i<40; i++){
-			p2[x] = (byte)p1Arr[i].getX();
-			p2[y] = (byte)p1Arr[i].getY();
-			x+=2;
-			y+=2;
+		int x = 0;
+		int y = 1;
+		for (int i = 0; i < 40; i++) {
+			p2[x] = (byte) p1Arr[i].getX();
+			p2[y] = (byte) p1Arr[i].getY();
+			x += 2;
+			y += 2;
 		}
 		return p2;
 	}
 
-	public void allowTurn(){
-		//allow player to take turn;
+	public void allowTurn() {
+		// allow player to take turn;
 	}
 
-	public void setWorker(ModeWorker w){
+	public void setWorker(ModeWorker w) {
 		this.worker = w;
 	}
 
