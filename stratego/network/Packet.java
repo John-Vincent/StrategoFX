@@ -18,7 +18,7 @@ public class Packet{
    */
   public Packet(DatagramPacket p){
     this.address = p.getSocketAddress();
-    byte[] data = SecurityManager.decrypt(Arrays.copyOfRange(p.getData(), p.getOffset(), p.getLength()), p.getSocketAddress());
+    byte[] data = SecurityManager.decrypt(Arrays.copyOfRange(p.getData(), p.getOffset(), p.getLength()), this.address);
     this.type = data[0];
     this.data = Arrays.copyOfRange(data, 1, data.length);
   }
