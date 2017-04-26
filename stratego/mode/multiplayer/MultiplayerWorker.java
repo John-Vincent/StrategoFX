@@ -100,7 +100,7 @@ public class MultiplayerWorker extends ModeWorker {
 			}
 			break;
 		case Networker.JOINSERV:
-			if (HManager != null && data.length == 3 && data[0] == (byte) 0x04 && data[1] == (byte) 0x14
+			if (HManager != null && data[0] == (byte) 0x04 && data[1] == (byte) 0x14
 					&& data[2] == (byte) 0x45) {
 				byte[] name = Arrays.copyOfRange(data, 3, data.length);
 				HManager.add(p.getAddress());
