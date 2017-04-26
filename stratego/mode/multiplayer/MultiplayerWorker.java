@@ -64,7 +64,7 @@ public class MultiplayerWorker extends ModeWorker {
 			queueTask(new sendChatOption((String) arg[0]));
 			return true;
 		case "game":
-			queueTask(new sendGameOption());
+			queueTask(new sendGameOption((byte[])arg[0], (byte[])arg[1]));
 			return true;
 		default:
 			return false;
@@ -245,14 +245,23 @@ public class MultiplayerWorker extends ModeWorker {
 	}
 
 	private class sendGameOption implements Runnable {
-
-		public sendGameOption() {
-			// todo
+		byte[] data;
+		public sendGameOption(byte[] p1, byte[] p2) {
+			int i;
+			for(i = 0; i < p1.length; i++){
+				data[i] = p1[i];
+			}
+			for(i = 0; i < p2.length; i++){
+				data[i + p1.length] = p2[i];
+			}
 		}
 
 		@Override
 		public void run() {
-			// todo
+			if(HManager != null){
+				HManager.sendPacket(new Packet(Networker.GAMEDATA, data, null));
+			}
+			Networker.sendPacket(new Packet(Networker.GAMEDATA, data, Networker.host));
 		}
 	}
 
