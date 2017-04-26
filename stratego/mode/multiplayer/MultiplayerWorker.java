@@ -248,6 +248,7 @@ public class MultiplayerWorker extends ModeWorker {
 		byte[] data;
 		public sendGameOption(byte[] p1, byte[] p2) {
 			int i;
+			data = new byte[p1.length+p2.length];
 			for(i = 0; i < p1.length; i++){
 				data[i] = p1[i];
 			}

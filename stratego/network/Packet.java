@@ -127,6 +127,8 @@ public class Packet{
         return "SESSERROR";
       case Networker.CHAT:
         return "CHAT";
+      case Networker.GAMEDATA:
+        return "GAMEDATA";
     }
       return "UNKNOWN";
   }
