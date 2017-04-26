@@ -610,13 +610,13 @@ public class GameScene extends Pane {
 			temp = temp | (player1[x++] << 8 & 0x0000ff00);
 			temp = temp | (player1[x++] & 0x000000ff);
 			//System.out.println(temp);
-			p1Arr[i].getRec().setX(temp*(72/wFactor)+(8*wFactor));
+			p2Arr[i].getRec().setX(temp*(72/wFactor)+(8*wFactor));
 			temp = player1[x++] << 24 & 0xff000000;
 			temp = temp | (player1[x++] << 16 & 0x00ff0000);
 			temp = temp | (player1[x++] << 8 & 0x0000ff00);
 			temp = temp | (player1[x++] & 0x000000ff);
 			//System.out.println(temp*(72/hFactor)+(startY*hFactor));
-			p1Arr[i].getRec().setY(temp*(72/hFactor)+(startY*hFactor));
+			p2Arr[i].getRec().setY(temp*(72/hFactor)+(startY*hFactor));
 		}
 
 		x=0;
@@ -625,12 +625,12 @@ public class GameScene extends Pane {
 			temp = temp | (player2[x++] << 16 & 0x00ff0000);
 			temp = temp | (player2[x++] << 8 & 0x0000ff00);
 			temp = temp | (player2[x++] & 0x000000ff);
-			p2Arr[i].getRec().setX(temp*(72/wFactor)+(8*wFactor));
+			p1Arr[i].getRec().setX(temp*(72/wFactor)+(8*wFactor));
 			temp = player2[x++] << 24 & 0xff000000;
 			temp = temp | (player2[x++] << 16 & 0x00ff0000);
 			temp = temp | (player2[x++] << 8 & 0x0000ff00);
 			temp = temp | (player2[x++] & 0x000000ff);
-			p2Arr[i].getRec().setY(temp*(72/hFactor)+(startY*hFactor));
+			p1Arr[i].getRec().setY(temp*(72/hFactor)+(startY*hFactor));
 		}
 	}
 
