@@ -606,7 +606,7 @@ public class GameScene extends Pane {
 	}
 
 	public byte[] getPlayer1() {
-		byte[] p1 = new byte[640];
+		byte[] p1 = new byte[320];
 		int x = 0;
 		int y = 4;
 		int temp;
@@ -628,7 +628,7 @@ public class GameScene extends Pane {
 	}
 
 	public byte[] getPlayer2() {
-		byte[] p2 = new byte[640];
+		byte[] p2 = new byte[320];
 		int x = 0;
 		int y = 4;
 		int temp;
