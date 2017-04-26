@@ -83,6 +83,7 @@ public class GameScene extends Pane {
 	public static Text win2 = new Text("Player 2 Wins");
 	public static int vsP = 0;
 	private int round = 1;
+
 	/**
 	 * Constructor that initializes game scene
 	 */
@@ -93,15 +94,14 @@ public class GameScene extends Pane {
 		kursor.setFill(Color.TRANSPARENT);
 		kursor.setStrokeWidth(5);
 		kursor.setStroke(Color.RED);
-		//kursor.setArcHeight(Integer.MAX_VALUE);
-		//kursor.setArcWidth(Integer.MAX_VALUE);
+		// kursor.setArcHeight(Integer.MAX_VALUE);
+		// kursor.setArcWidth(Integer.MAX_VALUE);
 		Text t = new Text("Cursor Position: " + kX + ": " + kY);
 		t.setY(25 * hFactor);
 		t.setX(750 * wFactor - 200);
 
-		
-		win.setY(400*hFactor);
-		win.setX(400*wFactor);
+		win.setY(400 * hFactor);
+		win.setX(400 * wFactor);
 		win.setScaleX(6);
 		win.setScaleY(6);
 		win.setStroke(Color.BLUE);
@@ -109,10 +109,9 @@ public class GameScene extends Pane {
 		win.setFill(Color.WHITE);
 		this.getChildren().add(win);
 		win.setVisible(false);
-		
-		
-		win2.setY(400*hFactor);
-		win2.setX(400*wFactor);
+
+		win2.setY(400 * hFactor);
+		win2.setX(400 * wFactor);
 		win2.setScaleX(6);
 		win2.setScaleY(6);
 		win2.setStroke(Color.BLUE);
@@ -120,8 +119,6 @@ public class GameScene extends Pane {
 		win2.setFill(Color.WHITE);
 		this.getChildren().add(win2);
 		win2.setVisible(false);
-		
-		
 
 		p1X[40] = kursor.getX();
 		p1Y[40] = kursor.getY();
@@ -137,8 +134,8 @@ public class GameScene extends Pane {
 		for (int i = 0; i < 40; i++) {
 
 			p1Arr[i] = new BoardPiece("Test", (i % 10 * 70) + x, y);
-			//p1Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
-			//p1Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
+			// p1Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
+			// p1Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
 			this.getChildren().add(p1Arr[i].getRec());
 			x += 2;
 			Random rand = new Random();
@@ -210,8 +207,8 @@ public class GameScene extends Pane {
 		for (int i = 0; i < 40; i++) {
 
 			p2Arr[i] = new BoardPiece("Test", (i % 10 * 70) + x2, y2);
-			//p2Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
-			//p2Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
+			// p2Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
+			// p2Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
 			this.getChildren().add(p2Arr[i].getRec());
 			x2 += 2;
 
@@ -222,7 +219,7 @@ public class GameScene extends Pane {
 
 		}
 		win.toFront();
-		//initialize arrays that keep track of board piece positions
+		// initialize arrays that keep track of board piece positions
 		for (int i = 0; i < 40; i++) {
 			p1X[i] = p1Arr[i].getRec().getX();
 			p2X[i] = p2Arr[i].getRec().getX();
@@ -285,7 +282,7 @@ public class GameScene extends Pane {
 
 					}
 				} else {
-					//decides how the move is interpreted
+					// decides how the move is interpreted
 					if (Logic.isEmpty((int) (kursor.getX() + 1), (int) (kursor.getY() + 1))) {
 						if (!(p2Arr[m].getId() == '2')) {
 							if (((((Math.abs((kursor.getX() + 1) - p2Arr[m].getRec().getX()) >= (72 * wFactor) - 3))
@@ -313,7 +310,7 @@ public class GameScene extends Pane {
 								Logic.computeCpu(Logic.cpuMove(), this);
 
 								m = -1;
-								//changes the display of the kursor
+								// changes the display of the kursor
 
 								kursor.setFill(Color.TRANSPARENT);
 								kursor.setStroke(Color.RED);
@@ -424,7 +421,7 @@ public class GameScene extends Pane {
 
 				}
 			} else if (key.getCode() == KeyCode.R) {
-				if(vsP==0){
+				if (vsP == 0) {
 					if (cheat == true) {
 						if (reveal == false) {
 							reveal = true;
@@ -447,15 +444,8 @@ public class GameScene extends Pane {
 					kursor.setFill(Color.TRANSPARENT);
 					kursor.setStroke(Color.RED);
 				}
-			} else if (key.getCode() == KeyCode.T) {
-				for (int i = 0; i < 40; i++) {
-					p2Arr[i].refreshImg();
-					if (p2Arr[i].getY() == 6) {
-						System.out.println(p2Arr[i].getY());
-					}
-				}
-			}else if (key.getCode() == KeyCode.O){
-				if(round == 0){
+			} else if (key.getCode() == KeyCode.O) {
+				if (round == 0) {
 					kursor.setArcHeight(0);
 					kursor.setArcWidth(0);
 					for (int i = 0; i < 40; i++) {
@@ -465,7 +455,7 @@ public class GameScene extends Pane {
 						p1Arr[i].getRec().setArcWidth(0);
 					}
 					round = 1;
-				}else if(round == 1){
+				} else if (round == 1) {
 					kursor.setArcHeight(25);
 					kursor.setArcWidth(25);
 					for (int i = 0; i < 40; i++) {
@@ -475,7 +465,7 @@ public class GameScene extends Pane {
 						p1Arr[i].getRec().setArcWidth(25);
 					}
 					round = 2;
-				}else{
+				} else {
 					kursor.setArcHeight(Integer.MAX_VALUE);
 					kursor.setArcWidth(Integer.MAX_VALUE);
 					for (int i = 0; i < 40; i++) {
@@ -501,29 +491,25 @@ public class GameScene extends Pane {
 
 			}
 			/*
-			if(Logic.isEmpty((int)kursor.getX(), (int)kursor.getY()) && Logic.search(kursor.getX(),kursor.getY())==-1){
-				kursor.setFill(Color.RED);
-			}else{
-				if(m==-1){
-					kursor.setFill(Color.LIGHTBLUE);
-				}else{
-					kursor.setFill(Color.TRANSPARENT);
-				}
-			}*/
+			 * if(Logic.isEmpty((int)kursor.getX(), (int)kursor.getY()) &&
+			 * Logic.search(kursor.getX(),kursor.getY())==-1){
+			 * kursor.setFill(Color.RED); }else{ if(m==-1){
+			 * kursor.setFill(Color.LIGHTBLUE); }else{
+			 * kursor.setFill(Color.TRANSPARENT); } }
+			 */
 		});
 
 		this.getChildren().addAll(kursor, t);
 
 		this.widthProperty().addListener((obs) -> {
-			
-			if(freeForm==0){
+
+			if (freeForm == 0) {
 				wFactor = this.getWidth() / 750;
-			}else{
-				if(this.getWidth()<this.getHeight()){
+			} else {
+				if (this.getWidth() < this.getHeight()) {
 					wFactor = this.getWidth() / 750;
 				}
 			}
-		
 
 			for (int i = 0; i < p1Arr.length; i++) {
 				p1Arr[i].getRec().setWidth(70 * wFactor);
@@ -534,18 +520,18 @@ public class GameScene extends Pane {
 			kursor.setWidth(72 * wFactor);
 			kursor.setX(p1X[40] * wFactor);
 			t.setX(750 * wFactor - 200);
-			win.setY(400*hFactor);
-			win.setX(400*wFactor);
-			win2.setY(400*hFactor);
-			win2.setX(400*wFactor);
+			win.setY(400 * hFactor);
+			win.setX(400 * wFactor);
+			win2.setY(400 * hFactor);
+			win2.setX(400 * wFactor);
 		});
 
 		this.heightProperty().addListener((obs, oldVal, newVal) -> {
-			
+
 			hFactor = this.getHeight() / 800;
-			if(freeForm==1){
+			if (freeForm == 1) {
 				wFactor = hFactor;
-				
+
 				for (int i = 0; i < p1Arr.length; i++) {
 					p1Arr[i].getRec().setWidth(70 * wFactor);
 					p2Arr[i].getRec().setWidth(70 * wFactor);
@@ -556,7 +542,7 @@ public class GameScene extends Pane {
 				kursor.setX(p1X[40] * wFactor);
 				t.setX(750 * wFactor - 200);
 			}
-			
+
 			for (int i = 0; i < p1Arr.length; i++) {
 				p1Arr[i].getRec().setHeight(70 * hFactor);
 				p2Arr[i].getRec().setHeight(70 * hFactor);
@@ -566,12 +552,12 @@ public class GameScene extends Pane {
 			kursor.setHeight(72 * hFactor);
 			kursor.setY(p1Y[40] * hFactor);
 			t.setY(25 * hFactor);
-			win.setY(400*hFactor);
-			win.setX(400*wFactor);
-			win2.setY(400*hFactor);
-			win2.setX(400*wFactor);
+			win.setY(400 * hFactor);
+			win.setX(400 * wFactor);
+			win2.setY(400 * hFactor);
+			win2.setX(400 * wFactor);
 		});
-		
+
 	}
 
 }
