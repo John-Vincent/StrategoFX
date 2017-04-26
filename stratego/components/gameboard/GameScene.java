@@ -610,8 +610,8 @@ public class GameScene extends Pane {
 		int x = 0;
 		int y = 1;
 		for (int i = 0; i < 40; i++) {
-			p1[x] = (byte) p2Arr[i].getX();
-			p1[y] = (byte) p2Arr[i].getY();
+			p1[x] = (byte) (p2Arr[i].getRec().getX()/wFactor);
+			p1[y] = (byte) (p2Arr[i].getRec().getY()/hFactor);
 			x += 2;
 			y += 2;
 		}
@@ -623,8 +623,8 @@ public class GameScene extends Pane {
 		int x = 0;
 		int y = 1;
 		for (int i = 0; i < 40; i++) {
-			p2[x] = (byte) p1Arr[i].getX();
-			p2[y] = (byte) p1Arr[i].getY();
+			p2[x] = (byte) (p1Arr[i].getRec().getX()/wFactor);
+			p2[y] = (byte) (p1Arr[i].getRec().getY()/hFactor);
 			x += 2;
 			y += 2;
 		}
