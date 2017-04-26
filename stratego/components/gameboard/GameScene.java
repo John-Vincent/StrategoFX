@@ -618,7 +618,7 @@ public class GameScene extends Pane {
 			//System.out.println(temp*(72/hFactor)+(startY*hFactor));
 			p1Arr[i].getRec().setY(temp*(72/hFactor)+(startY*hFactor));
 		}
-		
+
 		x=0;
 		for(int i=0; i<40; i++){
 			temp = player2[x++] << 24 & 0xff000000;
@@ -640,12 +640,12 @@ public class GameScene extends Pane {
 		int y = 4;
 		int temp;
 		for (int i = 0; i < 40; i++) {
-			temp = (int)(p2Arr[i].getX());
+			temp = (p2Arr[i].getX());
 			p1[x++] = (byte) ((temp >> 24) & 0xff);
 			p1[x++] = (byte) ((temp >> 16) & 0xff);
 			p1[x++] = (byte) ((temp >> 8) & 0xff);
 			p1[x++] = (byte) temp;
-			temp = (int)(p2Arr[i].getY());
+			temp = (p2Arr[i].getY());
 			p1[y++] = (byte) ((temp >> 24) & 0xff);
 			p1[y++] = (byte) ((temp >> 16) & 0xff);
 			p1[y++] = (byte) ((temp >> 8) & 0xff);
@@ -662,12 +662,12 @@ public class GameScene extends Pane {
 		int y = 4;
 		int temp;
 		for (int i = 0; i < 40; i++) {
-			temp = (int)(p1Arr[i].getX());
+			temp =(p1Arr[i].getX());
 			p2[x++] = (byte) ((temp >> 24) & 0xff);
 			p2[x++] = (byte) ((temp >> 16) & 0xff);
 			p2[x++] = (byte) ((temp >> 8) & 0xff);
 			p2[x++] = (byte) temp;
-			temp = (int)(p1Arr[i].getY());
+			temp = (p1Arr[i].getY());
 			p2[y++] = (byte) ((temp >> 24) & 0xff);
 			p2[y++] = (byte) ((temp >> 16) & 0xff);
 			p2[y++] = (byte) ((temp >> 8) & 0xff);
