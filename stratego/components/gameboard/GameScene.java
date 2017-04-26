@@ -609,26 +609,28 @@ public class GameScene extends Pane {
 			temp = temp | (player1[x++] << 16 & 0x00ff0000);
 			temp = temp | (player1[x++] << 8 & 0x0000ff00);
 			temp = temp | (player1[x++] & 0x000000ff);
-			p1Arr[i].getRec().setX(temp);
+			System.out.println(temp);
+			//p1Arr[i].getRec().setX(temp*wFactor);
 			temp = player1[x++] << 24 & 0xff000000;
 			temp = temp | (player1[x++] << 16 & 0x00ff0000);
 			temp = temp | (player1[x++] << 8 & 0x0000ff00);
 			temp = temp | (player1[x++] & 0x000000ff);
-			p1Arr[i].getRec().setY(temp);
+			//p1Arr[i].getRec().setY(temp*hFactor);
 		}
+		/*
 		x=0;
 		for(int i=0; i<40; i++){
 			temp = player2[x++] << 24 & 0xff000000;
 			temp = temp | (player2[x++] << 16 & 0x00ff0000);
 			temp = temp | (player2[x++] << 8 & 0x0000ff00);
 			temp = temp | (player2[x++] & 0x000000ff);
-			p1Arr[i].getRec().setX(temp);
+			p1Arr[i].getRec().setX(temp*wFactor);
 			temp = player2[x++] << 24 & 0xff000000;
 			temp = temp | (player2[x++] << 16 & 0x00ff0000);
 			temp = temp | (player2[x++] << 8 & 0x0000ff00);
 			temp = temp | (player2[x++] & 0x000000ff);
-			p1Arr[i].getRec().setY(temp);
-		}
+			p1Arr[i].getRec().setY(temp*hFactor);
+		}*/
 	}
 
 	public byte[] getPlayer1() {
@@ -637,12 +639,12 @@ public class GameScene extends Pane {
 		int y = 4;
 		int temp;
 		for (int i = 0; i < 40; i++) {
-			temp = (int)(p2Arr[i].getRec().getX()/wFactor);
+			temp = (int)(p2Arr[i].getX());
 			p1[x++] = (byte) ((temp >> 24) & 0xff);
 			p1[x++] = (byte) ((temp >> 16) & 0xff);
 			p1[x++] = (byte) ((temp >> 8) & 0xff);
 			p1[x++] = (byte) temp;
-			temp = (int)(p2Arr[i].getRec().getY()/hFactor);
+			temp = (int)(p2Arr[i].getY());
 			p1[y++] = (byte) ((temp >> 24) & 0xff);
 			p1[y++] = (byte) ((temp >> 16) & 0xff);
 			p1[y++] = (byte) ((temp >> 8) & 0xff);
@@ -659,12 +661,12 @@ public class GameScene extends Pane {
 		int y = 4;
 		int temp;
 		for (int i = 0; i < 40; i++) {
-			temp = (int)(p1Arr[i].getRec().getX()/wFactor);
+			temp = (int)(p1Arr[i].getX());
 			p2[x++] = (byte) ((temp >> 24) & 0xff);
 			p2[x++] = (byte) ((temp >> 16) & 0xff);
 			p2[x++] = (byte) ((temp >> 8) & 0xff);
 			p2[x++] = (byte) temp;
-			temp = (int)(p1Arr[i].getRec().getY()/hFactor);
+			temp = (int)(p1Arr[i].getY());
 			p2[y++] = (byte) ((temp >> 24) & 0xff);
 			p2[y++] = (byte) ((temp >> 16) & 0xff);
 			p2[y++] = (byte) ((temp >> 8) & 0xff);
