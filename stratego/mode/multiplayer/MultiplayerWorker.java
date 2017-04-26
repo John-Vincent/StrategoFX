@@ -119,7 +119,9 @@ public class MultiplayerWorker extends ModeWorker {
 				HManager.sendPacket(p);
 				HManager.turnReceived();
 			}
-			// display move
+			byte[] p1 = Arrays.copyOfRange(data, 0, data.length/2);
+			byte[] p2 = Arrays.copyOfRange(data, data.length/2, data.length);
+			Platform.runLater(new showGameOption(p1,p2));
 			break;
 		case Networker.LEAVESERV:
 			if (HManager != null) {
@@ -296,6 +298,21 @@ public class MultiplayerWorker extends ModeWorker {
 
 		public void run(){
 			ui.setTurn();
+		}
+	}
+
+	private class showGameOption implements Runnable{
+
+		byte[] p1;
+		byte[] p2;
+
+		public showGameOption(byte[] p1, byte[] p2){
+			this.p1 = p1;
+			this.p2 = p2;
+		}
+		
+		public void run(){
+			ui.showGame(p1, p2);
 		}
 	}
 }

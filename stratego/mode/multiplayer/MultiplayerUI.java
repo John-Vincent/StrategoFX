@@ -212,4 +212,8 @@ public class MultiplayerUI extends Mode {
 	public void setTurn(){
 		game.allowTurn();
 	}
+
+	public void showGame(byte[] p1, byte[] p2){
+		game.receiveGameState(p1,p2);
+	}
 }
