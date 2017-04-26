@@ -1,10 +1,8 @@
 package stratego.mode.menus.signup;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
+import stratego.mode.ModeWorker;
 import stratego.network.Networker;
 import stratego.network.Packet;
-import java.util.Arrays;
-import stratego.mode.ModeWorker;
 
 /**
 *	This is the class the helps the SignupMenuUI and Network communicate, it controls the whole app while its active.

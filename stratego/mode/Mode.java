@@ -1,11 +1,8 @@
 package stratego.mode;
 
-import javafx.scene.Scene;
 import javafx.scene.Parent;
-import javafx.scene.paint.Paint;
-import stratego.network.Networker;
+import javafx.scene.Scene;
 import stratego.components.Sizes;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 /**

@@ -45,13 +45,14 @@ public class FriendsList extends Pane implements Observer {
 	public FriendsList(double n, FriendModel friendModel, ModeWorker worker) {
 		super();
 		this.getChildren().clear();
+		this.setStyle("-fx-background-color: brown;");
 		/*
 		 * the global variable "friendsList" is here for the sake of
 		 * convenience only for the .setOnAction overridden handle methods
 		 */
 		this.friendsList = this;
 		this.worker = worker;
-		friendVBoxes = new VBox();
+		friendVBoxes = new VBox(15);
 
 		Text fl = new Text("Friends List");
 		fl.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -65,6 +66,7 @@ public class FriendsList extends Pane implements Observer {
 		VBox.setVgrow(fl, Priority.ALWAYS);
 		VBox.setVgrow(af, Priority.ALWAYS);
 		af.setMaxSize(Double.MAX_VALUE, 50);
+		af.setFocusTraversable(false);
 
 		af.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -163,8 +165,11 @@ public class FriendsList extends Pane implements Observer {
 
 		private FriendVBox(String name, String status) {
 			this.name = new Label(name);
+			this.name.setStyle("-fx-font-size: 20; -fx-font-weight: bold;");
 			this.status = new Label(status);
+			this.status.setStyle("-fx-font-size: 20; -fx-font-weight: bold;");
 			box = new VBox(smallPadding, this.name, this.status);
+			box.setStyle("-fx-background-color: #43d3e0; -fx-stroke: black; -fx-stroke-width: 3;");
 			VBox.setVgrow(this.name, Priority.ALWAYS);
 			VBox.setVgrow(this.status, Priority.ALWAYS);
 			this.name.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);

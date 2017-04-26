@@ -12,20 +12,46 @@ public final class DBManager{
 
   private static final BasicDataSource source = new BasicDataSource();
   private static final String signupQ = "insert into `user` (`name`, `pass`, `last`, `online`) values ( ? , ? , NOW(), 0);";
-  private static final String loginQ = "select `user`.`pass` from `user` where `user`.`name` = ?;";
-  private static final String getFriendsQ = "SELECT u2.name, u2.online from `friend` f " +
-                                            "left join `user` u1 on f.sender = u1.id " +
-                                            "left join `user` u2 on f.receiver = u2.id " +
-                                            "where u1.name = ? ;";
 
-  private static final String requestFriendQ = "insert into friend(sender,receiver,accepted) "+
-                                  "values((select u.id from user u where u.name= ? ),(select u2.id from user u2 where u2.name = ? ),'0');";
+  //changed to fit new data table
+  private static final String getFriendsQ = "SELECT u.name, u.online from `user` u " +
+                                            "inner join `friends` f on u.id = f.friendid " +
+                                            "where f.userid = (select u2.id from `user` u2 where u2.name =?);";
 
-  private static final String acceptFriendRequestQ= "update `friend` set `accepted` = '1' where `friend`.`id` = ?;";
+//added string for finding your sent friend requests
+  private static final String getSentFriendRequestsQ = "SELECT u.name from `user` u " +
+                                            "inner join `friendrequests` f on u.id = f.receiverid " +
+                                            "where f.senderid = (select u2.id from `user` u2 where u2.name =?);";
+
+                                            //added string for finding your sent friend requests
+  private static final String getReceivedFriendRequestsQ = "SELECT u.name from `user` u " +
+                                            "inner join `friendrequests` f on u.id = f.senderid " +
+                                            "where f.receiverid = (select u2.id from `user` u2 where u2.name =?);";
+
+  private static final String checkFriendRequestsQ = "delete from `friendrequests` where `senderid` = (select u.id from `user` u where u.name = ?) and `receiverid` = (select u.id from `user` u where u.name = ?)";
+
+											//changed friend requests to fit new table
+  private static final String requestFriendQ = "insert into `friendrequests`(`senderid`,`receiverid`) "+
+                                  "values((select u.id from `user` u where u.name= ? ),(select u2.id from `user` u2 where u2.name = ? ));";
+
+								  //accepting friend requests requires a pair of insertions to friends and a deletion from friendrequests
+  private static final String acceptFriendRequestQ= "insert into `friends` (`userid`,`friendid`) values ( (select u.id from `user` u where u.name = ?), (select u.id from `user` u where u.name = ?));";
 
   private static final String logoutQ = "update `user` set `online` = 0, `last` = NOW() where `name` = ?; ";
 
   private static final String setLoginQ = "update `user` set `online` = 1 where `name` = ? and `pass` = ?";
+
+  //query to set the active value of a server to 1/true, and the sessionID to a given int, base on the given name and password
+  private static final String activateServer = "update `server` s set `active` = 1, `sessid` = ? where s.name = ? and s.password = ?;";
+
+  //query to add a server into the database with a given server name, password(32 bytes), and sessionID(int)
+  private static final String makeServer = "insert into `server`(`name`,`password`,`sessid`, `active`) values ( ? , ?, ?, 1);";
+
+  //query to return the server sessionID(int)
+  private static final String findServer = "select s.sessid from `server` s where s.name = ? and s.password = ? and s.active = 1;";
+
+  //query to set the "active" value of the server to 0/false
+  private static final String deactivateServer = "update `server` s set `active` = 0 where s.name = ? and password = ?;";
 
   static{
     source.setDriverClassName("com.mysql.jdbc.Driver");
@@ -149,15 +175,36 @@ public final class DBManager{
 
     String ans="";
     String temp = getFriendsQ;
+	  String temp2 = getSentFriendRequestsQ;
 
     try{
       conn1 = DBManager.getConnection();
-      statement  = conn1.prepareStatement(temp);
+      statement = conn1.prepareStatement(temp);
       statement.setString(1, uname);
       set = statement.executeQuery();
       while(set.next()){
-        ans += set.getString("name") + ":" + set.getInt("online")+";";
+        if(set.getInt("online") == 1){
+          ans += set.getString("name") + ":online;";
+        }else{
+          ans += set.getString("name") + ":offline;";
+        }
       }
+
+      statement = conn1.prepareStatement(getReceivedFriendRequestsQ);
+      statement.setString(1, uname);
+      set = statement.executeQuery();
+	    while(set.next()){
+        ans += set.getString("name") + ":" + "has added you"+";";
+        System.out.println(set.getString("name") + ":" + "has added you"+";");
+      }
+
+      statement = conn1.prepareStatement(temp2);
+      statement.setString(1, uname);
+      set = statement.executeQuery();
+	    while(set.next()){
+        ans += set.getString("name") + ":" + "pending"+";";
+      }
+
     } catch(Exception e){
       System.out.println(e.getMessage());
       ans = null;
@@ -181,7 +228,6 @@ public final class DBManager{
     }
 
     return ans;
-
   }
 
   /**
@@ -201,10 +247,25 @@ public final class DBManager{
 
     try{
       conn1 = DBManager.getConnection();
-      statement  = conn1.prepareStatement(requestFriendQ);
-      statement.setString(1, user);
-      statement.setString(2, friend);
+      statement = conn1.prepareStatement(checkFriendRequestsQ);
+      statement.setString(1, friend);
+      statement.setString(2, user);
       i = statement.executeUpdate();
+
+      if(i != 0){
+        statement  = conn1.prepareStatement(acceptFriendRequestQ);
+        statement.setString(1, user);
+        statement.setString(2, friend);
+        i = statement.executeUpdate();
+        statement.setString(2, user);
+        statement.setString(1, friend);
+        i = statement.executeUpdate();
+      }else{
+        statement = conn1.prepareStatement(requestFriendQ);
+        statement.setString(2, friend);
+        statement.setString(1, user);
+        i = statement.executeUpdate();
+      }
 
     } catch(Exception e){
       System.out.println(e.getMessage());
@@ -263,6 +324,134 @@ public final class DBManager{
     return ans;
   }
 
+  /**
+   * activates a server in the database, if the activation fails because the server doesnt exist then it
+   * enters the server into the database with the active value being true
+   * @param  name     name of the server
+   * @param  password [description]
+   * @return
+   * @author Collin Vincent collinvincent96@gmail.com
+   * @date   2017-04-12T00:04:08+000
+   */
+  public static boolean setServer(String name, byte[] password, int sessionID){
+    Connection conn1 = null;
+    PreparedStatement statement = null;
+    boolean ans = false;
+
+    String temp = logoutQ;
+
+    try{
+      conn1 = DBManager.getConnection();
+      statement = conn1.prepareStatement(activateServer);
+      statement.setInt(1, sessionID);
+      statement.setString(2, name);
+      statement.setBytes(3, password);
+      ans = statement.executeUpdate() != 0;
+      if(!ans){
+        statement = conn1.prepareStatement(makeServer);
+        statement.setString(1, name);
+        statement.setBytes(2, password);
+        statement.setInt(3, sessionID);
+        ans = statement.executeUpdate() != 0;
+      }
+    } catch(Exception e){
+      System.out.println(e.getMessage());
+      ans = false;
+    } finally{
+      if(conn1 != null){
+        try{
+          conn1.close();
+        } catch(Exception e){ }
+      }
+      if(statement != null){
+        try{
+          statement.close();
+        } catch(Exception e) { }
+      }
+    }
+
+    return ans;
+  }
+
+  /**
+   * queries the database for a server with a given name
+   * if the server exist then it returns the ip address associated with the server
+   * as well as the public key for the server
+   * @param  name         name of the server
+   * @param  password     optional password as a SHA-256 encoded byte array
+   * @return
+   * @author Collin Vincent collinvincent96@gmail.com
+   * @date   2017-04-12T00:05:59+000
+   */
+  public static int getServer(String name, byte[] password){
+    Connection conn1 = null;
+    PreparedStatement statement = null;
+    ResultSet set = null;
+
+    int ans = -1;
+
+    try{
+
+      conn1 = DBManager.getConnection();
+      statement  = conn1.prepareStatement(findServer);
+      statement.setString(1, name);
+      statement.setBytes(2, password);
+      set = statement.executeQuery();
+      set.next();
+      ans = set.getInt("sessid");
+
+    } catch(Exception e){
+      System.out.println(e.getMessage());
+      ans = -1;
+    } finally{
+
+      if( set != null){
+        try{set.close();} catch(Exception e){ }
+      }
+
+      if(conn1 != null){
+        try{
+          conn1.close();
+        } catch(Exception e){ }
+      }
+
+      if(statement != null){
+        try{
+          statement.close();
+        } catch(Exception e) { }
+      }
+    }
+
+    return ans;
+  }
+
+  public static void closeServer(String name, byte[] password){
+    Connection conn1 = null;
+    PreparedStatement statement = null;
+
+    try{
+
+      conn1 = DBManager.getConnection();
+      statement  = conn1.prepareStatement(deactivateServer);
+      statement.setString(1, name);
+      statement.setBytes(2, password);
+      statement.executeUpdate();
+    } catch(Exception e){
+      System.out.println(e.getMessage());
+    } finally{
+      if(conn1 != null){
+        try{
+          conn1.close();
+        } catch(Exception e){ }
+      }
+
+      if(statement != null){
+        try{
+          statement.close();
+        } catch(Exception e) { }
+      }
+    }
+  }
 
 
 }

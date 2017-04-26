@@ -4,6 +4,8 @@ import java.io.InputStream;
 
 import java.util.Arrays;
 
+import java.net.SocketAddress;
+
 import java.security.MessageDigest;
 import java.security.spec.X509EncodedKeySpec;
 import java.security.KeyPairGenerator;
@@ -20,12 +22,13 @@ import javax.crypto.KeyGenerator;
 
 public class SecurityManager{
 
-  private static final int X509SIZE = 162;
+  public static final int X509SIZE = 162;
   private static final int RSAKeySize = 128;
   private static final int AESKeySize = 16;
   private static PrivateKey rsaDecrypt = null;
   private static PublicKey rsaEncrypt = null;
   private static PublicKey pubKey = null;
+  private static PublicKey hostKey = null;
 
   private static MessageDigest hash;
 
@@ -90,7 +93,7 @@ public class SecurityManager{
       return false;
     }
     byte[] data = p.getData();
-    int id = data[0] << 24 | data[1] << 16 | data[2] << 8 | data[3];
+    int id = (data[0] << 24 & 0xff000000) | (data[1] << 16 & 0x00ff0000) | (data[2] << 8 & 0x0000ff00) | (data[3] & 0x000000ff);
     Networker.setID(id);
     return true;
   }
@@ -125,7 +128,7 @@ public class SecurityManager{
     return null;
   }
 
-  public static byte[] encrypt(byte[] data){
+  public static byte[] encrypt(byte[] data, SocketAddress address){
     SecretKey aesKey = getAESKey();
     byte[] ans = null;
     try{
@@ -137,7 +140,13 @@ public class SecurityManager{
       temp = cipher.doFinal(data, 0, data.length);
 
       cipher = Cipher.getInstance("RSA");
-      cipher.init(Cipher.ENCRYPT_MODE, rsaEncrypt);
+      if(address.equals(Networker.host)){
+        cipher.init(Cipher.ENCRYPT_MODE, hostKey);
+      }else if(address.equals(Networker.server)){
+        cipher.init(Cipher.ENCRYPT_MODE, rsaEncrypt);
+      }else {
+        cipher.init(Cipher.ENCRYPT_MODE, rsaDecrypt);
+      }
       aesCrypt = aesKey.getEncoded();
       aesCrypt = cipher.doFinal(aesCrypt, 0, aesCrypt.length);
 
@@ -156,13 +165,22 @@ public class SecurityManager{
     return ans;
   }
 
-  public static byte[] decrypt(byte[] data){
+  public static byte[] decrypt(byte[] data, SocketAddress address){
     byte[] ans = null;
     byte[] AES = null;
 
     try{
       Cipher cipher = Cipher.getInstance("RSA");
-      cipher.init(Cipher.DECRYPT_MODE, rsaDecrypt);
+
+      if(Networker.host != null){
+        System.out.println(address.toString() + " " + Networker.host.toString());
+      }
+
+      if(address.equals(Networker.host)){
+        cipher.init(Cipher.DECRYPT_MODE, hostKey);
+      }else{
+        cipher.init(Cipher.DECRYPT_MODE, rsaDecrypt);
+      }
       AES = cipher.doFinal(data, 0, RSAKeySize);
 
       SecretKey AESKey = new SecretKeySpec(AES, 0, AES.length, "AES");
@@ -176,6 +194,22 @@ public class SecurityManager{
     }
     return ans;
 
+  }
+
+  public static boolean addHostKey(byte[] key){
+    try{
+      X509EncodedKeySpec keySpec = new X509EncodedKeySpec(key);
+      KeyFactory factory = KeyFactory.getInstance("RSA");
+      hostKey = factory.generatePublic(keySpec);
+      return true;
+    } catch(Exception e){
+      e.printStackTrace();
+    }
+    return false;
+  }
+
+  protected static void removeHostKey(){
+    hostKey = null;
   }
 
 }

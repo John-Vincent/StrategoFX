@@ -2,6 +2,9 @@ package stratego.server;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.SocketAddress;
+import java.net.InetSocketAddress;
+import java.net.InetAddress;
 import java.sql.*;
 import java.io.IOException;
 import java.util.Arrays;
@@ -27,6 +30,10 @@ public class PacketHandler implements Runnable{
   private static final byte LOGOUT =(byte)0x05;
   private static final byte SECURE = (byte)0x06;
   private static final byte CLOSE = (byte)0x07;
+  private static final byte OPENSERV = (byte)0x08;
+  private static final byte CONSERV = (byte)0x09;
+  private static final byte SESSERROR = (byte)0x0A;
+  private static final byte CLOSERV = (byte)0x0B;
 
 
 	/**
@@ -49,6 +56,8 @@ public class PacketHandler implements Runnable{
 
     String temp;
     String[] temp2;
+
+    System.out.println("got a packet");
 
     byte[] data = SecurityManager.decrypt(Arrays.copyOfRange(this.packet.getData(), this.packet.getOffset(), this.packet.getLength()));
 
@@ -92,10 +101,26 @@ public class PacketHandler implements Runnable{
         newdata = startSession(data);
         System.out.println("got SECURE");
         break;
+      case OPENSERV:
+        temp = new String(data, 0, data.length-32, StandardCharsets.UTF_8);
+        newdata = openServer(id, temp, Arrays.copyOfRange(data, data.length-32, data.length));
+        System.out.println("made Server: " + temp);
+        break;
+      case CONSERV:
+        temp = new String(data, 0, data.length-32, StandardCharsets.UTF_8);
+        newdata = connectServer(id, temp, Arrays.copyOfRange(data, data.length-32, data.length));
+        System.out.println("got request for Server:" + temp);
+        break;
+      case CLOSERV:
+        temp = new String(data, 0, data.length-32, StandardCharsets.UTF_8);
+        closeServer(id, temp, Arrays.copyOfRange(data, data.length-32, data.length));
+        System.out.println("closed Server: " + temp);
+        break;
       case CLOSE:
         close(id);
         break;
       default:
+        System.out.println("invalid packet type");
         return;
     }
 
@@ -187,6 +212,72 @@ public class PacketHandler implements Runnable{
     if(SessionManager.isSession(id, this.packet.getSocketAddress())){
       SessionManager.removeSession(id);
       System.out.println("Session has been closed by user, id: " + id);
+    }
+  }
+
+  private byte[] openServer(int id, String name, byte[] password){
+    byte[] ans;
+
+    if(SessionManager.isSession(id, this.packet.getSocketAddress())){
+      ans = new byte[2];
+      ans[0] = OPENSERV;
+      if(DBManager.setServer(name, password, id)){
+        ans[1] = (byte) 0x01;
+      } else{
+        ans = new byte[1];
+        ans[0] = SESSERROR;
+      }
+    } else{
+      ans = new byte[1];
+      ans[0] = SESSERROR;
+    }
+    return ans;
+  }
+
+  private byte[] connectServer(int id, String name, byte[] password){
+    byte[] ans;
+    byte[] key;
+    byte[] temp;
+    int port;
+    InetSocketAddress add;
+    int session;
+
+    if(SessionManager.isSession(id, this.packet.getSocketAddress())){
+      session = DBManager.getServer(name, password);
+      if(session == -1){
+        ans = new byte[2];
+        ans[0] = SESSERROR;
+        ans[1] = (byte) 0x02;
+        return ans;
+      }
+      add = (InetSocketAddress) SessionManager.getAddress(session);
+      key = SessionManager.getRSA(session);
+      temp = add.getAddress().getAddress();
+      port = add.getPort();
+      ans = new byte[key.length + temp.length + 5];
+      ans[0] = CONSERV;
+      for(int i = 0; i < key.length; i++){
+        ans[i+1] = key[i];
+      }
+      for(int i = 0; i < temp.length; i++){
+        ans[i + 1 + key.length] = temp[i];
+      }
+      ans[key.length + temp.length + 1] = (byte)(port >> 24);
+      ans[key.length + temp.length + 2] = (byte)(port >> 16);
+      ans[key.length + temp.length + 3] = (byte)(port >> 8);
+      ans[key.length + temp.length + 4] = (byte) port;
+      System.out.println(ans[key.length + temp.length + 1] + " " + ans[key.length + temp.length + 2] + " " + ans[key.length + temp.length + 3] + " " + ans[key.length + temp.length + 4]);
+
+    } else{
+      ans = new byte[1];
+      ans[0] = SESSERROR;
+    }
+    return  ans;
+  }
+
+  private void closeServer(int id, String name, byte[] password){
+    if(SessionManager.isSession(id, this.packet.getSocketAddress())){
+      DBManager.closeServer(name, password);
     }
   }
 

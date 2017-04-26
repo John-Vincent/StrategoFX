@@ -1,7 +1,5 @@
 package stratego.mode.menus.login;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.Arrays;
 import stratego.network.Networker;
 import stratego.network.Packet;
 import stratego.mode.ModeWorker;
@@ -18,6 +16,7 @@ public class LoginMenuWorker extends ModeWorker {
 	*/
 	public LoginMenuWorker() {
 		super();
+		queueTask(new StopMusic());
 	}
 
 
@@ -90,6 +89,15 @@ public class LoginMenuWorker extends ModeWorker {
 		public void run() {
 			setRunning(false);
 		}
+	}
+	
+	private class StopMusic implements Runnable{
+
+		@Override
+		public void run() {
+			stratego.components.MusicPlayer.stopMusic();
+		}
+		
 	}
 
 }

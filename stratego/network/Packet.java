@@ -17,10 +17,10 @@ public class Packet{
    * @date   2017-03-19T13:31:28+000
    */
   public Packet(DatagramPacket p){
-    byte[] data = SecurityManager.decrypt(Arrays.copyOfRange(p.getData(), p.getOffset(), p.getLength()));
+    this.address = p.getSocketAddress();
+    byte[] data = SecurityManager.decrypt(Arrays.copyOfRange(p.getData(), p.getOffset(), p.getLength()), this.address);
     this.type = data[0];
     this.data = Arrays.copyOfRange(data, 1, data.length);
-    this.address = p.getSocketAddress();
   }
 
   /**
@@ -46,26 +46,36 @@ public class Packet{
   public DatagramPacket getPacket(){
     DatagramPacket p;
     byte[] packet;
-    if(this.data == null){
-      packet = new byte[5];
-    } else{
-      packet = new byte[this.data.length + 5];
-    }
-    int id = Networker.getID();
+    int offset = 1;
 
-    packet[0] = (byte) (id >> 24);
-    packet[1] = (byte) (id >> 16);
-    packet[2] = (byte) (id >> 8);
-    packet[3] = (byte) (id);
-    packet[4] = type;
+    if(address == Networker.server){
+      offset += 4;
+    }
+
+    if(this.data == null){
+      packet = new byte[offset];
+    } else{
+      packet = new byte[this.data.length + offset];
+    }
+
+    packet[offset - 1] = this.type;
+
+    if(address == Networker.server){
+      int id = Networker.getID();
+
+      packet[0] = (byte) (id >> 24);
+      packet[1] = (byte) (id >> 16);
+      packet[2] = (byte) (id >> 8);
+      packet[3] = (byte) (id);
+    }
 
     if(this.data != null){
       for(int i = 0; i<this.data.length; i++){
-        packet[i+5] = this.data[i];
+        packet[i+offset] = this.data[i];
       }
     }
 
-    packet = SecurityManager.encrypt(packet);
+    packet = SecurityManager.encrypt(packet, this.address);
     p = new DatagramPacket(packet, packet.length, address);
 
     return p;
@@ -75,12 +85,52 @@ public class Packet{
     return this.address.toString();
   }
 
+  public SocketAddress getAddress(){
+    return this.address;
+  }
+
   public byte getType(){
     return this.type;
   }
 
+  public void setAddress(SocketAddress add){
+    this.address = add;
+  }
+
   public byte[] getData(){
     return this.data;
+  }
+
+  public String getTypeString(){
+    switch(this.type){
+      case Networker.PING:
+        return "PING";
+      case Networker.SIGNUP:
+        return "SIGNUP";
+      case Networker.LOGIN:
+        return "LOGIN";
+      case Networker.FRIENDQ:
+        return "FRIENDQ";
+      case Networker.FRIENDR:
+        return "FRIENDR";
+      case Networker.LOGOUT:
+        return "LOGOUT";
+      case Networker.SECURE:
+        return "SECURE";
+      case Networker.CLOSE:
+        return "CLOSE";
+      case Networker.OPENSERV:
+        return "OPENSERV";
+      case Networker.CONSERV:
+        return "CONSERV";
+      case Networker.SESSERROR:
+        return "SESSERROR";
+      case Networker.CHAT:
+        return "CHAT";
+      case Networker.GAMEDATA:
+        return "GAMEDATA";
+    }
+      return "UNKNOWN";
   }
 
 }

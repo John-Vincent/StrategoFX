@@ -1,10 +1,6 @@
 package stratego.mode.menus.login;
 
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import stratego.mode.Mode;
-import javafx.scene.*;
-import stratego.network.Networker;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.text.*;
@@ -30,7 +26,6 @@ public class LoginMenuUI extends Mode {
 
 		super(new GridPane());
 		this.setWorker(new LoginMenuWorker());
-
 		GridPane grid = (GridPane) this.getRoot();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
@@ -53,7 +48,7 @@ public class LoginMenuUI extends Mode {
 		final Text actiontarget = new Text();
 		grid.add(actiontarget, 1, 6);
 
-		Text scenetitle = new Text("Welcome to Stratego");
+		Text scenetitle = new Text("Welcome to StrategoFX");
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 

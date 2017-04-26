@@ -1,12 +1,16 @@
 package stratego.application;
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.geometry.Rectangle2D;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.WindowEvent;
 import javafx.event.EventHandler;
 import stratego.mode.Mode;
 import stratego.components.Sizes;
+import stratego.components.gameboard.GameScene;
 
 /**
  * this class is where JavaFX enters the program
@@ -15,6 +19,8 @@ public class StrategoFX extends Application{
   private Stage stage;
   private Mode mode;
   private Thread back = new Thread(new Background(this));
+  public static boolean firstLoad;
+
 
   /**
    * sets up the stage the Background object/thread and the basic application settings
@@ -45,7 +51,8 @@ public class StrategoFX extends Application{
 
     this.stage.setX((Sizes.screenSize.getWidth()-this.stage.getWidth())/2 + Sizes.screenSize.getMinX());
     this.stage.setY((Sizes.screenSize.getHeight()-this.stage.getHeight())/2 + Sizes.screenSize.getMinY());
-
+    stratego.components.MusicPlayer.musicPlayer = new MediaPlayer(new Media(new File("MUTE.mp3").toURI().toString()));
+    firstLoad = true;
   }
 
   /**

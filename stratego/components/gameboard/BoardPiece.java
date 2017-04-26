@@ -105,8 +105,9 @@ public class BoardPiece {
 		name = str;
 		char id = '?';
 		if (getY() < 10 && getX() < 10) {
-
+			
 			id = Logic.actualBoard[getY()][getX()];
+
 		}
 		this.id = id;
 
@@ -167,7 +168,6 @@ public class BoardPiece {
 	 * Initializes the board piece with an image according to its char ID.
 	 */
 	void refreshImg() {
-
 		if (id == 'F') {
 			r.setFill(flag);
 		} else if (id == '2') {

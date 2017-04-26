@@ -1,10 +1,13 @@
 package stratego.components.gameboard;
 
+import java.io.File;
 import java.util.Random;
 import java.util.Scanner;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
@@ -411,7 +414,10 @@ public class Logic {
 			if (GameScene.p1Arr[n].getId() == 'F') {
 
 				System.out.print("Player Wins");
-				System.exit(0);
+				GameScene.win.setVisible(true);
+				stratego.components.MusicPlayer.changeMusic(stratego.components.MusicPlayer.getWinMusic(),
+						stratego.components.MusicPlayer.getCurrentVolume());
+
 				// wg.setText("Player Wins");
 				// primaryStage.setScene(win);
 			}
@@ -685,7 +691,9 @@ public class Logic {
 			if (GameScene.p2Arr[n].getId() == 'F') {
 
 				System.out.println("CPU Wins");
-				System.exit(0);
+				GameScene.win2.setVisible(true);
+				stratego.components.MusicPlayer.changeMusic(stratego.components.MusicPlayer.getLossMusic(),
+						stratego.components.MusicPlayer.getCurrentVolume());
 			}
 			if (GameScene.p1Arr[m].getId() != 'S') {
 				if (GameScene.p2Arr[n].getId() == 'B') {
@@ -943,83 +951,85 @@ public class Logic {
 	static int cpuMove() {
 		Random rand = new Random();
 		int n = rand.nextInt(40);
-		int move = -1;
-		boolean found = false;
-		while (!found) {
+		if(GameScene.vsP==0){
+			int move = -1;
+			boolean found = false;
+			while (!found) {
 
-			n = rand.nextInt(40);
-			if (GameScene.p1Arr[n].getId() == 'F' || GameScene.p1Arr[n].getId() == 'B') {
 				n = rand.nextInt(40);
-				continue;
-			}
-			if (GameScene.p1Arr[n].getRec().getX() != 12000) {
-				if (GameScene.p1Arr[n].getId() != '2') {
-					int l = 0, r = 0, u = 0, d = 0;
-					while (true) {
-						if (l == 1 && r == 1 && u == 1 && d == 1) {
-							l = 0;
-							r = 0;
-							u = 0;
-							d = 0;
-							break;
-						}
-						move = rand.nextInt(4);
-						if (move == 0) {
-							if (search(GameScene.p1Arr[n].getRec().getX() - 72 * GameScene.wFactor,
-									GameScene.p1Arr[n].getRec().getY()) == -1 && GameScene.p1Arr[n].getX() - 1 > -1) {
-								GameScene.p1Arr[n].getRec()
-										.setX(GameScene.p1Arr[n].getRec().getX() - 72 * GameScene.wFactor);
-								found = true;
+				if (GameScene.p1Arr[n].getId() == 'F' || GameScene.p1Arr[n].getId() == 'B') {
+					n = rand.nextInt(40);
+					continue;
+				}
+				if (GameScene.p1Arr[n].getRec().getX() != 12000) {
+					if (GameScene.p1Arr[n].getId() != '2') {
+						int l = 0, r = 0, u = 0, d = 0;
+						while (true) {
+							if (l == 1 && r == 1 && u == 1 && d == 1) {
+								l = 0;
+								r = 0;
+								u = 0;
+								d = 0;
 								break;
-							} else {
-								l = 1;
-								continue;
 							}
-						} else if (move == 1) {
-							if (search(GameScene.p1Arr[n].getRec().getX() + 72 * GameScene.wFactor,
-									GameScene.p1Arr[n].getRec().getY()) == -1
-									&& GameScene.p1Arr[n].getRec().getX() < 10) {
-								GameScene.p1Arr[n].getRec()
-										.setX(GameScene.p1Arr[n].getRec().getX() + 72 * GameScene.wFactor);
-								found = true;
-								break;
-							} else {
-								r = 1;
-								continue;
-							}
-						} else if (move == 2) {
-							if (search(GameScene.p1Arr[n].getRec().getX(),
-									GameScene.p1Arr[n].getRec().getY() - 72 * GameScene.hFactor) == -1
-									&& GameScene.p1Arr[n].getY() - 1 > -1) {
+							move = rand.nextInt(4);
+							if (move == 0) {
+								if (search(GameScene.p1Arr[n].getRec().getX() - 72 * GameScene.wFactor,
+										GameScene.p1Arr[n].getRec().getY()) == -1 && GameScene.p1Arr[n].getX() - 1 > -1) {
+									GameScene.p1Arr[n].getRec()
+											.setX(GameScene.p1Arr[n].getRec().getX() - 72 * GameScene.wFactor);
+									found = true;
+									break;
+								} else {
+									l = 1;
+									continue;
+								}
+							} else if (move == 1) {
+								if (search(GameScene.p1Arr[n].getRec().getX() + 72 * GameScene.wFactor,
+										GameScene.p1Arr[n].getRec().getY()) == -1
+										&& GameScene.p1Arr[n].getRec().getX() < 10) {
+									GameScene.p1Arr[n].getRec()
+											.setX(GameScene.p1Arr[n].getRec().getX() + 72 * GameScene.wFactor);
+									found = true;
+									break;
+								} else {
+									r = 1;
+									continue;
+								}
+							} else if (move == 2) {
+								if (search(GameScene.p1Arr[n].getRec().getX(),
+										GameScene.p1Arr[n].getRec().getY() - 72 * GameScene.hFactor) == -1
+										&& GameScene.p1Arr[n].getY() - 1 > -1) {
 
-								GameScene.p1Arr[n].getRec()
-										.setY(GameScene.p1Arr[n].getRec().getY() - 72 * GameScene.hFactor);
-								found = true;
-								break;
-							} else {
-								u = 1;
-								continue;
+									GameScene.p1Arr[n].getRec()
+											.setY(GameScene.p1Arr[n].getRec().getY() - 72 * GameScene.hFactor);
+									found = true;
+									break;
+								} else {
+									u = 1;
+									continue;
+								}
+							} else if (move == 3) {
+								if (search(GameScene.p1Arr[n].getRec().getX(),
+										GameScene.p1Arr[n].getRec().getY() + 72 * GameScene.hFactor) == -1
+										&& GameScene.p1Arr[n].getY() + 1 < 10) {
+									GameScene.p1Arr[n].getRec()
+											.setY(GameScene.p1Arr[n].getRec().getY() + 72 * GameScene.hFactor);
+									found = true;
+									break;
+								} else {
+									d = 1;
+									continue;
+								}
 							}
-						} else if (move == 3) {
-							if (search(GameScene.p1Arr[n].getRec().getX(),
-									GameScene.p1Arr[n].getRec().getY() + 72 * GameScene.hFactor) == -1
-									&& GameScene.p1Arr[n].getY() + 1 < 10) {
-								GameScene.p1Arr[n].getRec()
-										.setY(GameScene.p1Arr[n].getRec().getY() + 72 * GameScene.hFactor);
-								found = true;
-								break;
-							} else {
-								d = 1;
-								continue;
-							}
-						}
 
+						}
 					}
 				}
+
 			}
 
 		}
-
 		return n;
 	}
 
@@ -1059,11 +1069,20 @@ public class Logic {
 		for (int i = 0; i < 40; i++) {
 			if (((GameScene.p2Arr[i].getRec().getY() >= (y-3))&&(GameScene.p2Arr[i].getRec().getY()<= (y+3)))
 					&& ((GameScene.p2Arr[i].getRec().getX() >= (x-3))&&(GameScene.p2Arr[i].getRec().getX() <= (x+3)))) {
-				System.out.println("asd");
 				empty = false;
 				break;
 			}
 		}
 		return empty;
 	}
+
+	static void printBoard(){
+		for(int i=0; i<10; i++){
+			for(int j=0; j<10; j++){
+				System.out.print(actualBoard[i][j]+" ");
+			}
+			System.out.println();
+		}
+	}
+
 }
