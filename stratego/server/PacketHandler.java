@@ -31,6 +31,7 @@ public class PacketHandler implements Runnable{
   private static final byte OPENSERV = (byte)0x08;
   private static final byte CONSERV = (byte)0x09;
   private static final byte SESSERROR = (byte)0x0A;
+  private static final byte CLOSERV = (byte)0x0B;
 
 
 	/**
@@ -107,6 +108,11 @@ public class PacketHandler implements Runnable{
         temp = new String(data, 0, data.length-32, StandardCharsets.UTF_8);
         newdata = connectServer(id, temp, Arrays.copyOfRange(data, data.length-32, data.length));
         System.out.println("got request for Server:" + temp);
+        break;
+      case CLOSERV:
+        temp = new String(data, 0, data.length-32, StandardCharsets.UTF_8);
+        closeServer(id, temp, Arrays.copyOfRange(data, data.length-32, data.length));
+        System.out.println("closed Server: " + temp);
         break;
       case CLOSE:
         close(id);
@@ -216,7 +222,8 @@ public class PacketHandler implements Runnable{
       if(DBManager.setServer(name, password, id)){
         ans[1] = (byte) 0x01;
       } else{
-        ans[1] = (byte) 0x01;
+        ans = new byte[1];
+        ans[0] = SESSERROR;
       }
     } else{
       ans = new byte[1];
@@ -238,6 +245,7 @@ public class PacketHandler implements Runnable{
         ans = new byte[2];
         ans[0] = SESSERROR;
         ans[1] = (byte) 0x02;
+        return ans;
       }
       add = SessionManager.getAddress(session);
       key = SessionManager.getRSA(session);
@@ -255,7 +263,13 @@ public class PacketHandler implements Runnable{
       ans = new byte[1];
       ans[0] = SESSERROR;
     }
-    return ans;
+    return  ans;
+  }
+
+  private void closeServer(int id, String name, byte[] password){
+    if(SessionManager.isSession(id, this.packet.getSocketAddress())){
+      DBManager.closeServer(name, password);
+    }
   }
 
 }

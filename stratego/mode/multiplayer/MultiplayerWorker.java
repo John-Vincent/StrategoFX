@@ -2,6 +2,8 @@ package stratego.mode.multiplayer;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import javafx.application.Platform;
+
 import stratego.network.Networker;
 import stratego.network.Packet;
 import stratego.components.friendslist.FriendModel;
@@ -13,8 +15,12 @@ import stratego.mode.ModeWorker;
 */
 public class MultiplayerWorker extends ModeWorker {
 
-	HostManager HManager;
+	private HostManager HManager;
 	private FriendModel friendModel;
+	private MultiplayerUI ui;
+	private String serverName;
+	private String serverPassword;
+
 	/**
 	 * Sets the tasklist that communicates tasks from the UI to the worker.
 	 * @param friendModel
@@ -23,9 +29,10 @@ public class MultiplayerWorker extends ModeWorker {
 	 *            The queue that MultiplayerUI uses to pass request to the
 	 *            MultiplayerWorker.
 	 */
-	public MultiplayerWorker(FriendModel friendModel) {
+	public MultiplayerWorker(FriendModel friendModel, MultiplayerUI ui) {
 		super();
 		this.friendModel = friendModel;
+		this.ui = ui;
 		super.setTodo(new Runnable[] { new FriendUpdater() });
 		queueTask(new StartMusic());
 	}
@@ -73,6 +80,8 @@ public class MultiplayerWorker extends ModeWorker {
 				if(data.length == 1 && data[0] == 0x01){
 					System.out.println("Server opened");
 					HManager = new HostManager();
+					//changes to the multiplayer game ui
+					Platform.runLater(new MultiplayerUISwitcher());
 				} else{
 					System.out.println("Server failed to open");
 				}
@@ -81,6 +90,8 @@ public class MultiplayerWorker extends ModeWorker {
 				if(data.length != 1){
 					//todo data should contain private key and then String for of socketaddress for host
 					net.connectToHost(data);
+					//changes to the multiplayer ui
+					Platform.runLater(new MultiplayerUISwitcher());
 				} else{
 					System.out.println("Failed to connect");
 				}
@@ -107,6 +118,8 @@ public class MultiplayerWorker extends ModeWorker {
 					HManager.remove(p.getAddress());
 				}
 				break;
+			default:
+				System.out.println("unknown packet from "+ p.getSocketAddress());
 		}
     return true;
   }
@@ -116,6 +129,10 @@ public class MultiplayerWorker extends ModeWorker {
 		@Override
 		public void run() {
 			setRunning(false);
+			net.clearHost();
+			if(HManager != null){
+				net.closeServer(serverName, serverPassword);
+			}
 		}
 
 	}
@@ -132,6 +149,8 @@ public class MultiplayerWorker extends ModeWorker {
 		@Override
 		public void run(){
 			net.setPrivateServer(this.name, this.password);
+			serverName = name;
+			serverPassword = password;
 		}
 	}
 
@@ -173,7 +192,7 @@ public class MultiplayerWorker extends ModeWorker {
 			//todo
 		}
 	}
-	
+
 	private class StartMusic implements Runnable {
 
 		@Override
@@ -182,7 +201,7 @@ public class MultiplayerWorker extends ModeWorker {
 					stratego.components.MusicPlayer.getCurrentVolume());
 		}
 	}
-	
+
 	private class FriendUpdater implements Runnable {
 		private long time = 0;
 
@@ -192,6 +211,14 @@ public class MultiplayerWorker extends ModeWorker {
 				this.time = System.currentTimeMillis();
 				net.requestFriendsList();
 			}
+		}
+	}
+
+	private class MultiplayerUISwitcher implements Runnable{
+
+		@Override
+		public void run(){
+			ui.gameUI();
 		}
 	}
 }
