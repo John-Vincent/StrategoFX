@@ -92,15 +92,16 @@ public class SettingsMenuUI extends Mode {
 		cheatBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				setNextMode(new MainMenuUI());
-				if (cheatBtn.getText().equals("Enabled")) {
+				if (GameScene.getCheat()) {
 					GameScene.setCheat(false);
 					cheatBtn.setText("Disabled");
 					cheats = 0;
-				} else if (cheatBtn.getText().equals("Disabled")) {
+					System.out.println(false);
+				} else if (!GameScene.getCheat()) {
 					GameScene.setCheat(true);
 					cheatBtn.setText("Enabled");
 					cheats = 1;
+					System.out.println(true);
 				}
 			}
 		});
@@ -217,14 +218,9 @@ public class SettingsMenuUI extends Mode {
 		freeformTxt.autosize();
 
 		Button freeformBtn = new Button();
-		if (existingSettings) {
-			if (freeForm == 1) {
+		if (getFreeformSetting()) {
 				freeformBtn.setText("Enabled");
 				GameScene.freeForm = 1;
-			} else {
-				freeformBtn.setText("Disabled");
-				GameScene.freeForm = 0;
-			}
 		} else {
 			freeformBtn.setText("Disabled");
 			GameScene.freeForm = 0;
@@ -272,6 +268,20 @@ public class SettingsMenuUI extends Mode {
 			int cheat = scanner.nextInt();
 			scanner.close();
 			return cheat == 1;
+		}catch(Exception e){
+			return false;
+		}
+	}
+	
+	public static boolean getFreeformSetting(){
+		try{
+			scanner = new Scanner(new File("SFXsettings.brad"));
+			scanner.nextInt();
+			scanner.nextInt();
+			scanner.nextDouble();
+			int freeform = scanner.nextInt();
+			scanner.close();
+			return freeform == 1;
 		}catch(Exception e){
 			return false;
 		}

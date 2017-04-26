@@ -107,9 +107,10 @@ public class MainMenuUI extends Mode {
 		FriendsList friendsList = new FriendsList(5, friendModel, this.getWorker());
 		pane.setRight(friendsList);
 		
-	
-		GameScene.setCheat(SettingsMenuUI.getCheatSetting());
-		
+		if(stratego.application.StrategoFX.firstLoad){
+			GameScene.setCheat(SettingsMenuUI.getCheatSetting());
+			stratego.application.StrategoFX.firstLoad = false;
+		}		
 	}
 
 }
