@@ -23,6 +23,8 @@ import stratego.mode.singleplayer.*;
  */
 public class GameScene extends Pane {
 
+
+	private ModeWoker worker;
 	/**
 	 * Board piece for player 2
 	 */
@@ -419,7 +421,7 @@ public class GameScene extends Pane {
 						kursor.setStroke(Color.RED);
 
 					}
-
+					worker.addTask("game", getPlayer1(), getPlayer2());
 				}
 			} else if (key.getCode() == KeyCode.R) {
 				if (vsP == 0) {
@@ -489,10 +491,10 @@ public class GameScene extends Pane {
 								p2Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
 								p2Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
 							}
-							
+
 						}
 					}
-					
+
 					for (int i = 0; i < 40; i++) {
 						if (p1Arr[i].getRec().getX() <= (kursor.getX() + 3)
 								&& p1Arr[i].getRec().getX() >= (kursor.getX() - 3) && p1Arr[i].getRec().getY() <= (kursor.getY() + 3)
@@ -504,10 +506,10 @@ public class GameScene extends Pane {
 								p1Arr[i].getRec().setArcHeight(Integer.MAX_VALUE);
 								p1Arr[i].getRec().setArcWidth(Integer.MAX_VALUE);
 							}
-							
+
 						}
 					}
-				
+
 			}
 
 			t.setText("Cursor Position: " + kX + ", " + kY);
@@ -590,6 +592,22 @@ public class GameScene extends Pane {
 			win2.setX(400 * wFactor);
 		});
 
+	}
+
+	public void receiveGameState(byte[] player1, byte[] player2){
+
+	}
+
+	public byte[] getPlayer1(){
+
+	}
+
+	public byte[] getPlayer2(){
+
+	}
+
+	public void setWorker(ModeWorker w){
+		this.worker = w;
 	}
 
 }
