@@ -97,7 +97,7 @@ public class MultiplayerUI extends Mode {
 
 	protected void addMessage(String message){
 		if(chatWindow != null){
-			chatWindow.appendText(message);
+			chatWindow.appendText(message + '\n');
 		}
 	}
 
