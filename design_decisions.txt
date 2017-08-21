@@ -1,0 +1,13 @@
+key design decisions
+
+A key decision for us was to split the logic into a different thread this allowed us to better coordinate the info from the network and the UI, it also keeps the Application ui responsive durring long operations or
+operations that block. Since our application is built to work in a multi-threaded environment this allows for greater extensibility in the future since tying more threads into the program for other things will be easy to do
+if necisary.
+Another big decision for us was to focus on encryption and security, this is actaully one of the larger parts of our program. Some of our group memebers were interested in learning more about security in an online program,
+and building our own secure protocol to transfer our data allowed us to learn a lot about how different encryption algorithms work. While this ended up taking a while to do and ended up forcing us to sacrafice work on
+building a fleshed out application for the user, it was a worth while experience.
+Another decision for us was to not use a server container program to host our server. We build our own stand alone server program, which allowed/required us to work very directly with the data being sent over the network.
+all of our different packets are handcrafted UDP packets, which gave us a new perspective on communicating over the internet.
+The last large design decision was to made the multiplayer a peer to peer connection. This means that when a player clicks to host a game server, there computer is actually handling all the comunication for the chat and gameplay.
+all users that attempt to connect to the server are send the public key, and the ip address of the person hosting, they then send a packet to that address to register themselves with the server. Whenever a gameplay packet or chat
+packet are recieved by the person hosting the game session they broadcast that packet out to everyone that needs it, and has registered with them.

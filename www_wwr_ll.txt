@@ -1,0 +1,14 @@
+What Went Wrong
+we spent way to much time working on things that aren't reflected in the UI, like encryption, sql connection pooling, independent server programing. In the end our program isnt much fun to play because the actual
+gameplay was almost completely neglected.
+
+What Went Right
+we made our own secure communication process.
+We sucessfully made peer to peer connections that can handle multiple users conencted to a game session
+
+
+Lessons Learned
+We learned a lot about Encryption.
+We learned about Apache DBCP, and JDBC
+We learned about server programing in a containerless environment
+most importantly we learned about managing time and the importance of working on useable, observable changes to keep development moving in a way to apease customers
