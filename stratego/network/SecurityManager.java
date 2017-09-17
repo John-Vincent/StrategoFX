@@ -20,7 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.crypto.KeyGenerator;
 
 
-public class SecurityManager{
+public abstract class SecurityManager{
 
   public static final int X509SIZE = 162;
   private static final int RSAKeySize = 128;

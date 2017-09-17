@@ -9,7 +9,7 @@ import stratego.application.Background;
  * This is the class the helps the UI and Network communicate, it controls the whole app while its Mode is active.
  */
 public abstract class ModeWorker implements Runnable{
-  /**
+  /**.
    * an Instance of the Networker object that can be used to send packets
    */
   protected Networker net;

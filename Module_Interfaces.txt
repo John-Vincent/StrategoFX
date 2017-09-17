@@ -1,0 +1,29 @@
+<bold>Mode Interface</bold>
+This is the interface that is used to create all the screens for our application. It holds all the data the Application needs to properly display the screen as well as sets up the transition to the next screen.
+
+<bold>protected void setNextMode(Mode next)</bold>
+this sets the next mode so that when this mode finishes processing the application has something to transition to.
+
+
+<bold>public void startWorker()</bold>
+starts this screens worker, which handles all processes durring the time this screen is active.
+
+
+<bold>protected void addTask(String task)</bold>
+adds a task for the worker to execute. whenever anything happens on the screen that requires some lengthy process to be executed or a packet to be sent over the network, its is passed to the worker through this method.
+
+<bold>Mode Worker implements Runnable</bold>
+this is the interface that runs the logic for each of the Mode's it also handles interpreting packets off of the network, since most packets are handled differently base on what screen is running. this "interface"
+is actually an abstract class so it has implemented functions that handle code that should be the same for all ModeWorkers.
+
+<bold>public void run()</bold>
+this is a function that, in a loop, checks the queued task and executes them, then runs all the static processes that have been defined by the implementation, then checks the packet queue for anthing from then network, and calls the
+function for the implementation to handle the packets.
+
+<bold>protected void setTodo(Runnable[] todo)</bold>
+this method sets an array of runnables to be executed each loop of the run method. since the actually run method is defined in the interface this is the prefered method of having code that is executed regularly so that the
+task queue can be reserved for processes coming from another thread.
+
+<bold>protected boolean handlePacket(Packet p)</bold>
+there is a default implemenatation that just tries to print packets that come off the network but if a Mode wants to interact with the server or other clients through our peer to peer connections then it needs to make its own
+implementation of this method.

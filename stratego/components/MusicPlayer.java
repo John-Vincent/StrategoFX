@@ -19,7 +19,7 @@ public class MusicPlayer {
 	public static final String LOL = "league.mp3";
 	private static Scanner scanner;
 	private static String currentSong = null;
-	
+
 
 	public static String getSettingMusicName() {
 		try {
@@ -72,14 +72,16 @@ public class MusicPlayer {
 	}
 
 	public static void stopMusic(){
+		if(musicPlayer == null)
+			return;
 		musicPlayer.stop();
 		currentSong = MUTE;
 	}
-	
+
 	public static String getCurrentSong() {
 		return currentSong;
 	}
-	
+
 	public static int getCurrentSongID(){
 		switch (currentSong){
 		case HSH:
@@ -92,7 +94,7 @@ public class MusicPlayer {
 			return 2;
 		}
 	}
-	
+
 	public static double getCurrentVolume(){
 		return musicPlayer.getVolume();
 	}

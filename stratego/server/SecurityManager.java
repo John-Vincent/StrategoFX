@@ -18,7 +18,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.crypto.KeyGenerator;
 
 
-public class SecurityManager{
+public abstract class SecurityManager{
 
   private static final int RSAKeySize = 128;
   private static final int AESKeySize = 16;
@@ -109,7 +109,7 @@ public class SecurityManager{
   public static byte[] decrypt(byte[] data){
     byte[] ans = null;
     byte[] AES = Arrays.copyOfRange(data, 0, RSAKeySize);
-    
+
     try{
       Cipher cipher = Cipher.getInstance("RSA");
       cipher.init(Cipher.DECRYPT_MODE, rsaDecrypt);

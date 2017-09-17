@@ -3,7 +3,7 @@ package stratego.server;
 import java.net.SocketAddress;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class SessionManager{
+public abstract class SessionManager{
 
   private static ConcurrentHashMap<Integer, Session> map = new ConcurrentHashMap<Integer, Session>();
   private static int id = 1;
